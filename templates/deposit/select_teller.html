@@ -1,0 +1,27 @@
+<ion-view view-title="Select Teller">
+    <div ng-controller="SelectTellerCtrl">
+        <form name="SelectTellerForm" method="post" novalidate>
+            <ion-content class="container-body">
+                <div class="container-default-background">
+                    <div class="row">
+                        <div class="col col-100">
+                            <div class="row">
+                                <p>You have placed a deposit of $10.00 with a $1.00 fee. Here are the Tellers that have accepted your offer.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="map"></div>
+            </ion-content>
+        </form>
+
+    </div>
+
+    <!-- Footer bar hack to get layout right -->
+    <ion-footer-bar class="high-footer bar-dark">
+    </ion-footer-bar>
+
+    <button class="high-footer bar bar-footer" ng-click="submit()">
+        <h1 class="title">Refresh</h1>
+    </button>
+</ion-view>

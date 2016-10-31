@@ -265,9 +265,85 @@ angular.module('generic-client', ['ionic',
                 url: '/deposit',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/deposit/index.html',
+                        templateUrl: 'templates/deposit/method.html',
                         controller: 'DepositCtrl'
                     }
+                }
+            })
+
+            .state('app.bank_deposit', {
+                url: '/bank_deposit',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/deposit/bank.html',
+                        controller: 'BankDepositCtrl'
+                    }
+                }
+            })
+
+            .state('app.deposit_amount', {
+                url: '/deposit_amount',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/deposit/amount.html',
+                        controller: 'DepositAmountCtrl'
+                    }
+                },
+                params: {
+                    amount: null,
+                    currency: null,
+                    fee: null
+                }
+            })
+
+            .state('app.search_tellers', {
+                url: '/search_tellers',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/deposit/search_tellers.html',
+                        controller: 'SearchTellersCtrl'
+                    }
+                },
+                params: {
+                    amount: null,
+                    currency: null,
+                    fee: null
+                }
+            })
+
+            .state('app.select_teller', {
+                url: '/select_teller',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/deposit/select_teller.html',
+                        controller: 'SelectTellerCtrl'
+                    }
+                }
+            })
+
+            .state('app.view_teller', {
+                url: '/view_teller',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/deposit/view_teller.html',
+                        controller: 'ViewTellerCtrl'
+                    }
+                },
+                params: {
+                    amount: null
+                }
+            })
+
+            .state('app.map_to_teller', {
+                url: '/map_to_teller',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/deposit/map_to_teller.html',
+                        controller: 'MapToTellerCtrl'
+                    }
+                },
+                params: {
+                    amount: null
                 }
             })
 

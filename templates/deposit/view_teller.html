@@ -1,0 +1,77 @@
+<ion-view view-title="View Teller">
+    <div ng-controller="ViewTellerCtrl">
+        <form name="confirmForm" method="post" novalidate>
+            <ion-content class="container-body">
+                <div class="container-default-background">
+                    <div class="row">
+                        <div class="col col-100">
+                            <div class="row">
+                                <h4>Teller details</h4>
+                            </div>
+                            <div class="row">
+                                <lu>
+                                    <li>Profile picture</li>
+                                    <li>Short map with directions</li>
+                                    <li>Name</li>
+                                    <li>Rating</li>
+                                    <li>Distance</li>
+                                    <li>Number of reviews</li>
+                                    <li>Joined since</li>
+                                    <li>Gender</li>
+                                </lu>
+                            </div>
+                            <div class="row">
+                                <h4>Deposit Details</h4>
+                            </div>
+                            <div class="row">
+                                <lu>
+                                    <li>Amount</li>
+                                    <li>Fee</li>
+                                    <li>Currency</li>
+                                </lu>
+                            </div>
+                            <div class="row">
+                                <h4>Actions</h4>
+                            </div>
+                            <div class="row">
+                                <lu>
+                                    <li>Call</li>
+                                    <li>Text</li>
+                                    <li>Confirm</li>
+                                </lu>
+                            </div>
+
+                            <div ng-if="tellerBool == 'active'">
+                                <div class="row">
+                                    <h4>Transaction details</h4>
+                                </div>
+                                <div class="row">
+                                    <lu>
+                                        <li>Confirmation code</li>
+                                    </lu>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ion-content>
+            <!-- Footer bar hack to get layout right -->
+            <ion-footer-bar class="bar-dark">
+            </ion-footer-bar>
+
+            <div ng-if="tellerBool == 'active'">
+                <button class="col col-50 high-footer bar bar-footer cancel" ng-click="cancel()">
+                    <h1 class="title">Cancel</h1>
+                </button>
+                <button class="col col-50 col-offset-50 high-footer bar bar-footer" ng-click="mapToTeller()">
+                    <h1 class="title">Go to Map</h1>
+                </button>
+            </div>
+            <div ng-if="tellerBool != 'active'">
+                <button class="bar bar-footer high-footer" ng-click="confirm(confirmForm)">
+                    <h1 class="title">Confirm</h1>
+                </button>
+            </div>
+        </form>
+    </div>
+</ion-view>

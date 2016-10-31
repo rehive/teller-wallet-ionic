@@ -10014,3 +10014,10 @@ input.ng-invalid, input.ng-dirty {
   padding: 15px; }
   .company-logo-menu img {
     width: 150px; }
+
+.scroll {
+  height: 100%; }
+
+#map {
+  width: 100%;
+  height: 100%; }
