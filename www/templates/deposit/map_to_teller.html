@@ -1,0 +1,32 @@
+<ion-view view-title="Map to Teller">
+    <div ng-controller="MapToTellerCtrl">
+        <ion-content class="container-body">
+            <div class="container-default-background">
+                <div class="row">
+                    <div class="col col-100">
+                        <div class="row">
+                            <h4>Map to Teller</h4>
+                        </div>
+                        <div class="row">
+                            Cancel transaction if you wish, or walk to Teller.
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="map"></div>
+        </ion-content>
+        <!-- Footer bar hack to get layout right -->
+        <ion-footer-bar class="bar-dark">
+        </ion-footer-bar>
+
+        <div class="row">
+            <button class="col col-50 high-footer bar bar-footer cancel" ng-click="cancel()">
+                <h1 class="title">Cancel</h1>
+            </button>
+            <button class="col col-50 col-offset-50 high-footer bar bar-footer" ng-click="viewTeller()">
+                <h1 class="title">Details</h1>
+            </button>
+        </div>
+    </div>
+</ion-view>
