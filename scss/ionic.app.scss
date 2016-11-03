@@ -54,12 +54,17 @@ $success: #38C87F;
 // General colors
 $black: #000;
 $white: #FFF;
+$grey: #ABABAB;
 
 //------------------------------------------
 
 //------------------------------------------
 
 // Utility classes
+.background-light {
+  background: $background;
+}
+
 .align-left {
   text-align: left;
   float: left;
@@ -72,6 +77,14 @@ $white: #FFF;
 
 .no-margin {
   margin: 0;
+}
+
+.no-padding-bottom {
+  padding-bottom: 0;
+}
+
+.no-padding-top {
+  padding-top: 0;
 }
 
 .capital-letter {
@@ -203,6 +216,9 @@ $white: #FFF;
       box-shadow: none;
       color: $secondary;
       font-size: 17px;
+      &.active, &.button.activated {
+        background-color: transparent;
+      }
     }
 
     &.button-icon {
@@ -487,7 +503,80 @@ input.ng-invalid, input.ng-dirty {
   height: 100%;
 }
 
+// Map
 #map {
   width: 100%;
-  height: 100%;
+  height: 80%;
+}
+
+#map2 {
+  width: 100%;
+  height: 25%;
+}
+
+#map3 {
+  width: 100%;
+  height: 95%;
+}
+
+//Profile image
+.circle-base {
+  border-radius: 50%;
+}
+
+.profile-teller {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+//Teller
+.teller-container {
+  padding: 10px 0 0 0;
+}
+
+.teller-container-content {
+  padding: 10px 0 10px 0;
+}
+
+.teller-header {
+  padding-left: 2px;
+}
+
+.teller-title {
+  padding-top: 2px;
+  padding-bottom: 5px;
+  font-size: 18px;
+}
+
+.teller-sub {
+  color: $grey;
+  font-size: 15px;
+  display: inline;
+}
+
+.teller-content {
+  padding: 2px 10px 2px 10px;
+}
+
+.teller-rating {
+  img {
+    height: 20px;
+  }
+}
+
+.teller-rating-text {
+  padding: 0 12px 0 8px;
+  font-weight: 500;
+}
+
+.teller-footer {
+  height: 55px;
+}
+
+.teller-alert {
+  background-color: #63BC46;
+  color: $white;
+  h4 {
+    color: $white;
+  }
 }

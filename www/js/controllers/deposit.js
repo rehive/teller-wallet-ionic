@@ -96,7 +96,7 @@ angular.module('generic-client.controllers.deposit', [])
         $scope.countDown();
     })
 
-    .controller('SelectTellerCtrl', function ($scope, $state, $window) {
+    .controller('SelectTellerCtrl', function ($scope, $state, $window, $ionicHistory) {
         'use strict';
 
         $scope.data = {};
@@ -110,6 +110,10 @@ angular.module('generic-client.controllers.deposit', [])
             $state.go('app.view_teller');
         });
 
+        $scope.twoBack = function () {
+            $ionicHistory.goBack(-2);
+        };
+
         $scope.submit = function (form) {
             if (form.$valid) {
                 $state.go('app.select_teller', {
@@ -121,55 +125,27 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('ViewTellerCtrl', function ($scope, $state, $window) {
+    .controller('ViewTellerCtrl', function ($scope, $state, $window, Maps, $ionicHistory) {
         'use strict';
 
         $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
         $scope.tellerBool = JSON.parse($window.localStorage.getItem('tellerBool'));
 
-        $scope.confirm = function (form) {
-            if (form.$valid) {
-                $window.localStorage.setItem('tellerBool', JSON.stringify('active'));
-                $state.go('app.map_to_teller', {});
-            }
+        var point_a = {lat: 41.85, lng: -87.65};
+        var point_b = {lat: 41.83, lng: -87.65};
+        var center = {lat: 41.85, lng: -87.65};
+
+        $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
+
+        Maps.route($scope.map2, point_a, point_b);
+
+        $scope.acceptDeposit = function () {
+            $window.localStorage.setItem('tellerBool', JSON.stringify('active'));
+            $window.location.reload();
         };
-        $scope.mapToTeller = function (form) {
-            $state.go('app.map_to_teller', {});
-        };
-    })
 
-    .controller('MapToTellerCtrl', function ($scope, $state, $window, $ionicHistory) {
-        'use strict';
-
-        $scope.data = {};
-        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
-
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
-
-        var uluru = {lat: 41.85, lng: -87.65};
-        $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 4, center: uluru});
-
-        directionsDisplay.setMap($scope.map);
-
-        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-            directionsService.route({
-                origin: "chicago, il",
-                destination: "san bernardino, ca",
-                travelMode: 'DRIVING'
-            }, function (response, status) {
-                if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                } else {
-                    window.alert('Directions request failed due to ' + status);
-                }
-            });
-        }
-
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
-
-        $scope.cancel = function () {
+        $scope.cancelDeposit = function () {
             $window.localStorage.setItem('tellerBool', JSON.stringify('disabled'));
             $ionicHistory.nextViewOptions({
                 disableAnimate: true,
@@ -178,9 +154,22 @@ angular.module('generic-client.controllers.deposit', [])
             $state.go('app.home', {});
         };
 
-        $scope.viewTeller = function () {
-            $state.go('app.view_teller', {});
+        $scope.mapToTeller = function () {
+            $state.go('app.map_to_teller', {});
         };
+    })
 
+    .controller('MapToTellerCtrl', function ($scope, $state, $window, Maps) {
+        'use strict';
+
+        $scope.data = {};
+        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
+
+        var point_a = {lat: 41.85, lng: -87.65};
+        var point_b = {lat: 41.83, lng: -87.65};
+        var center = {lat: 41.85, lng: -87.65};
+        $scope.map3 = new google.maps.Map(document.getElementById('map3'), {zoom: 4, center: center});
+
+        Maps.route($scope.map3, point_a, point_b);
     });
 

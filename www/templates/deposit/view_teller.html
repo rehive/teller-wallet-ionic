@@ -1,77 +1,155 @@
-<ion-view view-title="View Teller">
-    <div ng-controller="ViewTellerCtrl">
-        <form name="confirmForm" method="post" novalidate>
-            <ion-content class="container-body">
-                <div class="container-default-background">
+<ion-view>
+    <div ng-if="tellerBool != 'active'">
+        <ion-nav-buttons side="right">
+            <button class="button button-clear" ng-click="cancel()">
+                Cancel&nbsp;
+            </button>
+        </ion-nav-buttons>
+    </div>
+    <form name="depositForm" method="post" novalidate>
+        <ion-content class="container-body">
+            <div ng-if="tellerBool == 'active'">
+                <div class="teller-alert">
                     <div class="row">
                         <div class="col col-100">
                             <div class="row">
-                                <h4>Teller details</h4>
+                                <h4>Your redeem code is <b>675 653</b>.</h4>
                             </div>
                             <div class="row">
-                                <lu>
-                                    <li>Profile picture</li>
-                                    <li>Short map with directions</li>
-                                    <li>Name</li>
-                                    <li>Rating</li>
-                                    <li>Distance</li>
-                                    <li>Number of reviews</li>
-                                    <li>Joined since</li>
-                                    <li>Gender</li>
-                                </lu>
+                                <p>Please present this code in person to the Teller to finalise the transaction.</p>
                             </div>
-                            <div class="row">
-                                <h4>Deposit Details</h4>
-                            </div>
-                            <div class="row">
-                                <lu>
-                                    <li>Amount</li>
-                                    <li>Fee</li>
-                                    <li>Currency</li>
-                                </lu>
-                            </div>
-                            <div class="row">
-                                <h4>Actions</h4>
-                            </div>
-                            <div class="row">
-                                <lu>
-                                    <li>Call</li>
-                                    <li>Text</li>
-                                    <li>Confirm</li>
-                                </lu>
-                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="teller-container background-light">
+                <div class="row">
+                    <div class="col col-20">
+                        <img class="circle-base profile-teller" src="img/profile.jpg"/>
+                    </div>
+                    <div class="col col-80">
+                        <div class="teller-header">
+                            <div class="teller-title"><b>Bob Dylan</b>
 
-                            <div ng-if="tellerBool == 'active'">
+                                <div class="teller-sub">is 20 minutes walk away.</div>
+                            </div>
+                            <div class="teller-sub">
                                 <div class="row">
-                                    <h4>Transaction details</h4>
-                                </div>
-                                <div class="row">
-                                    <lu>
-                                        <li>Confirmation code</li>
-                                    </lu>
+                                    <div class="teller-rating">
+                                        <img src="img/like.png"/>
+                                    </div>
+                                    <div class="teller-rating-text">
+                                        20
+                                    </div>
+                                    <div class="teller-rating">
+                                        <img src="img/dislike.png"/>
+                                    </div>
+                                    <div class="teller-rating-text">
+                                        20
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </ion-content>
-            <!-- Footer bar hack to get layout right -->
-            <ion-footer-bar class="bar-dark">
-            </ion-footer-bar>
+            </div>
+            <div id="map2" ng-click="mapToTeller()">
+            </div>
+            <div class="teller-container-content">
+                <div class="teller-content">
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        <b>Instructions from Bob</b>
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        Hi there, I'm at the Starbucks until 3pm. You need to be here before then. Thanks.
+                    </span>
+                    </div>
+                </div>
+                <div class="teller-content">
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        <b>Deposit Details</b>
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Amount
+                    </span>
+                    <span class="col-50 align-right">
+                        $100.00
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Convenience Fee
+                    </span>
+                    <span class="col-50 align-right">
+                        $1.00
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Fundo Fee
+                    </span>
+                    <span class="col-50 align-right">
+                        $1.00
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Discount
+                    </span>
+                    <span class="col-50 align-right">
+                        $-1.00
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Total
+                    </span>
+                    <span class="col-50 align-right">
+                        $101.00
+                    </span>
+                    </div>
+                </div>
+                <div class="teller-content">
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        <b>Summary</b>
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        You must pay $101.00 cash to make a Deposit of $100.00.
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="teller-footer"></div>
+        </ion-content>
 
-            <div ng-if="tellerBool == 'active'">
-                <button class="col col-50 high-footer bar bar-footer cancel" ng-click="cancel()">
-                    <h1 class="title">Cancel</h1>
-                </button>
-                <button class="col col-50 col-offset-50 high-footer bar bar-footer" ng-click="mapToTeller()">
-                    <h1 class="title">Go to Map</h1>
-                </button>
-            </div>
-            <div ng-if="tellerBool != 'active'">
-                <button class="bar bar-footer high-footer" ng-click="confirm(confirmForm)">
-                    <h1 class="title">Confirm</h1>
-                </button>
-            </div>
-        </form>
-    </div>
+        <!-- Footer bar hack to get layout right -->
+        <ion-footer-bar class="bar-dark">
+        </ion-footer-bar>
+
+        <div ng-if="tellerBool != 'active'">
+            <button class="bar bar-footer high-footer" ng-click="acceptDeposit()">
+                <h1 class="title">Accept</h1>
+            </button>
+        </div>
+        <div ng-if="tellerBool == 'active'">
+            <!--<button class="col col-50 high-footer bar bar-footer" ng-click="callTeller()">-->
+                <!--<h1 class="title">Call</h1>-->
+            <!--</button>-->
+            <!--<button class="col col-50 col-offset-50 high-footer bar bar-footer" ng-click="textTeller()">-->
+                <!--<h1 class="title">Text</h1>-->
+            <!--</button>-->
+            <button class="bar bar-footer high-footer cancel" ng-click="cancelDeposit()">
+                <h1 class="title">Cancel</h1>
+            </button>
+        </div>
+    </form>
 </ion-view>

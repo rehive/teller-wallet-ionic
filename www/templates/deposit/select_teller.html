@@ -1,27 +1,41 @@
-<ion-view view-title="Select Teller">
-    <div ng-controller="SelectTellerCtrl">
-        <form name="SelectTellerForm" method="post" novalidate>
-            <ion-content class="container-body">
-                <div class="container-default-background">
-                    <div class="row">
-                        <div class="col col-100">
-                            <div class="row">
-                                <p>You have placed a deposit of $10.00 with a $1.00 fee. Here are the Tellers that have accepted your offer.</p>
-                            </div>
+<ion-view>
+    <ion-nav-bar>
+        <ion-nav-back-button class="button-clear" ng-click="twoBack()">
+            <i class="icon ion-ios-arrow-back"></i> Back
+        </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="cancel()">
+            Cancel&nbsp;
+        </button>
+    </ion-nav-buttons>
+
+    <form name="SelectTellerForm" method="post" novalidate>
+        <ion-content class="container-body">
+            <div class="container-default-background">
+                <div class="row">
+                    <div class="col col-100">
+                        <div class="row">
+                            <h4>We found Tellers near you</h4>
+                        </div>
+                        <div class="row">
+                            <p>You can increase your fee if you want to find more interested Tellers.</p>
                         </div>
                     </div>
                 </div>
-                <div id="map"></div>
-            </ion-content>
-        </form>
-
-    </div>
+            </div>
+            <div id="map"></div>
+        </ion-content>
+    </form>
 
     <!-- Footer bar hack to get layout right -->
     <ion-footer-bar class="high-footer bar-dark">
     </ion-footer-bar>
 
-    <button class="high-footer bar bar-footer" ng-click="submit()">
+    <button class="col col-50 high-footer bar bar-footer cancel" ng-click="twoBack()">
+        <h1 class="title">Increase fee</h1>
+    </button>
+    <button class="col col-50 col-offset-50 high-footer bar bar-footer" ng-click="refreshMap()">
         <h1 class="title">Refresh</h1>
     </button>
 </ion-view>
