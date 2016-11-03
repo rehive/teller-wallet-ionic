@@ -1,33 +1,41 @@
-<ion-view view-title="Deposit">
-    <div ng-controller="DepositAmountCtrl" >
-        <form name="depositForm" method="post" novalidate>
-            <ion-content class="container-body">
-                <div class="list">
-                    <label class="item item-input item-stacked-label">
-                        <span class="input-label">Amount</span>
-                        <input ng-model="data.amount" name="amount" type="number" placeholder="Amount you want to deposit" required>
-                        <div ng-messages="depositForm.amount.$error" role="alert" ng-show='depositForm.$submitted || depositForm.amount.$dirty'>
-                            <div ng-message="required" class="form-error">Please enter an amount.</div>
-                            <div ng-message="number" class="form-error">Please enter valid number.</div>
-                        </div>
-                    </label>
-                    <label class="item item-input item-stacked-label">
-                        <span class="input-label">Fee</span>
-                        <input ng-model="data.fee" name="fee" type="number" placeholder="Fee you are willing to pay">
-                        <div ng-messages="depositForm.fee.$error" role="alert" ng-show='depositForm.$submitted || depositForm.fee.$dirty'>
-                            <div ng-message="number" class="form-error">Please enter valid number.</div>
-                        </div>
-                    </label>
-                </div>
-            </ion-content>
+<ion-view>
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="cancel()">
+            Cancel&nbsp;
+        </button>
+    </ion-nav-buttons>
+    <form name="depositForm" method="post" novalidate>
+        <ion-content class="container-body">
+            <div class="list">
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Amount</span>
+                    <input ng-model="data.amount" name="amount" type="number" placeholder="Amount you want to deposit"
+                           required>
 
-            <!-- Footer bar hack to get layout right -->
-            <ion-footer-bar class="bar-dark">
-            </ion-footer-bar>
+                    <div ng-messages="depositForm.amount.$error" role="alert"
+                         ng-show='depositForm.$submitted || depositForm.amount.$dirty'>
+                        <div ng-message="required" class="form-error">Please enter an amount.</div>
+                        <div ng-message="number" class="form-error">Please enter valid number.</div>
+                    </div>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Fee</span>
+                    <input ng-model="data.fee" name="fee" type="number" placeholder="Fee you are willing to pay">
 
-            <button keyboard-attach class="bar bar-footer high-footer" ng-click="submit(depositForm)">
-                <h1 class="title">Next</h1>
-            </button>
-        </form>
-    </div>
+                    <div ng-messages="depositForm.fee.$error" role="alert"
+                         ng-show='depositForm.$submitted || depositForm.fee.$dirty'>
+                        <div ng-message="number" class="form-error">Please enter valid number.</div>
+                    </div>
+                </label>
+            </div>
+        </ion-content>
+
+        <!-- Footer bar hack to get layout right -->
+        <ion-footer-bar class="bar-dark">
+        </ion-footer-bar>
+
+        <button keyboard-attach class="bar bar-footer high-footer" ng-click="submit(depositForm)">
+            <h1 class="title">Next</h1>
+        </button>
+    </form>
 </ion-view>

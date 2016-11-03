@@ -1,21 +1,23 @@
-<ion-view view-title="Searching">
-    <div ng-controller="SearchTellersCtrl">
-        <form name="SearchTellerForm" method="post" novalidate>
-            <ion-content class="container-body">
-                <div class="container-default-background">
-                    <div class="row">
-                        <div class="col col-100">
-                            <div class="row">
-                                <h4>Searching for tellers nearby</h4>
-                            </div>
-                            <div class="row">
-                                <p>We're searching for tellers within 20 minute walking distance.</p>
-                            </div>
+<ion-view>
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="cancel()">
+            Cancel&nbsp;
+        </button>
+    </ion-nav-buttons>
+    <form name="SearchTellerForm" method="post" novalidate>
+        <ion-content class="container-body">
+            <div class="container-default-background">
+                <div class="row">
+                    <div class="col col-100">
+                        <div class="row">
+                            <h4>We're searching for Tellers</h4>
+                        </div>
+                        <div class="row">
+                            <p>You've placed a deposit request of $10.00 and offered a $1.00 convenience fee.</p>
                         </div>
                     </div>
                 </div>
-            </ion-content>
-        </form>
-    </div>
-
+            </div>
+        </ion-content>
+    </form>
 </ion-view>

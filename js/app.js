@@ -21,6 +21,7 @@ angular.module('generic-client', ['ionic',
     'generic-client.services',
     'generic-client.services.accounts',
     'generic-client.services.transactions',
+    'generic-client.services.maps',
     'generic-client.services.contacts',
     'generic-client.services.settings',
     'generic-client.services.currency_accounts',
@@ -42,7 +43,7 @@ angular.module('generic-client', ['ionic',
         $httpProvider.interceptors.push('authInterceptor');
     })
 
-    .run(function ($ionicPlatform, $rootScope, Auth, $state) {
+    .run(function ($ionicPlatform, $rootScope, $ionicHistory, Auth, $state) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -61,6 +62,14 @@ angular.module('generic-client', ['ionic',
         $rootScope.logout = function () {
             Auth.logout();
             $state.go('login');
+        };
+
+        $rootScope.cancel = function () {
+            $ionicHistory.nextViewOptions({
+                disableAnimate: true,
+                disableBack: true
+            });
+            $state.go('app.home');
         };
     })
 
