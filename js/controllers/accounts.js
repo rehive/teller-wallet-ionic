@@ -1,6 +1,6 @@
 angular.module('generic-client.controllers.accounts', [])
 
-    .controller('LoginCtrl', function ($scope, $ionicModal, $state, $ionicLoading, $rootScope, User, $ionicPopup) {
+    .controller('LoginCtrl', function ($scope, $ionicModal, $state, $ionicLoading, $rootScope, User, $ionicPopup, COMPANY) {
         'use strict';
 
         $ionicModal.fromTemplateUrl('templates/accounts/signup.html', {
@@ -92,7 +92,7 @@ angular.module('generic-client.controllers.accounts', [])
                     template: 'Logging In...'
                 });
 
-                User.login(form.identifier.$viewValue, form.company_id.$viewValue, form.password.$viewValue).then(function (res) {
+                User.login(form.identifier.$viewValue, COMPANY, form.password.$viewValue).then(function (res) {
                     $ionicLoading.hide();
 
                     if (res.status === 200) {

@@ -30,8 +30,8 @@ angular.module('generic-client', ['ionic',
     //.constant('API', 'http://localhost:2468/api/2')
     //.constant('API', 'https://rehive.com/api/2')
     .constant('API', 'https://staging.rehive.com/api/2')
-
     .constant('REFRESH_INTERVAL', 3000)
+    .constant('COMPANY', 'fundo_test_5')
 
     .config(function ($httpProvider, $ionicConfigProvider, $compileProvider) {
         'use strict';

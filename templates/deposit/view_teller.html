@@ -8,20 +8,6 @@
     </div>
     <form name="depositForm" method="post" novalidate>
         <ion-content class="container-body">
-            <div ng-if="tellerBool == 'active'">
-                <div class="teller-alert">
-                    <div class="row">
-                        <div class="col col-100">
-                            <div class="row">
-                                <h4>Your code is <b>675 653</b>.</h4>
-                            </div>
-                            <div class="row">
-                                <p>Please present this code in-person to the Teller to complete your deposit.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="teller-container background-light">
                 <div class="row">
                     <div class="col col-20">
@@ -33,7 +19,7 @@
 
                                 <div class="teller-sub">is 20 minutes walk away.</div>
                             </div>
-                            <div class="teller-sub">
+                             4<div class="teller-sub">
                                 <div class="row">
                                     <div class="teller-rating">
                                         <img src="img/like.png"/>
@@ -48,6 +34,20 @@
                                         20
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="tellerBool == 'active'">
+                <div class="teller-alert">
+                    <div class="row">
+                        <div class="col col-100">
+                            <div class="row">
+                                <h4>Your code is <b>675 653</b>.</h4>
+                            </div>
+                            <div class="row">
+                                <p>Please present this code in-person to the Teller to complete your deposit.</p>
                             </div>
                         </div>
                     </div>
@@ -142,10 +142,10 @@
         </div>
         <div ng-if="tellerBool == 'active'">
             <!--<button class="col col-50 high-footer bar bar-footer" ng-click="callTeller()">-->
-                <!--<h1 class="title">Call</h1>-->
+            <!--<h1 class="title">Call</h1>-->
             <!--</button>-->
             <!--<button class="col col-50 col-offset-50 high-footer bar bar-footer" ng-click="textTeller()">-->
-                <!--<h1 class="title">Text</h1>-->
+            <!--<h1 class="title">Text</h1>-->
             <!--</button>-->
             <button class="bar bar-footer high-footer cancel" ng-click="cancelDeposit()">
                 <h1 class="title">Cancel</h1>
