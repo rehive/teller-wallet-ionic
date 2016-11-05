@@ -10053,7 +10053,7 @@ input.ng-invalid, input.ng-dirty {
 
 #map3 {
   width: 100%;
-  height: 95%; }
+  height: 100%; }
 
 .circle-base {
   border-radius: 50%; }
@@ -10088,7 +10088,7 @@ input.ng-invalid, input.ng-dirty {
   height: 20px; }
 
 .teller-call {
-  padding-bottom: 15px; }
+  padding: 0 0 15px 0; }
   .teller-call .button {
     height: 20px; }
 

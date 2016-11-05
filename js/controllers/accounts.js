@@ -27,32 +27,32 @@ angular.module('generic-client.controllers.accounts', [])
 
         $scope.ShowModalSignup = function (){
             $scope.ModalSignup.show()
-        }
+        };
 
         $scope.ShowModalForgot = function (){
             $scope.ModalForgot.show()
-        }
+        };
 
         $scope.ShowModalVerify = function (){
             $scope.ModalVerify.show()
-        }
+        };
 
         $scope.CloseModalSignup = function (){
             $scope.ModalSignup.hide()
-        }
+        };
 
         $scope.CloseModalForgot = function (){
             $scope.ModalForgot.hide()
-        }
+        };
 
         $scope.CloseModalVerify = function (){
             $scope.ModalVerify.hide()
-        }
+        };
 
         $scope.cancelVerify = function (){
             $scope.CloseModalVerify();
             $state.go('app.home');
-        }
+        };
 
         $scope.registerUser = function (form) {
             if (form.$valid) {
@@ -60,7 +60,7 @@ angular.module('generic-client.controllers.accounts', [])
                     template: 'Signing Up...'
                 });
 
-                User.register(form.first_name.$viewValue, form.email.$viewValue, form.mobile_number.$viewValue, form.company_id.$viewValue, form.password1.$viewValue, form.password2.$viewValue)
+                User.register(form.first_name.$viewValue, form.email.$viewValue, form.mobile_number.$viewValue, COMPANY, form.password1.$viewValue, form.password2.$viewValue)
                     .then(function (res) {
                     if (res.status === 201) {
                         $ionicLoading.hide();
