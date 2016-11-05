@@ -536,7 +536,7 @@ input.ng-invalid, input.ng-dirty {
 
 #map3 {
   width: 100%;
-  height: 95%;
+  height: 100%;
 }
 
 //Profile image
@@ -585,7 +585,8 @@ input.ng-invalid, input.ng-dirty {
 }
 
 .teller-call {
-  padding-bottom: 15px;
+  padding: 0 0 15px 0;
+
   .button {
     height: 20px;
   }
