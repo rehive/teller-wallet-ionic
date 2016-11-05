@@ -356,17 +356,6 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            // Receive
-            .state('app.receive', {
-                url: '/receive',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/receive/index.html',
-                        controller: 'ReceiveCtrl'
-                    }
-                }
-            })
-
             // Accounts
             .state('app.currency_accounts', {
                 url: '/currency_accounts',
@@ -672,38 +661,6 @@ angular.module('generic-client', ['ionic',
                     'menuContent': {
                         templateUrl: 'templates/settings/add_bank_account.html',
                         controller: 'BankAccountCtrl'
-                    }
-                }
-            })
-
-
-            .state('app.list_bitcoin_withdrawal_accounts', {
-                url: '/list_bitcoin_withdrawal_accounts',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/settings/list_bitcoin_withdrawal_accounts.html',
-                        controller: 'BitcoinWithdrawalAccountCtrl'
-                    }
-                }
-            })
-
-            .state('app.add_bitcoin_withdrawal_account', {
-                url: '/add_bitcoin_withdrawal_account',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/settings/add_bitcoin_withdrawal_account.html',
-                        controller: 'BitcoinWithdrawalAccountCtrl'
-                    }
-                }
-            })
-
-
-            .state('app.edit_bitcoin_withdrawal_account', {
-                url: '/edit_bitcoin_withdrawal_account/:accId',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/settings/add_bitcoin_withdrawal_account.html',
-                        controller: 'BitcoinWithdrawalAccountCtrl'
                     }
                 }
             })
