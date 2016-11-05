@@ -9819,6 +9819,18 @@ a.button {
     top: 15px;
     color: #377ca5; }
 
+.button-call {
+  border-color: #3D8AB8;
+  background-color: transparent;
+  color: #3D8AB8;
+  border-radius: 0; }
+  .button-call:hover {
+    color: #3D8AB8;
+    text-decoration: none; }
+  .button-call.active, .button-call.activated {
+    background-color: #377ca5;
+    color: #fff; }
+
 .bar {
   border-color: #3d8ab8;
   background-color: #3D8AB8;
@@ -9987,6 +9999,8 @@ input.ng-invalid, input.ng-dirty {
   padding: 10px; }
   .container-deposit-reference h4 {
     color: #FFF; }
+  .container-deposit-reference p {
+    color: #FFF; }
 
 .container-success {
   background-color: #38C87F;
@@ -10073,6 +10087,11 @@ input.ng-invalid, input.ng-dirty {
 .teller-rating img {
   height: 20px; }
 
+.teller-call {
+  padding-bottom: 15px; }
+  .teller-call .button {
+    height: 20px; }
+
 .teller-rating-text {
   padding: 0 12px 0 8px;
   font-weight: 500; }
@@ -10081,7 +10100,9 @@ input.ng-invalid, input.ng-dirty {
   height: 55px; }
 
 .teller-alert {
-  background-color: #63BC46;
-  color: #FFF; }
-  .teller-alert h4 {
+  background-color: #38C87F; }
+  .teller-alert h2 {
+    color: #FFF; }
+  .teller-alert p {
+    font-size: 15px;
     color: #FFF; }
