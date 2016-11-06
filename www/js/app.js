@@ -3,6 +3,7 @@ angular.module('generic-client', ['ionic',
     'intlpnIonic',
     'ngMessages',
     'ngFileUpload',
+    'ngCordova',
     'generic-client.controllers',
     'generic-client.controllers.accounts',
     'generic-client.controllers.transactions',
@@ -10,6 +11,7 @@ angular.module('generic-client', ['ionic',
     'generic-client.controllers.deposit',
     'generic-client.controllers.withdraw',
     'generic-client.controllers.receive',
+    'generic-client.controllers.teller',
     'generic-client.controllers.promotions',
     'generic-client.controllers.request',
     'generic-client.controllers.fica',
@@ -43,7 +45,7 @@ angular.module('generic-client', ['ionic',
         $httpProvider.interceptors.push('authInterceptor');
     })
 
-    .run(function ($ionicPlatform, $rootScope, $ionicHistory, Auth, $state) {
+    .run(function ($ionicPlatform, $rootScope, $window, $ionicHistory, Auth, $state) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -58,6 +60,8 @@ angular.module('generic-client', ['ionic',
                 StatusBar.show();
             }
         });
+
+        $rootScope.tellerMode = JSON.parse($window.localStorage.getItem('tellerMode'));
 
         $rootScope.logout = function () {
             Auth.logout();
@@ -341,6 +345,80 @@ angular.module('generic-client', ['ionic',
                     'menuContent': {
                         templateUrl: 'templates/deposit/map_to_teller.html',
                         controller: 'MapToTellerCtrl'
+                    }
+                }
+            })
+
+            // Teller
+            .state('app.teller', {
+                url: '/teller',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/index.html',
+                        controller: 'TellerCtrl'
+                    }
+                }
+            })
+
+            .state('app.teller_process', {
+                url: '/teller_process',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/process.html',
+                        controller: 'TellerProcessCtrl'
+                    }
+                },
+                params: {
+                    code: null
+                }
+            })
+
+            .state('app.teller_confirm', {
+                url: '/teller_confirm',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/confirm.html',
+                        controller: 'TellerConfirmCtrl'
+                    }
+                }
+            })
+
+            .state('app.teller_success', {
+                url: '/teller_success',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/success.html',
+                        controller: 'TellerSuccessCtrl'
+                    }
+                }
+            })
+
+            .state('app.teller_offers', {
+                url: '/teller_offers',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/offers.html',
+                        controller: 'TellerOfferCtrl'
+                    }
+                }
+            })
+
+            .state('app.teller_matches', {
+                url: '/teller_matches',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/matches.html',
+                        controller: 'TellerMatchesCtrl'
+                    }
+                }
+            })
+
+            .state('app.teller_history', {
+                url: '/teller_history',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/history.html',
+                        controller: 'TellerHistoryCtrl'
                     }
                 }
             })

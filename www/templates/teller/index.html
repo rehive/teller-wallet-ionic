@@ -1,0 +1,37 @@
+<ion-view view-title="Teller">
+    <ion-content class="container-body">
+        <div class="list">
+            <a class="item item-icon-right" ui-sref="app.teller_process">
+                <h3>Process Payments</h3>
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a class="item item-icon-right" ui-sref="app.teller_offers">
+                <h3>Offers</h3>
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a class="item item-icon-right" ui-sref="app.teller_matches">
+                <h3>Matches</h3>
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a class="item item-icon-right" ui-sref="app.teller_history">
+                <h3>History</h3>
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+        </div>
+        <!-- Footer bar hack to get layout right -->
+        <ion-footer-bar class="high-footer bar-dark">
+        </ion-footer-bar>
+
+        <div ng-if="tellerMode == 'active'">
+            <button keyboard-attach class="high-footer bar bar-footer cancel" ng-click="disableTellerMode()">
+                <h1 class="title">Disable teller mode</h1>
+            </button>
+        </div>
+        <div ng-if="tellerMode != 'active'">
+            <button keyboard-attach class="high-footer bar bar-footer success" ng-click="activateTellerMode()">
+                <h1 class="title">Enable teller mode</h1>
+            </button>
+        </div>
+
+    </ion-content>
+</ion-view>

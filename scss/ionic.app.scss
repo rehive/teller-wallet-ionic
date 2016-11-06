@@ -25,7 +25,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 //------------------------------------------
 
 // Main Color for elements
-$primary: #3D8AB8;
+$primary: #F4C400;
 //Default: #56C1ED;
 
 // Color of fonts/icons within primary color
@@ -37,19 +37,19 @@ $tertiary: #F6F6F6;
 //Default: #fff;
 
 // Side bar
-$sidebar: #2070A0;
+$sidebar: #C09A00;
 $background: #F6F6F6;
 
 // Notification colors
-$notify: #5EA5CF;
+$notify: #F4C400;
 //Default: #56C1ED;
-$error: #dd4b39;
+$error: #96291A;
 //Default: #dd2c00;
-$cancel: #dd4b39;
+$cancel: #96291A;
 //Default: #dd2c00;
-$warning: #dd4b39;
+$warning: #96291A;
 //Default: #dd2c00;
-$success: #38C87F;
+$success: #418B17;
 
 // General colors
 $black: #000;
@@ -218,6 +218,17 @@ $grey: #ABABAB;
     }
   }
 
+  &.success {
+    border-color: $success;
+    background-color: $success;
+    background-image: none;
+    color: $secondary;
+
+    .title {
+      color: $secondary;
+    }
+  }
+
   .button {
     border-color: transparent;
     background-color: darken($primary, 5%);
@@ -258,6 +269,10 @@ $grey: #ABABAB;
   .item {
     cursor: pointer;
   }
+}
+
+.app-side-menu-profile {
+  padding-top: 40px;
 }
 
 .app-side-menu-list {
@@ -611,4 +626,15 @@ input.ng-invalid, input.ng-dirty {
     font-size: 15px;
     color: $white;
   }
+}
+
+.teller-active {
+  h4 {
+    color: $white;
+  }
+  p {
+    color: $white;
+  }
+  background-color: $warning;
+  padding: 10px;
 }
