@@ -57,6 +57,7 @@ angular.module('generic-client.controllers.fica', [])
                 data: {file: file, document_category: "", document_type: ""},
                 headers: {'Authorization': 'JWT ' + Auth.getToken()}
             }).then(function (resp) {
+                console.log(resp);
                 $ionicLoading.hide();
                 $ionicPopup.alert({title: "Success", template: "Upload complete."});
                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
