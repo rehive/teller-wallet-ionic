@@ -12,7 +12,13 @@
     </div>
 
     <ion-content class="custom-header-margin">
+
         <div class="custom-body">
+            <div ng-if="tellerMode == 'active'">
+                <div class="teller-active text-center warning">
+                    <h4>Teller mode is active.</h4>
+                </div>
+            </div>
             <div ng-include src="'templates/transactions/index.html'"></div>
         </div>
     </ion-content>

@@ -13,7 +13,7 @@
                             <h4>We're searching for Tellers</h4>
                         </div>
                         <div class="row">
-                            <p>You've placed a deposit request of {{ currency.symbol }} {{ deposit.amount }} and offered a {{ currency.symbol }} {{ deposit.fee }} convenience fee.</p>
+                            <p>You've placed a deposit request of {{ currency.symbol }} {{ deposit.amount | number:2 }} and offered a {{ currency.symbol }} {{ deposit.fee | number:2 }} convenience fee.</p>
                         </div>
                     </div>
                 </div>

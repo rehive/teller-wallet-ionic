@@ -79,8 +79,8 @@ angular.module('generic-client.controllers.deposit', [])
 
                 var amount = parseFloat(form.amount.$viewValue);
                 var fee = parseFloat(form.fee.$viewValue);
-                var fundo_fee = parseFloat(amount * (2/100));
-                var discount = parseFloat(-1 * amount * (1/100));
+                var fundo_fee = parseFloat(amount * (2 / 100));
+                var discount = parseFloat(-1 * amount * (1 / 100));
                 var total = amount + fee + fundo_fee + discount;
 
                 var deposit = {
@@ -118,22 +118,36 @@ angular.module('generic-client.controllers.deposit', [])
         $scope.countDown();
     })
 
-    .controller('SelectTellerCtrl', function ($scope, $state, $stateParams, $window, $ionicHistory) {
+    .controller('SelectTellerCtrl', function ($scope, $state, $stateParams, $window, $ionicHistory, $ionicLoading, $cordovaGeolocation) {
         'use strict';
 
         $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
 
-        var uluru = {lat: -25.363, lng: 131.044};
-        $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 4, center: uluru});
-        var marker = new google.maps.Marker({position: uluru, map: $scope.map});
+        $ionicLoading.show({
+                template: 'Plotting Tellers...'
+            });
 
-        marker.addListener('click', function () {
-            $state.go('app.view_teller');
+        var options = {timeout: 10000, enableHighAccuracy: true};
+        $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            $window.localStorage.setItem('currentLocation', JSON.stringify(latLng));
+            $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 15, center: latLng});
+            var marker = new google.maps.Marker({position: latLng, map: $scope.map});
+            marker.addListener('click', function () {
+                $state.go('app.view_teller');
+            });
+            $ionicLoading.hide();
+        }, function (error) {
+            alert("Could not get location.");
         });
 
         $scope.twoBack = function () {
             $ionicHistory.goBack(-2);
+        };
+
+        $scope.refreshMap = function () {
+            $window.location.reload();
         };
 
         $scope.submit = function (form) {
@@ -149,11 +163,15 @@ angular.module('generic-client.controllers.deposit', [])
         $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
         $scope.tellerBool = JSON.parse($window.localStorage.getItem('tellerBool'));
+        $scope.latLng = JSON.parse($window.localStorage.getItem('currentLocation'));
         $scope.deposit = JSON.parse($window.localStorage.getItem('deposit'));
 
-        var point_a = {lat: 41.85, lng: -87.65};
-        var point_b = {lat: 41.83, lng: -87.65};
-        var center = {lat: 41.85, lng: -87.65};
+        var point_a = $scope.latLng;
+        var center = {lat: parseFloat(point_a['lat']) + parseFloat(0.01), lng: point_a['lng']};
+        var point_b = {lat: parseFloat(point_a['lat']) + parseFloat(0.01), lng: point_a['lng']};
+
+        var route = {point_a: point_a, center: center, point_b: point_b};
+        $window.localStorage.setItem('route', JSON.stringify(route));
 
         $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
 
@@ -183,12 +201,10 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
+        var route = JSON.parse($window.localStorage.getItem('route'));
 
-        var point_a = {lat: 41.85, lng: -87.65};
-        var point_b = {lat: 41.83, lng: -87.65};
-        var center = {lat: 41.85, lng: -87.65};
-        $scope.map3 = new google.maps.Map(document.getElementById('map3'), {zoom: 4, center: center});
+        $scope.map3 = new google.maps.Map(document.getElementById('map3'), {zoom: 4, center: route['center']});
 
-        Maps.route($scope.map3, point_a, point_b);
+        Maps.route($scope.map3, route['point_a'], route['point_b']);
     });
 
