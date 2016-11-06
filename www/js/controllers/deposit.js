@@ -4,10 +4,17 @@ angular.module('generic-client.controllers.deposit', [])
         'use strict';
         $scope.items = [{'title': 'Bank Deposit', 'method': 'bank_deposit'},
             {'title': 'Teller Deposit', 'method': 'teller_deposit'}];
+        var tellerBool = JSON.parse($window.localStorage.getItem('tellerBool'));
+
+        console.log(tellerBool);
 
         $scope.submit = function (method) {
             if (method == 'teller_deposit') {
-                $state.go('app.deposit_amount');
+                if (tellerBool == 'active') {
+                    $state.go('app.view_teller');
+                } else {
+                    $state.go('app.deposit_amount');
+                }
             }
             else if (method == 'bank_deposit') {
                 $state.go('app.bank_deposit');
@@ -63,20 +70,39 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.submit = function (form) {
             if (form.$valid) {
-                $state.go('app.search_tellers', {
-                    amount: form.amount.$viewValue,
-                    currency: $scope.currency,
-                    fee: $scope.fee
-                });
+
+                if (form.fee.$viewValue == null) {
+                    $scope.fee = 0
+                } else {
+                    $scope.fee = form.fee.$viewValue
+                }
+
+                var amount = parseFloat(form.amount.$viewValue);
+                var fee = parseFloat(form.fee.$viewValue);
+                var fundo_fee = parseFloat(amount * (2/100));
+                var discount = parseFloat(-1 * amount * (1/100));
+                var total = amount + fee + fundo_fee + discount;
+
+                var deposit = {
+                    amount: amount,
+                    fee: fee,
+                    fundo_fee: fundo_fee,
+                    discount: discount,
+                    total: total
+                };
+
+                $window.localStorage.setItem('deposit', JSON.stringify(deposit));
+                $state.go('app.search_tellers');
             }
         };
     })
 
-    .controller('SearchTellersCtrl', function ($scope, $state, $window, $timeout) {
+    .controller('SearchTellersCtrl', function ($scope, $state, $stateParams, $window, $timeout) {
         'use strict';
 
         $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
+        $scope.deposit = JSON.parse($window.localStorage.getItem('deposit'));
         $scope.counter = 3;
 
         $scope.countDown = function () {
@@ -86,17 +112,13 @@ angular.module('generic-client.controllers.deposit', [])
             }, 1000);
             if ($scope.counter <= 0) {
                 $timeout.cancel(c);
-                $state.go('app.select_teller', {
-                    amount: $scope.amount,
-                    currency: $scope.currency,
-                    fee: $scope.fee
-                });
+                $state.go('app.select_teller');
             }
         };
         $scope.countDown();
     })
 
-    .controller('SelectTellerCtrl', function ($scope, $state, $window, $ionicHistory) {
+    .controller('SelectTellerCtrl', function ($scope, $state, $stateParams, $window, $ionicHistory) {
         'use strict';
 
         $scope.data = {};
@@ -116,21 +138,18 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.submit = function (form) {
             if (form.$valid) {
-                $state.go('app.select_teller', {
-                    amount: form.amount.$viewValue,
-                    currency: $scope.currency,
-                    fee: $scope.fee
-                });
+                $state.go('app.select_teller');
             }
         };
     })
 
-    .controller('ViewTellerCtrl', function ($scope, $state, $window, Maps, $ionicHistory) {
+    .controller('ViewTellerCtrl', function ($scope, $state, $stateParams, $window, Maps, $ionicHistory) {
         'use strict';
 
         $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
         $scope.tellerBool = JSON.parse($window.localStorage.getItem('tellerBool'));
+        $scope.deposit = JSON.parse($window.localStorage.getItem('deposit'));
 
         var point_a = {lat: 41.85, lng: -87.65};
         var point_b = {lat: 41.83, lng: -87.65};

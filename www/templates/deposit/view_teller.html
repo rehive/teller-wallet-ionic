@@ -44,11 +44,11 @@
                 <div class="teller-content background-light">
                     <div class="row teller-call">
                         <div class="col col-5"></div>
-                        <button class="button button-call col-40">
+                        <button class="button block button-call col-40">
                             Call
                         </button>
                         <div class="col col-10"></div>
-                        <button class="button button-call col-40">
+                        <button class="button block button-call col-40">
                             Text
                         </button>
                         <div class="col col-5"></div>
@@ -93,7 +93,7 @@
                         Amount
                     </span>
                     <span class="col-50 align-right">
-                        $100.00
+                        {{ currency.symbol }} {{ deposit.amount | number: 2 }}
                     </span>
                     </div>
                     <div class="row">
@@ -101,7 +101,7 @@
                         Convenience Fee
                     </span>
                     <span class="col-50 align-right">
-                        $1.00
+                        {{ currency.symbol }} {{ deposit.fee | number: 2 }}
                     </span>
                     </div>
                     <div class="row">
@@ -109,7 +109,7 @@
                         Fundo Fee
                     </span>
                     <span class="col-50 align-right">
-                        $1.00
+                        {{ currency.symbol }} {{ deposit.fundo_fee | number: 2 }}
                     </span>
                     </div>
                     <div class="row">
@@ -117,7 +117,7 @@
                         Discount
                     </span>
                     <span class="col-50 align-right">
-                        $-1.00
+                        {{ currency.symbol }} {{ deposit.discount | number: 2 }}
                     </span>
                     </div>
                     <div class="row">
@@ -125,7 +125,7 @@
                         Total
                     </span>
                     <span class="col-50 align-right">
-                        $101.00
+                        {{ currency.symbol }} {{ deposit.total | number: 2 }}
                     </span>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                     </div>
                     <div class="row">
                     <span class="col-100 align-left">
-                        You must pay $101.00 cash to make a Deposit of $100.00.
+                        You must pay {{ currency.symbol }} {{ deposit.total | number: 2 }} cash to make a deposit of {{ currency.symbol }} {{ deposit.amount | number: 2 }}.
                     </span>
                     </div>
                 </div>

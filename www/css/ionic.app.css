@@ -10082,7 +10082,8 @@ input.ng-invalid, input.ng-dirty {
   display: inline; }
 
 .teller-content {
-  padding: 2px 10px 2px 10px; }
+  padding: 2px 10px 2px 10px;
+  color: #000; }
 
 .teller-rating img {
   height: 20px; }
