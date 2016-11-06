@@ -272,7 +272,7 @@ $grey: #ABABAB;
 }
 
 .app-side-menu-profile {
-  padding-top: 40px;
+  padding-top: 30px;
 }
 
 .app-side-menu-list {
@@ -289,7 +289,7 @@ $grey: #ABABAB;
     a {
       color: $secondary;
       background-color: $sidebar;
-      padding: 15px;
+      padding: 10px;
 
       &.activated {
         background-color: $sidebar;
