@@ -312,11 +312,6 @@ angular.module('generic-client', ['ionic',
                         templateUrl: 'templates/deposit/search_tellers.html',
                         controller: 'SearchTellersCtrl'
                     }
-                },
-                params: {
-                    amount: null,
-                    currency: null,
-                    fee: null
                 }
             })
 
@@ -337,9 +332,6 @@ angular.module('generic-client', ['ionic',
                         templateUrl: 'templates/deposit/view_teller.html',
                         controller: 'ViewTellerCtrl'
                     }
-                },
-                params: {
-                    amount: null
                 }
             })
 
@@ -350,9 +342,6 @@ angular.module('generic-client', ['ionic',
                         templateUrl: 'templates/deposit/map_to_teller.html',
                         controller: 'MapToTellerCtrl'
                     }
-                },
-                params: {
-                    amount: null
                 }
             })
 
