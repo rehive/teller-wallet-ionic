@@ -40,12 +40,7 @@ angular.module('generic-client.controllers.fica', [])
 
     .controller('FicaCameraUploadCtrl', function ($scope, Upload, Auth, API, $ionicLoading, $ionicPopup) {
         'use strict';
-        $scope.submit = function () {
-            //console.log($scope.form.file.$valid);
-            if ($scope.form.file.$valid && $scope.file) {
-                $scope.upload($scope.file);
-            }
-        };
+
 
         // upload on file select or drop
         $scope.upload = function (file) {
