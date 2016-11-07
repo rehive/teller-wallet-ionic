@@ -8,11 +8,17 @@
             </div>
             <div ng-repeat="dep in deposits">
                 <div ui-sref="app.teller_view_request">
-                    <div class="item no-padding">
-                        <div class="row default-top">
-                            <div class="col col-50 align-left">
-                                {{ dep.request }}
-                                <p>{{ dep.distance }}</p>
+                    <div class="item item-profile no-padding">
+                        <div class="row">
+                            <div class="col col-20">
+                                <img class="circle-base profile-teller" src="img/profile.jpg"/>
+                            </div>
+
+                            <div class="row default-top">
+                                <div class="col-90 align-left">
+                                    {{ dep.request }}
+                                    <p>{{ dep.distance }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -24,14 +30,20 @@
 
             <div ng-repeat="wit in withdrawals">
                 <div ui-sref="app.teller_view_request">
-                    <div class="item no-padding">
+                    <div class="item item-profile no-padding">
+                    <div class="row">
+                        <div class="col col-20">
+                            <img class="circle-base profile-teller" src="img/profile.jpg"/>
+                        </div>
+
                         <div class="row default-top">
-                            <div class="col col-50 align-left">
+                            <div class="col-90 align-left">
                                 {{ wit.request }}
                                 <p>{{ wit.distance }}</p>
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
 
