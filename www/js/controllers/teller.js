@@ -42,18 +42,26 @@ angular.module('generic-client.controllers.teller', [])
         'use strict';
     })
 
-    .controller('TellerOfferCtrl', function ($scope) {
+    .controller('TellerRequestsCtrl', function ($scope) {
         'use strict';
-        $scope.deposits = [{'offer': 'Earn $2.00 for $100.00', 'distance': '20 minutes away'},
-            {'offer': 'Earn $1.00 for $20.00', 'distance': '5 minutes away'}];
+        $scope.deposits = [{'request': 'Earn $2.00 for $100.00 deposit.', 'distance': '20 minutes away'}];
 
-        $scope.withdrawals = [{'offer': 'Earn $2.00 for $100.00', 'distance': '20 minutes away'},
-            {'offer': 'Earn $1.00 for $20.00', 'distance': '5 minutes away'}];
+        $scope.withdrawals = [{'request': 'Earn $2.00 for $200.00 withdrawal.', 'distance': '20 minutes away'},
+            {'request': 'Earn $1.00 for $20.00 withdrawal.', 'distance': '5 minutes away'}];
     })
 
 
-    .controller('TellerMatchesCtrl', function () {
+    .controller('TellerViewRequestCtrl', function () {
         'use strict';
+    })
+
+
+    .controller('TellerMatchesCtrl', function ($scope) {
+        'use strict';
+
+        $scope.deposits = [{
+            'request': 'Earn $2.00 for $100.00 deposit.', 'distance': 'Alice Wonderful is 20 minutes away.'
+        }];
     })
 
     .controller('TellerHistoryCtrl', function () {

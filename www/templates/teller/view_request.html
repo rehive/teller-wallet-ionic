@@ -1,0 +1,142 @@
+<ion-view>
+    <div ng-if="tellerBool != 'active'">
+        <ion-nav-buttons side="right">
+            <button class="button button-clear" ng-click="cancel()">
+                Cancel&nbsp;
+            </button>
+        </ion-nav-buttons>
+    </div>
+    <form name="depositForm" method="post" novalidate>
+        <ion-content class="container-body">
+            <div class="teller-alert">
+                <div class="row">
+                    <div class="col col-100">
+                        <div class="row center">
+                            <h4><b>Earn $2.00 for $100.00 deposit.</b></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="teller-container background-light">
+                <div class="row">
+                    <div class="col col-20">
+                        <img class="circle-base profile-teller" src="img/profile_2.jpg"/>
+                    </div>
+                    <div class="col col-80">
+                        <div class="teller-header">
+                            <div class="teller-title"><b>Alice Wonderful</b>
+
+                                <div class="teller-sub">is 20 minutes walk away.</div>
+                            </div>
+                            <div class="teller-sub">
+                                <div class="row">
+
+                                    <div class="teller-rating">
+                                        <img src="img/like.png"/>
+                                    </div>
+                                    <div class="teller-rating-text">
+                                        20
+                                    </div>
+                                    <div class="teller-rating">
+                                        <img src="img/dislike.png"/>
+                                    </div>
+                                    <div class="teller-rating-text">
+                                        20
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="tellerBool == 'active'">
+                <div class="teller-content background-light">
+                    <div class="row teller-call">
+                        <div class="col col-5"></div>
+                        <button class="button block button-call col-40">
+                            Call
+                        </button>
+                        <div class="col col-10"></div>
+                        <button class="button block button-call col-40">
+                            Text
+                        </button>
+                        <div class="col col-5"></div>
+                    </div>
+                </div>
+                <div class="teller-alert">
+                    <div class="row">
+                        <div class="col col-100">
+                            <div class="row center">
+                                <h2><b>675 653</b></h2>
+                            </div>
+                            <div class="row">
+                                <p>Please present this code in-person to Bob Dylan to complete your deposit.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="teller-container-content">
+                <div class="teller-content">
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        <b>Deposit Details</b>
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Amount
+                    </span>
+                    <span class="col-50 align-right">
+                        $100.00
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Convenience Fee
+                    </span>
+                    <span class="col-50 align-right">
+                        $2.00
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Fundo Fee
+                    </span>
+                    <span class="col-50 align-right">
+                        $3.00
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Discount
+                    </span>
+                    <span class="col-50 align-right">
+                        $0.00
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Total
+                    </span>
+                    <span class="col-50 align-right">
+                        $103.00
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="teller-footer"></div>
+        </ion-content>
+
+        <div class="row">
+            <button class="col col-50 high-footer bar bar-footer cancel" ng-click="declineOffer()">
+                <h1 class="title">Decline</h1>
+            </button>
+            <button class="col col-50 col-offset-50 high-footer bar bar-footer"
+                    ng-click="acceptOffer()">
+                <h1 class="title">Accept</h1>
+            </button>
+        </div>
+
+    </form>
+</ion-view>

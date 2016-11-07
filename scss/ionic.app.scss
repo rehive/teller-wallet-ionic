@@ -289,7 +289,7 @@ $grey: #ABABAB;
     a {
       color: $secondary;
       background-color: $sidebar;
-      padding: 10px;
+      padding: 12px;
 
       &.activated {
         background-color: $sidebar;
@@ -365,6 +365,10 @@ $grey: #ABABAB;
 
 .item-avatar {
   padding-left: 50px;
+}
+
+.item-profile {
+  padding-left: 0;
 }
 
 // Form error
@@ -620,6 +624,9 @@ input.ng-invalid, input.ng-dirty {
 .teller-alert {
   background-color: $success;
   h2 {
+    color: $white;
+  }
+  h4 {
     color: $white;
   }
   p {

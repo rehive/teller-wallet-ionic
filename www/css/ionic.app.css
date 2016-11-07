@@ -9894,7 +9894,7 @@ a.button {
     .app-side-menu-list .item a {
       color: #fff;
       background-color: #C09A00;
-      padding: 10px; }
+      padding: 12px; }
       .app-side-menu-list .item a.activated {
         background-color: #C09A00;
         border-color: transparent; }
@@ -9936,6 +9936,9 @@ a.button {
 
 .item-avatar {
   padding-left: 50px; }
+
+.item-profile {
+  padding-left: 0; }
 
 .form-error {
   padding: 6px 0 6px 0px;
@@ -10113,6 +10116,8 @@ input.ng-invalid, input.ng-dirty {
 .teller-alert {
   background-color: #418B17; }
   .teller-alert h2 {
+    color: #FFF; }
+  .teller-alert h4 {
     color: #FFF; }
   .teller-alert p {
     font-size: 15px;

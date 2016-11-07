@@ -1,38 +1,40 @@
-<ion-view view-title="Offers Nearby">
+<ion-view view-title="Requests Nearby">
     <ion-content class="container-body">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
         <div class="list-default">
 
-                <div class="item background-light">
-                    <b>Deposits</b>
-                </div>
-                <div ng-repeat="dep in deposits">
-                    <div class="item item-avatar item-icon-left no-padding">
-                        <i class="icon ion-ios-circle-outline"></i>
-
+            <div class="item background-light">
+                <b>Deposits</b>
+            </div>
+            <div ng-repeat="dep in deposits">
+                <div ui-sref="app.teller_view_request">
+                    <div class="item no-padding">
                         <div class="row default-top">
                             <div class="col col-50 align-left">
-                                {{ dep.offer }}
+                                {{ dep.request }}
                                 <p>{{ dep.distance }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="item background-light">
-                    <b>Withdrawals</b>
-                </div>
-                <div ng-repeat="wit in withdrawals">
-                    <div class="item item-avatar item-icon-left no-padding">
-                        <i class="icon ion-ios-circle-outline"></i>
+            </div>
+            <div class="item background-light">
+                <b>Withdrawals</b>
+            </div>
 
+            <div ng-repeat="wit in withdrawals">
+                <div ui-sref="app.teller_view_request">
+                    <div class="item no-padding">
                         <div class="row default-top">
                             <div class="col col-50 align-left">
-                                {{ wit.offer }}
+                                {{ wit.request }}
                                 <p>{{ wit.distance }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
         </div>
     </ion-content>
     <ion-infinite-scroll on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
