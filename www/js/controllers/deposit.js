@@ -125,10 +125,10 @@ angular.module('generic-client.controllers.deposit', [])
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
 
         $ionicLoading.show({
-                template: 'Plotting Tellers...'
-            });
+            template: 'Plotting Tellers...'
+        });
 
-        var options = {timeout: 10000, enableHighAccuracy: true};
+        var options = {timeout: 5000, enableHighAccuracy: true};
         $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
 
             var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -180,10 +180,6 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
 
-        $ionicPlatform.ready(function() {
-            Maps.route($scope.map2, point_a, point_b);
-        });
-
         $scope.acceptDeposit = function () {
             $window.localStorage.setItem('tellerBool', JSON.stringify('active'));
             $window.location.reload();
@@ -201,6 +197,10 @@ angular.module('generic-client.controllers.deposit', [])
         $scope.mapToTeller = function () {
             $state.go('app.map_to_teller', {});
         };
+
+        $ionicPlatform.ready(function () {
+            Maps.route($scope.map2, point_a, point_b);
+        });
     })
 
     .controller('MapToTellerCtrl', function ($scope, $state, $window, Maps) {
