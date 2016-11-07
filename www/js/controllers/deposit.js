@@ -130,13 +130,18 @@ angular.module('generic-client.controllers.deposit', [])
 
         var options = {timeout: 10000, enableHighAccuracy: true};
         $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+
             var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
             $window.localStorage.setItem('currentLocation', JSON.stringify(latLng));
             $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 15, center: latLng});
+
             var marker = new google.maps.Marker({position: latLng, map: $scope.map});
+
             marker.addListener('click', function () {
                 $state.go('app.view_teller');
             });
+
             $ionicLoading.hide();
         }, function (error) {
             alert("Could not get location.");
@@ -157,7 +162,7 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('ViewTellerCtrl', function ($scope, $state, $stateParams, $window, Maps, $ionicHistory) {
+    .controller('ViewTellerCtrl', function ($scope, $state, $route, $stateParams, $window, Maps, $ionicHistory) {
         'use strict';
 
         $scope.data = {};
@@ -179,7 +184,7 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.acceptDeposit = function () {
             $window.localStorage.setItem('tellerBool', JSON.stringify('active'));
-            $window.location.reload();
+            $route.reload();
         };
 
         $scope.cancelDeposit = function () {
