@@ -184,7 +184,7 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.acceptDeposit = function () {
             $window.localStorage.setItem('tellerBool', JSON.stringify('active'));
-            $state.reload();
+            $window.location.reload();
         };
 
         $scope.cancelDeposit = function () {

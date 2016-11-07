@@ -20,7 +20,7 @@
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Fee</span>
-                    <input ng-model="data.fee" name="fee" type="number" placeholder="Fee you are willing to pay">
+                    <input ng-model="data.fee" name="fee" type="number" placeholder="Fee you are willing to pay" required>
 
                     <div ng-messages="depositForm.fee.$error" role="alert"
                          ng-show='depositForm.$submitted || depositForm.fee.$dirty'>
