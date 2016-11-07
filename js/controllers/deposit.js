@@ -162,7 +162,7 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('ViewTellerCtrl', function ($scope, $state, $stateParams, $ionicPlatform, $window, Maps, $ionicHistory) {
+    .controller('ViewTellerCtrl', function ($scope, $state, $stateParams, $window, Maps, $ionicHistory) {
         'use strict';
 
         $scope.data = {};
@@ -180,9 +180,7 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
 
-        $ionicPlatform.ready(function() {
-            Maps.route($scope.map2, point_a, point_b);
-        });
+        Maps.route($scope.map2, point_a, point_b);
 
         $scope.acceptDeposit = function () {
             $window.localStorage.setItem('tellerBool', JSON.stringify('active'));
