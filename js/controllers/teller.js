@@ -46,8 +46,7 @@ angular.module('generic-client.controllers.teller', [])
         'use strict';
         $scope.deposits = [{'request': 'Earn $2.00 for $100.00 deposit.', 'distance': '20 minutes away'}];
 
-        $scope.withdrawals = [{'request': 'Earn $2.00 for $200.00 withdrawal.', 'distance': '20 minutes away'},
-            {'request': 'Earn $1.00 for $20.00 withdrawal.', 'distance': '5 minutes away'}];
+        $scope.withdrawals = [{'request': 'Earn $2.00 for $200.00 withdrawal.', 'distance': '20 minutes away'}];
     })
 
 
