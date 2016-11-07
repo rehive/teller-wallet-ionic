@@ -24,6 +24,7 @@
 
                     <div ng-messages="depositForm.fee.$error" role="alert"
                          ng-show='depositForm.$submitted || depositForm.fee.$dirty'>
+                        <div ng-message="required" class="form-error">Please enter an amount.</div>
                         <div ng-message="number" class="form-error">Please enter valid number.</div>
                     </div>
                 </label>
