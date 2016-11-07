@@ -1,38 +1,27 @@
-<ion-view view-title="Offers Nearby">
+<ion-view view-title="Matches">
     <ion-content class="container-body">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
         <div class="list-default">
 
-                <div class="item background-light">
-                    <b>Deposits</b>
-                </div>
-                <div ng-repeat="dep in deposits">
-                    <div class="item item-avatar item-icon-left no-padding">
-                        <i class="icon ion-ios-circle-outline"></i>
+            <div class="item background-light">
+                <b>Deposits</b>
+            </div>
+            <div ng-repeat="dep in deposits">
+                <div class="item item-profile no-padding">
+                    <div class="row">
+                        <div class="col col-20">
+                            <img class="circle-base profile-teller" src="img/profile.jpg"/>
+                        </div>
 
                         <div class="row default-top">
-                            <div class="col col-50 align-left">
-                                {{ dep.offer }}
+                            <div class="col-90 align-left">
+                                {{ dep.request }}
                                 <p>{{ dep.distance }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="item background-light">
-                    <b>Withdrawals</b>
-                </div>
-                <div ng-repeat="wit in withdrawals">
-                    <div class="item item-avatar item-icon-left no-padding">
-                        <i class="icon ion-ios-circle-outline"></i>
-
-                        <div class="row default-top">
-                            <div class="col col-50 align-left">
-                                {{ wit.offer }}
-                                <p>{{ wit.distance }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
         </div>
     </ion-content>
     <ion-infinite-scroll on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>

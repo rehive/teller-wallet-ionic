@@ -393,12 +393,22 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.teller_offers', {
-                url: '/teller_offers',
+            .state('app.teller_requests', {
+                url: '/teller_requests',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/teller/offers.html',
-                        controller: 'TellerOfferCtrl'
+                        templateUrl: 'templates/teller/requests.html',
+                        controller: 'TellerRequestsCtrl'
+                    }
+                }
+            })
+
+            .state('app.teller_view_request', {
+                url: '/teller_view_request',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/view_request.html',
+                        controller: 'TellerViewRequestCtrl'
                     }
                 }
             })
