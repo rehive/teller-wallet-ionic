@@ -162,7 +162,7 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('ViewTellerCtrl', function ($scope, $state, $route, $stateParams, $window, Maps, $ionicHistory) {
+    .controller('ViewTellerCtrl', function ($scope, $state, $stateParams, $window, Maps, $ionicHistory) {
         'use strict';
 
         $scope.data = {};
@@ -184,7 +184,7 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.acceptDeposit = function () {
             $window.localStorage.setItem('tellerBool', JSON.stringify('active'));
-            $route.reload();
+            $state.reload();
         };
 
         $scope.cancelDeposit = function () {
