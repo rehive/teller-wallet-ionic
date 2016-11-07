@@ -59,7 +59,7 @@ angular.module('generic-client.controllers.teller', [])
         'use strict';
 
         $scope.deposits = [{
-            'request': 'Earn $2.00 for $100.00 deposit.', 'distance': 'Alice Wonderful is 20 minutes away.'
+            'request': 'Earn $2.00 for $100.00 deposit.', 'distance': 'Mark Riley is 20 minutes away.'
         }];
     })
 
