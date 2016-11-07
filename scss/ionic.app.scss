@@ -317,6 +317,12 @@ $grey: #ABABAB;
   }
 
   .no-padding {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-right: 2px;
+  }
+
+  .no-padding-2 {
     padding: 1px 2px 1px 0;
   }
 
