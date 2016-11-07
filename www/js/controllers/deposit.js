@@ -103,7 +103,7 @@ angular.module('generic-client.controllers.deposit', [])
         $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
         $scope.deposit = JSON.parse($window.localStorage.getItem('deposit'));
-        $scope.counter = 3;
+        $scope.counter = 10;
 
         $scope.countDown = function () {
             c = $timeout(function () {
