@@ -178,9 +178,7 @@ angular.module('generic-client.controllers.deposit', [])
         var route = {point_a: point_a, center: center, point_b: point_b};
         $window.localStorage.setItem('route', JSON.stringify(route));
 
-        $scope.$on("$ionicView.enter", function() {
-            $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
-        });
+        $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
 
         Maps.route($scope.map2, point_a, point_b);
 
