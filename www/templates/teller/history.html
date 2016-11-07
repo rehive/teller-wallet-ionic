@@ -1,39 +1,14 @@
-<ion-view view-title="Offers Nearby">
+<ion-view view-title="History">
     <ion-content class="container-body">
-        <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
-        <div class="list-default">
-
-                <div class="item background-light">
-                    <b>Deposits</b>
-                </div>
-                <div ng-repeat="dep in deposits">
-                    <div class="item item-avatar item-icon-left no-padding">
-                        <i class="icon ion-ios-circle-outline"></i>
-
-                        <div class="row default-top">
-                            <div class="col col-50 align-left">
-                                {{ dep.offer }}
-                                <p>{{ dep.distance }}</p>
-                            </div>
+            <div class="container-default-background">
+                <div class="row">
+                    <div class="col col-100">
+                        <div class="row">
+                            <h4>Coming soon</h4>
                         </div>
                     </div>
                 </div>
-                <div class="item background-light">
-                    <b>Withdrawals</b>
-                </div>
-                <div ng-repeat="wit in withdrawals">
-                    <div class="item item-avatar item-icon-left no-padding">
-                        <i class="icon ion-ios-circle-outline"></i>
-
-                        <div class="row default-top">
-                            <div class="col col-50 align-left">
-                                {{ wit.offer }}
-                                <p>{{ wit.distance }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </div>
-    </ion-content>
+            </div>
+        </ion-content>
     <ion-infinite-scroll on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
 </ion-view>

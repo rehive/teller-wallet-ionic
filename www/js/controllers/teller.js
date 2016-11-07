@@ -50,8 +50,17 @@ angular.module('generic-client.controllers.teller', [])
     })
 
 
-    .controller('TellerViewRequestCtrl', function () {
+    .controller('TellerViewRequestCtrl', function ($state, $scope) {
         'use strict';
+
+        $scope.acceptRequest = function () {
+            $state.go('app.teller_requests');
+        };
+
+        $scope.declineRequest = function () {
+            $state.go('app.teller_requests');
+        };
+
     })
 
 

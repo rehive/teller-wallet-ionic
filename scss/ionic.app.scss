@@ -122,6 +122,10 @@ $grey: #ABABAB;
   align-items: center;
 }
 
+.item-padding {
+  padding: 10px 0 10px 5px;
+}
+
 // Buttons
 .button {
   border-color: transparent;
@@ -313,9 +317,7 @@ $grey: #ABABAB;
   }
 
   .no-padding {
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-right: 2px;
+    padding: 1px 2px 1px 0;
   }
 
   .block {

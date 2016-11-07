@@ -9784,6 +9784,9 @@ a.button {
   -ms-flex-align: center;
   align-items: center; }
 
+.item-padding {
+  padding: 10px 0 10px 5px; }
+
 .button {
   border-color: transparent;
   background-color: #F4C400;
@@ -9907,9 +9910,7 @@ a.button {
   .list-default .default-top {
     padding-top: 12px; }
   .list-default .no-padding {
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-right: 2px; }
+    padding: 1px 2px 1px 0; }
   .list-default .block:nth-child(odd) .item {
     background: #F6F6F6; }
   .list-default .block .item .icon {
