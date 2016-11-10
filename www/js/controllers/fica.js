@@ -64,4 +64,5 @@ angular.module('generic-client.controllers.fica', [])
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
         };
+
     });
