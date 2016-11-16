@@ -1,24 +1,51 @@
 angular.module('generic-client.controllers.teller', [])
 
-    .controller('TellerCtrl', function ($scope, $state, $http, $window) {
+    .controller('TellerCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, Teller) {
         'use strict';
         $scope.data = {};
 
         $scope.activateTellerMode = function () {
-            $window.localStorage.setItem('tellerMode', JSON.stringify('active'));
-            $window.location.reload();
+            $ionicLoading.show({
+                template: 'Activating...'
+            });
+
+            Teller.activate().then(function (res) {
+                if (res.status === 200) {
+                    $ionicLoading.hide();
+                    $window.localStorage.setItem('tellerMode', JSON.stringify('active'));
+                    $window.location.reload();
+                } else {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+                $ionicLoading.hide();
+            });
         };
 
         $scope.disableTellerMode = function () {
-            $window.localStorage.setItem('tellerMode', JSON.stringify('disabled'));
-            $window.location.reload();
+            $ionicLoading.show({
+                template: 'Deactivating...'
+            });
+
+            Teller.activate().then(function (res) {
+                if (res.status === 200) {
+                    $ionicLoading.hide();
+                    $window.localStorage.setItem('tellerMode', JSON.stringify('disabled'));
+                    $window.location.reload();
+                } else {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+                $ionicLoading.hide();
+            });
         };
-
-        console.log(JSON.parse($window.localStorage.getItem('tellerMode')));
-
     })
 
-    .controller('TellerProcessCtrl', function ($scope, $state) {
+    .controller('TellerProcessCtrl', function ($scope, $state, Teller) {
         'use strict';
 
         $scope.submit = function (form) {
@@ -29,7 +56,7 @@ angular.module('generic-client.controllers.teller', [])
 
     })
 
-    .controller('TellerConfirmCtrl', function ($scope, $state) {
+    .controller('TellerConfirmCtrl', function ($scope, $state, Teller) {
         'use strict';
 
         $scope.submit = function () {
@@ -38,19 +65,25 @@ angular.module('generic-client.controllers.teller', [])
 
     })
 
-    .controller('TellerSuccessCtrl', function ($scope, $state) {
+    .controller('TellerSuccessCtrl', function ($scope, $state, Teller) {
         'use strict';
     })
 
-    .controller('TellerRequestsCtrl', function ($scope) {
+    .controller('TellerRequestsCtrl', function ($scope, Teller) {
         'use strict';
-        $scope.deposits = [{'request': 'Earn $2.00 for $100.00 deposit.', 'distance': '20 minutes away'}];
 
-        $scope.withdrawals = [{'request': 'Earn $2.00 for $200.00 withdrawal.', 'distance': '20 minutes away'}];
+        $scope.refreshData = function () {
+            Teller.tellerTransactions().success(
+                function (res) {
+                    $scope.transactions = res.data.results;
+                }
+            );
+        }
+
+        $scope.refreshData()
     })
 
-
-    .controller('TellerViewRequestCtrl', function ($state, $scope) {
+    .controller('TellerViewRequestCtrl', function ($state, $scope, Teller) {
         'use strict';
 
         $scope.acceptRequest = function () {
