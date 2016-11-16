@@ -27,13 +27,17 @@ angular.module('generic-client', ['ionic',
     'generic-client.services.contacts',
     'generic-client.services.settings',
     'generic-client.services.currency_accounts',
+    'generic-client.services.tellers',
     'generic-client.filters.contacts'])
 
-    //.constant('API', 'http://localhost:2468/api/2')
+    .constant('API', 'http://localhost:8080/api/2')
     //.constant('API', 'https://rehive.com/api/2')
-    .constant('API', 'https://www.rehive.com/api/2')
+    .constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
+    //.constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
     .constant('REFRESH_INTERVAL', 3000)
-    .constant('COMPANY', 'fundo_test_6')
+    .constant('COMPANY', 'test_company_1')
+    //.constant('COMPANY', 'fundo_test_6')
+
 
     .config(function ($httpProvider, $ionicConfigProvider, $compileProvider) {
         'use strict';
@@ -309,43 +313,42 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.search_tellers', {
-                url: '/search_tellers',
+            .state('app.search_offers', {
+                url: '/search_offers',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/deposit/search_tellers.html',
-                        controller: 'SearchTellersCtrl'
+                        templateUrl: 'templates/deposit/search_offers.html',
+                        controller: 'SearchOffersCtrl'
                     }
+                },
+                params: {
+                    id: null
                 }
             })
 
-            .state('app.select_teller', {
-                url: '/select_teller',
+            .state('app.select_offer', {
+                url: '/select_offer',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/deposit/select_teller.html',
-                        controller: 'SelectTellerCtrl'
+                        templateUrl: 'templates/deposit/select_offer.html',
+                        controller: 'SelectOfferCtrl'
                     }
+                },
+                params: {
+                    id: null
                 }
             })
 
-            .state('app.view_teller', {
-                url: '/view_teller',
+            .state('app.view_offer', {
+                url: '/view_offer',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/deposit/view_teller.html',
-                        controller: 'ViewTellerCtrl'
+                        templateUrl: 'templates/deposit/view_offer.html',
+                        controller: 'ViewOfferCtrl'
                     }
-                }
-            })
-
-            .state('app.map_to_teller', {
-                url: '/map_to_teller',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/deposit/map_to_teller.html',
-                        controller: 'MapToTellerCtrl'
-                    }
+                },
+                params: {
+                    id: null
                 }
             })
 

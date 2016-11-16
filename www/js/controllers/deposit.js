@@ -62,7 +62,7 @@ angular.module('generic-client.controllers.deposit', [])
 
     })
 
-    .controller('DepositAmountCtrl', function ($scope, $state, $window) {
+    .controller('DepositAmountCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, Teller, Conversions) {
         'use strict';
 
         $scope.data = {};
@@ -79,73 +79,101 @@ angular.module('generic-client.controllers.deposit', [])
 
                 var amount = parseFloat(form.amount.$viewValue);
                 var fee = parseFloat(form.fee.$viewValue);
-                var fundo_fee = parseFloat(amount * (2 / 100));
-                var discount = parseFloat(-1 * amount * (1 / 100));
-                var total = amount + fee + fundo_fee + discount;
 
-                var deposit = {
-                    amount: amount,
-                    fee: fee,
-                    fundo_fee: fundo_fee,
-                    discount: discount,
-                    total: total
-                };
-
-                $window.localStorage.setItem('deposit', JSON.stringify(deposit));
-                $state.go('app.search_tellers');
+                Teller.deposit(Conversions.to_cents(amount), fee, $scope.currency).then(function (res) {
+                    if (res.status === 200) {
+                        $ionicLoading.hide();
+                        $window.localStorage.setItem('tellerTransaction', JSON.stringify(res.data.data));
+                        $state.go('app.search_offers');
+                    } else {
+                        $ionicLoading.hide();
+                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                    }
+                }).catch(function (error) {
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicLoading.hide();
+                });
             }
         };
     })
 
-    .controller('SearchTellersCtrl', function ($scope, $state, $stateParams, $window, $timeout) {
+    .controller('SearchOffersCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, $timeout, Teller) {
         'use strict';
-
-        $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
-        $scope.deposit = JSON.parse($window.localStorage.getItem('deposit'));
-        $scope.counter = 10;
+        $scope.transaction = JSON.parse($window.localStorage.getItem('tellerTransaction'));
 
-        $scope.countDown = function () {
-            c = $timeout(function () {
-                $scope.counter--;
-                $scope.countDown();
-            }, 1000);
-            if ($scope.counter <= 0) {
-                $timeout.cancel(c);
-                $state.go('app.select_teller');
-            }
-        };
-        $scope.countDown();
+        var interval = setInterval(function(){
+            Teller.userOffers($scope.transaction.id).then(function (res) {
+                if (res.status === 200) {
+                    if (res.data.data.results.length > 0) {
+                        clearInterval(interval);
+                        $state.go('app.select_offer');
+                    }
+                } else {
+                    clearInterval(interval);
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                }
+            }).catch(function (error) {
+                clearInterval(interval);
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+            });
+        }, 5000);
     })
 
-    .controller('SelectTellerCtrl', function ($scope, $state, $stateParams, $window, $ionicHistory, $ionicLoading, $cordovaGeolocation) {
+    .controller('SelectOfferCtrl', function ($scope, $state, $stateParams, $window, $ionicHistory, $ionicLoading, $cordovaGeolocation, Teller) {
         'use strict';
 
         $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
+        $scope.transaction = JSON.parse($window.localStorage.getItem('tellerTransaction'));
 
-        $ionicLoading.show({
-                template: 'Plotting Tellers...'
+        // Check for results until offers are found -> TODO update to keep checking for new offers
+        var interval = setInterval(function(){
+            Teller.userOffers($scope.transaction.id).then(function (res) {
+                if (res.status === 200) {
+                    if (res.data.data.results.length > 0) {
+                        clearInterval(interval);
+
+                        $ionicLoading.show({
+                                template: 'Plotting Tellers...'
+                            });
+
+                        var options = {timeout: 5000, enableHighAccuracy: true};
+
+                        $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+                            // Create map centred on users position
+                            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                            $window.localStorage.setItem('currentLocation', JSON.stringify(latLng));
+                            $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: latLng});
+
+                            // Lay down markers
+                            for (var i = 0; i < res.data.data.results.length; i++) {
+                                var id = res.data.data.results[i].id
+                                var lat = res.data.data.results[i].teller_latitude
+                                var lng = res.data.data.results[i].teller_longitude
+                                var mlatLng = new google.maps.LatLng(lat, lng);
+                                var marker = new google.maps.Marker({position: mlatLng, map: $scope.map});
+                                marker.addListener('click', function () {
+                                    $state.go('app.view_offer', {
+                                        id: id
+                                    });
+                                });
+                            }
+
+                            $ionicLoading.hide();
+                        }, function (error) {
+                            alert("Could not get location.");
+                        });
+                    }
+                } else {
+                    clearInterval(interval);
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                }
+            }).catch(function (error) {
+                clearInterval(interval);
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
             });
-
-        var options = {timeout: 5000, enableHighAccuracy: true};
-        $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
-
-            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-            $window.localStorage.setItem('currentLocation', JSON.stringify(latLng));
-            $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 15, center: latLng});
-
-            var marker = new google.maps.Marker({position: latLng, map: $scope.map});
-
-            marker.addListener('click', function () {
-                $state.go('app.view_teller');
-            });
-
-            $ionicLoading.hide();
-        }, function (error) {
-            alert("Could not get location.");
-        });
+        }, 5000);
 
         $scope.twoBack = function () {
             $ionicHistory.goBack(-2);
@@ -162,25 +190,34 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('ViewTellerCtrl', function ($scope, $state, $stateParams, $window, Maps, $ionicHistory) {
+    .controller('ViewOfferCtrl', function ($scope, $state, $ionicPopup, $stateParams, $window, Maps, $ionicHistory, Teller) {
         'use strict';
 
         $scope.data = {};
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
         $scope.tellerBool = JSON.parse($window.localStorage.getItem('tellerBool'));
         $scope.latLng = JSON.parse($window.localStorage.getItem('currentLocation'));
-        $scope.deposit = JSON.parse($window.localStorage.getItem('deposit'));
+        $scope.transaction = JSON.parse($window.localStorage.getItem('tellerTransaction'));
 
-        var point_a = $scope.latLng;
-        var center = {lat: parseFloat(point_a['lat']) + parseFloat(0.01), lng: point_a['lng']};
-        var point_b = {lat: parseFloat(point_a['lat']) + parseFloat(0.01), lng: point_a['lng']};
+        Teller.userOffer($stateParams.id).then(function (res) {
+            if (res.status === 200) {
+                var offer = res.data.data
 
-        var route = {point_a: point_a, center: center, point_b: point_b};
-        $window.localStorage.setItem('route', JSON.stringify(route));
+                var point_a = $scope.latLng;
+                var center = {lat: point_a['lat'], lng: point_a['lng']};
+                var point_b = {lat: offer.teller_latitude, lng: offer.teller_longitude};
 
-        $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
+                var route = {point_a: point_a, center: center, point_b: point_b};
+                $window.localStorage.setItem('route', JSON.stringify(route));
 
-        Maps.route($scope.map2, point_a, point_b);
+                $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
+                Maps.route($scope.map2, point_a, point_b);
+            } else {
+                $ionicPopup.alert({title: "Error", template: res.data.message});
+            }
+        }).catch(function (error) {
+            $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+        });
 
         $scope.acceptDeposit = function () {
             $window.localStorage.setItem('tellerBool', JSON.stringify('active'));
@@ -195,21 +232,4 @@ angular.module('generic-client.controllers.deposit', [])
             });
             $state.go('app.home', {});
         };
-
-        $scope.mapToTeller = function () {
-            $state.go('app.map_to_teller', {});
-        };
     })
-
-    .controller('MapToTellerCtrl', function ($scope, $state, $window, Maps) {
-        'use strict';
-
-        $scope.data = {};
-        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
-        var route = JSON.parse($window.localStorage.getItem('route'));
-
-        $scope.map3 = new google.maps.Map(document.getElementById('map3'), {zoom: 4, center: route['center']});
-
-        Maps.route($scope.map3, route['point_a'], route['point_b']);
-    });
-

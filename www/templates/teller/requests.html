@@ -4,9 +4,9 @@
         <div class="list-default">
 
             <div class="item background-light">
-                <b>Deposits</b>
+                <b>Transactions</b>
             </div>
-            <div ng-repeat="dep in deposits">
+            <div ng-repeat="tx in transactions">
                 <div ui-sref="app.teller_view_request">
                     <div class="item item-profile no-padding">
                         <div class="row">
@@ -16,35 +16,14 @@
 
                             <div class="row default-top">
                                 <div class="col-90 align-left">
-                                    {{ dep.request }}
-                                    <p>{{ dep.distance }}</p>
+                                    {{ tx.currency }} {{ tx.amount }} at a {{ tx.fee }} fee
+                                    <p>{{ tx.note }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="item background-light">
-                <b>Withdrawals</b>
-            </div>
-
-            <div ng-repeat="wit in withdrawals">
-                <div class="item item-profile no-padding">
-                    <div class="row">
-                        <div class="col col-20">
-                            <img class="circle-base profile-teller" src="img/profile_3.jpg"/>
-                        </div>
-
-                        <div class="row default-top">
-                            <div class="col-90 align-left">
-                                {{ wit.request }}
-                                <p>{{ wit.distance }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </ion-content>
     <ion-infinite-scroll on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>

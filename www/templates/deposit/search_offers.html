@@ -4,16 +4,16 @@
             Cancel&nbsp;
         </button>
     </ion-nav-buttons>
-    <form name="SearchTellerForm" method="post" novalidate>
+    <form name="SearchOfferForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="container-default-background">
                 <div class="row">
                     <div class="col col-100">
                         <div class="row">
-                            <h4>We're searching for Tellers</h4>
+                            <h4>We're searching for Offers</h4>
                         </div>
                         <div class="row">
-                            <p>You've placed a deposit request of {{ currency.symbol }} {{ deposit.amount | number:2 }} and offered a {{ currency.symbol }} {{ deposit.fee | number:2 }} convenience fee.</p>
+                            <p>You've placed a deposit request of {{ currency.symbol }} {{ transaction.amount }} and offered a {{ currency.symbol }} {{ transaction.fee | number:2 }} convenience fee.</p>
                         </div>
                     </div>
                 </div>
