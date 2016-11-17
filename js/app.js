@@ -35,8 +35,8 @@ angular.module('generic-client', ['ionic',
     //.constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
     .constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
     .constant('REFRESH_INTERVAL', 3000)
-    //.constant('COMPANY', 'test_company_1')
-    .constant('COMPANY', 'fundo_test_6')
+    .constant('COMPANY', 'test_company_1')
+    //.constant('COMPANY', 'fundo_test_6')
 
 
     .config(function ($httpProvider, $ionicConfigProvider, $compileProvider) {
@@ -363,66 +363,62 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.teller_process', {
-                url: '/teller_process',
+            .state('app.teller_transactions', {
+                url: '/teller_transactions',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/teller/process.html',
-                        controller: 'TellerProcessCtrl'
+                        templateUrl: 'templates/teller/transactions.html',
+                        controller: 'TellerTransactionsCtrl'
+                    }
+                }
+            })
+
+            .state('app.teller_view_transaction', {
+                url: '/teller_view_transaction',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/view_transaction.html',
+                        controller: 'TellerViewTransactionCtrl'
                     }
                 },
                 params: {
-                    code: null
+                    id: null
                 }
             })
 
-            .state('app.teller_confirm', {
-                url: '/teller_confirm',
+            .state('app.teller_offers', {
+                url: '/teller_offers',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/teller/confirm.html',
-                        controller: 'TellerConfirmCtrl'
+                        templateUrl: 'templates/teller/offers.html',
+                        controller: 'TellerOffersCtrl'
                     }
                 }
             })
 
-            .state('app.teller_success', {
-                url: '/teller_success',
+            .state('app.teller_confirm_offer', {
+                url: '/teller_confirm_offer',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/teller/success.html',
-                        controller: 'TellerSuccessCtrl'
+                        templateUrl: 'templates/teller/confirm_offer.html',
+                        controller: 'TellerConfirmOffersCtrl'
                     }
+                },
+                params: {
+                    id: null
                 }
             })
 
-            .state('app.teller_requests', {
-                url: '/teller_requests',
+            .state('app.teller_create_offer', {
+                url: '/teller_create_offer',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/teller/requests.html',
-                        controller: 'TellerRequestsCtrl'
+                        templateUrl: 'templates/teller/create_offer.html',
+                        controller: 'TellerCreateOfferCtrl'
                     }
-                }
-            })
-
-            .state('app.teller_view_request', {
-                url: '/teller_view_request',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/teller/view_request.html',
-                        controller: 'TellerViewRequestCtrl'
-                    }
-                }
-            })
-
-            .state('app.teller_matches', {
-                url: '/teller_matches',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/teller/matches.html',
-                        controller: 'TellerMatchesCtrl'
-                    }
+                },
+                params: {
+                    id: null
                 }
             })
 

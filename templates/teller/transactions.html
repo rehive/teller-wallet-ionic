@@ -7,7 +7,7 @@
                 <b>Transactions</b>
             </div>
             <div ng-repeat="tx in transactions">
-                <div ui-sref="app.teller_view_request">
+                <div ui-sref="app.teller_view_transaction({id: tx.id})">
                     <div class="item item-profile no-padding">
                         <div class="row">
                             <div class="col col-20">
