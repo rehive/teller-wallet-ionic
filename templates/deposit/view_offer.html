@@ -150,12 +150,12 @@
         </ion-footer-bar>
 
         <div ng-if="tellerBool != 'active'">
-            <button class="bar bar-footer high-footer" ng-click="acceptDeposit()">
+            <button class="bar bar-footer high-footer" ng-click="accept()">
                 <h1 class="title">Accept</h1>
             </button>
         </div>
         <div ng-if="tellerBool == 'active'">
-            <button class="bar bar-footer high-footer cancel" ng-click="cancelDeposit()">
+            <button class="bar bar-footer high-footer cancel" ng-click="cancel()">
                 <h1 class="title">Cancel</h1>
             </button>
         </div>
