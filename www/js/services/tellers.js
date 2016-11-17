@@ -5,7 +5,7 @@ angular.module('generic-client.services.tellers', [])
         'use strict';
         var self = this;
 
-        self.activate = function () {
+        self.activate = function (latitude, longitude) {
             return $http.put(COMPANY_API + '/user/', {
                 teller: true,
                 latitude: -33.935549,
