@@ -1,15 +1,14 @@
 <ion-view view-title="Amount">
-    <form name="tellerProcessForm" method="post" novalidate>
+    <form name="tellerConfirmForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="list">
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Payment code</span>
                     <input name="code" ng-model="data.code" type="text"
-                           placeholder="Unique code, mobile number or email address" required>
+                           placeholder="Unique transaction pin" required>
 
-                    <div ng-messages="tellerProcessForm.code.$error" role="alert" ng-show='tellerProcessForm.$submitted || tellerProcessForm.code.$dirty'>
-                        <div ng-message="required" class="form-error">Please enter a valid code, mobile number or
-                            email address.
+                    <div ng-messages="tellerConfirmForm.code.$error" role="alert" ng-show='tellerConfirmForm.$submitted || tellerConfirmForm.code.$dirty'>
+                        <div ng-message="required" class="form-error">Please enter a valid code
                         </div>
                     </div>
                 </label>
@@ -20,7 +19,7 @@
         <ion-footer-bar class="high-footer bar-dark">
         </ion-footer-bar>
 
-        <button keyboard-attach class="high-footer bar bar-footer" ng-click="submit(tellerProcessForm)">
+        <button keyboard-attach class="high-footer bar bar-footer" ng-click="submit(tellerConfirmForm)">
             <h1 class="title">Next</h1>
         </button>
     </form>

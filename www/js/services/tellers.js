@@ -31,15 +31,38 @@ angular.module('generic-client.services.tellers', [])
             return $http.get(COMPANY_API + '/user/offers/' + offer_id + '/');
         };
 
-        self.tellerTransactions = function () {
-            return $http.get(COMPANY_API + '/teller/transactions/');
-        };
-
         self.deposit = function(amount, fee, currency) {
             return $http.post(COMPANY_API + '/user/transactions/deposit/', {
                 amount: amount,
                 fee: fee,
                 currency: currency.code
+            });
+        };
+
+        self.tellerTransactions = function () {
+            return $http.get(COMPANY_API + '/teller/transactions/');
+        };
+
+        self.tellerOffers = function () {
+            return $http.get(COMPANY_API + '/teller/offers/');
+        };
+
+        self.tellerOffer = function (id) {
+            return $http.get(COMPANY_API + '/teller/offers/' + id + '/');
+        };
+
+        self.tellerCreateOffer = function (id, fee, note) {
+            return $http.post(COMPANY_API + '/teller/offers/', {
+                tx_id: id,
+                fee: fee,
+                note: note
+            });
+        };
+
+        self.tellerConfirmOffer = function (id, pin) {
+            return $http.put(COMPANY_API + '/teller/offers/' + id + '/', {
+                status: "Confirmed",
+                pin: pin
             });
         };
 

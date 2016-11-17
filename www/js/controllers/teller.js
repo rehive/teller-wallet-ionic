@@ -45,31 +45,7 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerProcessCtrl', function ($scope, $state, Teller) {
-        'use strict';
-
-        $scope.submit = function (form) {
-            if (form.$valid) {
-                $state.go('app.teller_confirm');
-            }
-        };
-
-    })
-
-    .controller('TellerConfirmCtrl', function ($scope, $state, Teller) {
-        'use strict';
-
-        $scope.submit = function () {
-            $state.go('app.teller_success');
-        };
-
-    })
-
-    .controller('TellerSuccessCtrl', function ($scope, $state, Teller) {
-        'use strict';
-    })
-
-    .controller('TellerRequestsCtrl', function ($scope, Teller) {
+    .controller('TellerTransactionsCtrl', function ($scope, Teller) {
         'use strict';
 
         $scope.refreshData = function () {
@@ -83,26 +59,92 @@ angular.module('generic-client.controllers.teller', [])
         $scope.refreshData()
     })
 
-    .controller('TellerViewRequestCtrl', function ($state, $scope, Teller) {
+    .controller('TellerViewTransactionCtrl', function ($state, $stateParams, $scope, Teller) {
         'use strict';
 
-        $scope.acceptRequest = function () {
-            $state.go('app.teller_requests');
+        $scope.refreshData = function () {
+            Teller.tellerOffer($stateParams.id).success(
+                function (res) {
+                    $scope.offer = res.data;
+                }
+            );
+        }
+
+        $scope.acceptTransaction = function () {
+            $state.go('app.teller_create_offer', {
+                id: $stateParams.id
+            });
         };
 
-        $scope.declineRequest = function () {
-            $state.go('app.teller_requests');
+        $scope.declineTransaction = function () {
+            $state.go('app.teller');
         };
 
+        $scope.refreshData()
     })
 
-
-    .controller('TellerMatchesCtrl', function ($scope) {
+    .controller('TellerOffersCtrl', function ($scope, Teller) {
         'use strict';
 
-        $scope.deposits = [{
-            'request': 'Earn $2.00 for $100.00 deposit.', 'distance': 'Mark Riley is 20 minutes away.'
-        }];
+        $scope.refreshData = function () {
+            Teller.tellerOffers().success(
+                function (res) {
+                    $scope.offers = res.data.results;
+                }
+            );
+        }
+
+        $scope.refreshData()
+    })
+
+    .controller('TellerCreateOfferCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller) {
+        'use strict';
+
+        $scope.submit = function (form) {
+            $ionicLoading.show({
+                template: 'Creating...'
+            });
+
+            if (form.$valid) {
+                Teller.tellerCreateOffer($stateParams.id, form.fee.$viewValue, form.note.$viewValue).then(function (res) {
+                    if (res.status === 200) {
+                        $ionicLoading.hide();
+                        $state.go('app.teller_offers');
+                    } else {
+                        $ionicLoading.hide();
+                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                    }
+                }).catch(function (error) {
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+                    $ionicLoading.hide();
+                });
+            }
+        };
+    })
+
+    .controller('TellerConfirmOffersCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller) {
+        'use strict';
+
+        $scope.submit = function (form) {
+            $ionicLoading.show({
+                template: 'Processing...'
+            });
+
+            if (form.$valid) {
+                Teller.tellerConfirmOffer($stateParams.id, form.code.$viewValue).then(function (res) {
+                    if (res.status === 200) {
+                        $ionicLoading.hide();
+                        $state.go('app.teller');
+                    } else {
+                        $ionicLoading.hide();
+                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                    }
+                }).catch(function (error) {
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+                    $ionicLoading.hide();
+                });
+            }
+        };
     })
 
     .controller('TellerHistoryCtrl', function () {
