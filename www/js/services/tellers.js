@@ -31,6 +31,12 @@ angular.module('generic-client.services.tellers', [])
             return $http.get(COMPANY_API + '/user/offers/' + offer_id + '/');
         };
 
+        self.userAcceptOffer = function(offer_id) {
+            return $http.put(COMPANY_API + '/user/offers/' + offer_id + '/', {
+                status: "Accepted"
+            });
+        };
+
         self.deposit = function(amount, fee, currency) {
             return $http.post(COMPANY_API + '/user/transactions/deposit/', {
                 amount: amount,
@@ -43,24 +49,28 @@ angular.module('generic-client.services.tellers', [])
             return $http.get(COMPANY_API + '/teller/transactions/');
         };
 
+        self.tellerTransaction = function (tx_id) {
+            return $http.get(COMPANY_API + '/teller/transactions/?id=' + tx_id);
+        };
+
         self.tellerOffers = function () {
             return $http.get(COMPANY_API + '/teller/offers/');
         };
 
-        self.tellerOffer = function (id) {
-            return $http.get(COMPANY_API + '/teller/offers/' + id + '/');
+        self.tellerOffer = function (offer_id) {
+            return $http.get(COMPANY_API + '/teller/offers/' + offer_id + '/');
         };
 
-        self.tellerCreateOffer = function (id, fee, note) {
+        self.tellerCreateOffer = function (tx_id, fee, note) {
             return $http.post(COMPANY_API + '/teller/offers/', {
-                tx_id: id,
+                tx_id: tx_id,
                 fee: fee,
                 note: note
             });
         };
 
-        self.tellerConfirmOffer = function (id, pin) {
-            return $http.put(COMPANY_API + '/teller/offers/' + id + '/', {
+        self.tellerConfirmOffer = function (offer_id, pin) {
+            return $http.put(COMPANY_API + '/teller/offers/' + offer_id + '/', {
                 status: "Confirmed",
                 pin: pin
             });

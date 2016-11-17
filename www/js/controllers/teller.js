@@ -69,9 +69,13 @@ angular.module('generic-client.controllers.teller', [])
         'use strict';
 
         $scope.refreshData = function () {
-            Teller.tellerOffer($stateParams.id).success(
+            Teller.tellerTransaction($stateParams.id).success(
                 function (res) {
-                    $scope.offer = res.data;
+                    if (res.data.count > 0) {
+                        $scope.transaction = res.data.results[0];
+                    } else {
+                        $state.go('app.teller_transactions');
+                    }
                 }
             );
         }
