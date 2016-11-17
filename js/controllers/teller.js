@@ -1,6 +1,6 @@
 angular.module('generic-client.controllers.teller', [])
 
-    .controller('TellerCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, Teller) {
+    .controller('TellerCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $cordovaGeolocation, $window, Teller) {
         'use strict';
         $scope.data = {};
 
@@ -9,18 +9,24 @@ angular.module('generic-client.controllers.teller', [])
                 template: 'Activating...'
             });
 
-            Teller.activate().then(function (res) {
-                if (res.status === 200) {
+            var options = {timeout: 5000, enableHighAccuracy: true};
+
+            $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+                Teller.activate(position.coords.latitude, position.coords.longitude).then(function (res) {
+                    if (res.status === 200) {
+                        $ionicLoading.hide();
+                        $window.localStorage.setItem('tellerMode', JSON.stringify('active'));
+                        $window.location.reload();
+                    } else {
+                        $ionicLoading.hide();
+                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                    }
+                }).catch(function (error) {
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
                     $ionicLoading.hide();
-                    $window.localStorage.setItem('tellerMode', JSON.stringify('active'));
-                    $window.location.reload();
-                } else {
-                    $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
-                }
-            }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
-                $ionicLoading.hide();
+                });
+            }, function (error) {
+                alert("Could not get location.");
             });
         };
 
@@ -29,7 +35,7 @@ angular.module('generic-client.controllers.teller', [])
                 template: 'Deactivating...'
             });
 
-            Teller.activate().then(function (res) {
+            Teller.deactivate().then(function (res) {
                 if (res.status === 200) {
                     $ionicLoading.hide();
                     $window.localStorage.setItem('tellerMode', JSON.stringify('disabled'));
