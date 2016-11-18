@@ -53,8 +53,12 @@ angular.module('generic-client.services.tellers', [])
             return $http.get(COMPANY_API + '/teller/transactions/?id=' + tx_id);
         };
 
-        self.tellerOffers = function () {
-            return $http.get(COMPANY_API + '/teller/offers/');
+        self.tellerOffers = function (status) {
+            if (status !== undefined) {
+                return $http.get(COMPANY_API + '/teller/offers/?status=' + status);
+            } else {
+                return $http.get(COMPANY_API + '/teller/offers/');
+            }
         };
 
         self.tellerOffer = function (offer_id) {
