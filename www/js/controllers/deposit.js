@@ -108,6 +108,10 @@ angular.module('generic-client.controllers.deposit', [])
         'use strict';
         $scope.transaction = $stateParams.transaction
 
+        // Trigger search on page load
+        search();
+
+        // Trigger search every 5 seconds
         $scope.stop = $interval(search, 5000);
 
         var dereg = $scope.$on('$destroy', function() {
@@ -148,10 +152,20 @@ angular.module('generic-client.controllers.deposit', [])
         $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
             var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-            $window.localStorage.setItem('currentLocation', JSON.stringify(latLng));
+            Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
+                if (res.status !== 200) {
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+            });
 
             $scope.map.setCenter(latLng);
 
+            // Trigger search on page load
+            search();
+
+            // Trigger search every 5 seconds
             $scope.stop = $interval(search, 5000);
 
             var dereg = $scope.$on('$destroy', function() {
@@ -202,44 +216,59 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('ViewOfferCtrl', function ($scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $ionicHistory, $interval, Teller) {
+    .controller('ViewOfferCtrl', function ($scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $cordovaGeolocation, $ionicHistory, $interval, Teller) {
         'use strict';
 
         $scope.data = {};
-        $scope.latLng = JSON.parse($window.localStorage.getItem('currentLocation'));
         $scope.offer = $stateParams.offer
 
         // Get offer
         // --------------------------------------------------
 
-        Teller.userOffer($scope.offer.id).then(function (res) {
-            if (res.status === 200) {
-                var offer = res.data.data
-                $scope.offer = offer;
+        var options = {timeout: 5000, enableHighAccuracy: true};
 
-                if ($scope.offer.status === "Confirmed") {
-                    $state.go('app.view_completed_offer', {
-                        offer: $scope.offer
-                    });
-                } else if (offer.status === "Cancelled") {
-                    $state.go('app.view_canclled_offer', {
-                        id: $scope.offer
-                    });
+        $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+            $scope.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+            Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
+                if (res.status !== 200) {
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
                 }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+            });
 
-                var point_a = $scope.latLng;
-                var center = $scope.latLng;
-                var point_b = {lat: $scope.offer.teller_latitude, lng: $scope.offer.teller_longitude};
+            Teller.userOffer($scope.offer.id).then(function (res) {
+                if (res.status === 200) {
+                    var offer = res.data.data
+                    $scope.offer = offer;
 
-                var route = {point_a: point_a, center: center, point_b: point_b};
+                    if ($scope.offer.status === "Confirmed") {
+                        $state.go('app.view_completed_offer', {
+                            offer: $scope.offer
+                        });
+                    } else if (offer.status === "Cancelled") {
+                        $state.go('app.view_canclled_offer', {
+                            id: $scope.offer
+                        });
+                    }
 
-                $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
-                Maps.route($scope.map2, point_a, point_b);
-            } else {
-                $ionicPopup.alert({title: "Error", template: res.data.message});
-            }
-        }).catch(function (error) {
-            $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    var point_a = $scope.latLng;
+                    var center = $scope.latLng;
+                    var point_b = new google.maps.LatLng($scope.offer.teller_latitude, $scope.offer.teller_longitude);
+
+                    var route = {point_a: point_a, center: center, point_b: point_b};
+
+                    $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
+                    Maps.route($scope.map2, point_a, point_b);
+                } else {
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+            });
+        }, function (error) {
+            $ionicPopup.alert({title: "Error", template: "Could not get location."});
         });
 
         // --------------------------------------------------
@@ -248,6 +277,7 @@ angular.module('generic-client.controllers.deposit', [])
         // Automatic check for completed transactions/offers
         // --------------------------------------------------
 
+        // Every 5 seconds
         $scope.stop = $interval(checkOfferStatus, 5000);
 
         var dereg = $scope.$on('$destroy', function() {

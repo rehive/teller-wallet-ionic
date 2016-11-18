@@ -5,11 +5,18 @@ angular.module('generic-client.services.tellers', [])
         'use strict';
         var self = this;
 
+        self.updateLocation = function (latitude, longitude) {
+            return $http.put(COMPANY_API + '/user/', {
+                latitude: latitude,
+                longitude: longitude
+            });
+        };
+
         self.activate = function (latitude, longitude) {
             return $http.put(COMPANY_API + '/user/', {
                 teller: true,
-                latitude: -33.935549,
-                longitude: 18.397933
+                latitude: latitude,
+                longitude: longitude
             });
         };
 

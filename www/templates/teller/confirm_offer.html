@@ -2,6 +2,18 @@
     <form name="tellerConfirmForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="list">
+                <div class="teller-alert">
+                    <div class="row">
+                        <div class="col col-100">
+                            <div class="row center">
+                                <h2><b>{{ offer.transaction.pin }}</b></h2>
+                            </div>
+                            <div class="row center">
+                                <p>Enter the code provided by the transactor.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Payment code</span>
                     <input name="code" ng-model="data.code" type="text"

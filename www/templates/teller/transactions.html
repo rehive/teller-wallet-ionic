@@ -6,8 +6,8 @@
             <div class="item background-light">
                 <b>Transactions</b>
             </div>
-            <div ng-repeat="tx in transactions">
-                <div ui-sref="app.teller_view_transaction({id: tx.id})">
+            <div ng-repeat="transaction in transactions">
+                <div ui-sref="app.teller_view_transaction({id: transaction.id})">
                     <div class="item item-profile no-padding">
                         <div class="row">
                             <div class="col col-20">
@@ -16,8 +16,9 @@
 
                             <div class="row default-top">
                                 <div class="col-90 align-left">
-                                    {{ tx.currency }} {{ tx.amount }} at a {{ tx.fee }} fee
-                                    <p>{{ tx.note }}</p>
+                                    <h2><strong>{{ transaction.tx_type }}</strong></h2>
+                                    <p><b>{{ transaction.currency }} {{ transaction.amount }} at a {{ transaction.fee }} fee</b></p>
+                                    <p>{{ transaction.note }}</p>
                                 </div>
                             </div>
                         </div>
