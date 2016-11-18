@@ -4,19 +4,23 @@ angular.module('generic-client.controllers.deposit', [])
         'use strict';
         $scope.items = [{'title': 'Bank Deposit', 'method': 'bank_deposit'},
             {'title': 'Teller Deposit', 'method': 'teller_deposit'}];
-        var offer = JSON.parse($window.localStorage.getItem('tellerOffer'));
-        var transaction = JSON.parse($window.localStorage.getItem('tellerTransaction'));
+        var transaction = JSON.parse($window.localStorage.getItem('activeTellerDeposit'));
+        var offer = JSON.parse($window.localStorage.getItem('activeTellerDepositOffer'));
 
         $scope.submit = function (method) {
             if (method == 'teller_deposit') {
                 if (offer !== null && offer.id !== undefined) {
                     $state.go('app.view_offer', {
-                        id: offer.id
+                        offer: offer
                     });
                 } else if (transaction !== null && transaction.id !== undefined) {
-                    $state.go('app.search_offers');
+                    $state.go('app.search_offers', {
+                        transaction: transaction
+                    });
                 } else {
-                    $state.go('app.deposit_amount');
+                    $state.go('app.deposit_amount', {
+                        transaction: transaction
+                    });
                 }
             }
             else if (method == 'bank_deposit') {
@@ -82,9 +86,12 @@ angular.module('generic-client.controllers.deposit', [])
 
                 Teller.deposit(Conversions.to_cents(amount), fee, $scope.currency).then(function (res) {
                     if (res.status === 200) {
+                        $window.localStorage.setItem('activeTellerDeposit', JSON.stringify(res.data.data));
                         $ionicLoading.hide();
-                        $window.localStorage.setItem('tellerTransaction', JSON.stringify(res.data.data));
-                        $state.go('app.search_offers');
+
+                        $state.go('app.search_offers',{
+                            transaction: res.data.data
+                        });
                     } else {
                         $ionicLoading.hide();
                         $ionicPopup.alert({title: "Error", template: res.data.message});
@@ -97,10 +104,9 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('SearchOffersCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, $interval, Teller) {
+    .controller('SearchOffersCtrl', function ($scope, $stateParams, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, $interval, Teller) {
         'use strict';
-        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
-        $scope.transaction = JSON.parse($window.localStorage.getItem('tellerTransaction'));
+        $scope.transaction = $stateParams.transaction
 
         $scope.stop = $interval(search, 5000);
 
@@ -114,7 +120,9 @@ angular.module('generic-client.controllers.deposit', [])
                 if (res.status === 200) {
                     if (res.data.data.count > 0) {
                         $interval.cancel($scope.stop);
-                        $state.go('app.select_offer');
+                        $state.go('app.select_offer', {
+                            transaction: $scope.transaction
+                        });
                     }
                 } else {
                     $interval.cancel($scope.stop);
@@ -131,8 +139,7 @@ angular.module('generic-client.controllers.deposit', [])
         'use strict';
 
         $scope.data = {};
-        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
-        $scope.transaction = JSON.parse($window.localStorage.getItem('tellerTransaction'));
+        $scope.transaction = $stateParams.transaction
         $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 12});
         $scope.mappedOffers = []
 
@@ -167,7 +174,7 @@ angular.module('generic-client.controllers.deposit', [])
 
                             marker.addListener('click', function () {
                                 $state.go('app.view_offer', {
-                                    id: offer.id
+                                    offer: offer
                                 });
                             });
 
@@ -195,23 +202,34 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('ViewOfferCtrl', function ($scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $ionicHistory, Teller) {
+    .controller('ViewOfferCtrl', function ($scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $ionicHistory, $interval, Teller) {
         'use strict';
 
         $scope.data = {};
-        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
         $scope.latLng = JSON.parse($window.localStorage.getItem('currentLocation'));
-        $scope.offer = JSON.parse($window.localStorage.getItem('tellerOffer'));
-        $scope.transaction = JSON.parse($window.localStorage.getItem('tellerTransaction'));
+        $scope.offer = $stateParams.offer
 
-        Teller.userOffer($stateParams.id).then(function (res) {
+        // Get offer
+        // --------------------------------------------------
+
+        Teller.userOffer($scope.offer.id).then(function (res) {
             if (res.status === 200) {
                 var offer = res.data.data
                 $scope.offer = offer;
 
+                if ($scope.offer.status === "Confirmed") {
+                    $state.go('app.view_completed_offer', {
+                        offer: $scope.offer
+                    });
+                } else if (offer.status === "Cancelled") {
+                    $state.go('app.view_canclled_offer', {
+                        id: $scope.offer
+                    });
+                }
+
                 var point_a = $scope.latLng;
                 var center = $scope.latLng;
-                var point_b = {lat: offer.teller_latitude, lng: offer.teller_longitude};
+                var point_b = {lat: $scope.offer.teller_latitude, lng: $scope.offer.teller_longitude};
 
                 var route = {point_a: point_a, center: center, point_b: point_b};
 
@@ -224,22 +242,52 @@ angular.module('generic-client.controllers.deposit', [])
             $ionicPopup.alert({title: 'Authentication failed', template: error.message});
         });
 
+        // --------------------------------------------------
+
+
+        // Automatic check for completed transactions/offers
+        // --------------------------------------------------
+
+        $scope.stop = $interval(checkOfferStatus, 5000);
+
+        var dereg = $scope.$on('$destroy', function() {
+            $interval.cancel($scope.stop);
+            dereg();
+        });
+
+        function checkOfferStatus() {
+            Teller.userOffer($scope.offer.id).then(function (res) {
+                if (res.status === 200) {
+                    $scope.offer = res.data.data
+
+                    if ($scope.offer.status === "Confirmed") {
+                        $state.go('app.view_completed_offer', {
+                            id: $scope.offer.id
+                        });
+                    } else if ($scope.offer.status === "Cancelled") {
+                        $state.go('app.view_cancelled_offer', {
+                            id: $scope.offer.id
+                        });
+                    }
+                }
+            }).catch(function (error) {
+                $interval.cancel($scope.stop);
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+            });
+        }
+
+        // --------------------------------------------------
+
         $scope.accept = function () {
             $ionicLoading.show({
                 template: 'Accepting...'
             });
 
-            Teller.userAcceptOffer($stateParams.id).then(function (res) {
+            Teller.userAcceptOffer($scope.offer.id).then(function (res) {
                 if (res.status === 200) {
-                    var offer = res.data.data
-                    $window.localStorage.setItem('tellerOffer', JSON.stringify(offer));
-
-                    // TO DO :
-                    // Update to show different page if `tellerOffer` is set
-                    // Accept button should not be present/replace with cancel button
-
-                    // Handle post accept/confirm
-
+                    $scope.offer = res.data.data
+                    $window.localStorage.setItem('activeTellerDepositOffer', JSON.stringify(res.data.data));
+                    $ionicLoading.hide();
                 } else {
                     $ionicLoading.hide();
                     $ionicPopup.alert({title: "Error", template: res.data.message});
@@ -258,3 +306,19 @@ angular.module('generic-client.controllers.deposit', [])
             $state.go('app.home', {});
         };
     })
+
+    .controller('ViewCompletedOfferCtrl', function ($scope, $window, $state, $stateParams) {
+        'use strict';
+
+        $scope.offer = $stateParams.offer;
+        $window.localStorage.removeItem('activeTellerDeposit');
+        $window.localStorage.removeItem('activeTellerDepositOffer');
+    })
+
+    .controller('ViewCancelledOfferCtrl', function ($scope, $window, $state, $stateParams) {
+        'use strict';
+
+        $scope.offer = $stateParams.offer;
+        $window.localStorage.removeItem('activeTellerDeposit');
+        $window.localStorage.removeItem('activeTellerDepositOffer');
+    });

@@ -4,10 +4,31 @@
         <div class="list-default">
 
             <div class="item background-light">
-                <b>Offers</b>
+                <b>Accepted Offers</b>
             </div>
-            <div ng-repeat="offer in offers">
+            <div ng-repeat="offer in acceptedOffers">
                 <div ui-sref="app.teller_confirm_offer({id: offer.id})">
+                    <div class="item item-profile no-padding">
+                        <div class="row">
+                            <div class="col col-20">
+                                <img class="circle-base profile-teller" src="img/profile_2.jpg"/>
+                            </div>
+
+                            <div class="row default-top">
+                                <div class="col-90 align-left">
+                                    {{ offer.id }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item background-light">
+                <b>Pending Offers</b>
+            </div>
+            <div ng-repeat="offer in pendingOffers">
+                <div>
                     <div class="item item-profile no-padding">
                         <div class="row">
                             <div class="col col-20">
@@ -25,5 +46,4 @@
             </div>
         </div>
     </ion-content>
-    <ion-infinite-scroll on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
 </ion-view>

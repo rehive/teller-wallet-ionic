@@ -322,7 +322,7 @@ angular.module('generic-client', ['ionic',
                     }
                 },
                 params: {
-                    id: null
+                    transaction: null
                 }
             })
 
@@ -335,7 +335,7 @@ angular.module('generic-client', ['ionic',
                     }
                 },
                 params: {
-                    id: null
+                    transaction: null
                 }
             })
 
@@ -348,7 +348,33 @@ angular.module('generic-client', ['ionic',
                     }
                 },
                 params: {
-                    id: null
+                    offer: null
+                }
+            })
+
+            .state('app.view_completed_offer', {
+                url: '/view_completed_offer',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/deposit/view_completed_offer.html',
+                        controller: 'ViewCompletedOfferCtrl'
+                    }
+                },
+                params: {
+                    offer: null
+                }
+            })
+
+            .state('app.view_cancelled_offer', {
+                url: '/view_cancelled_offer',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/deposit/view_cancelled_offer.html',
+                        controller: 'ViewCancelledOfferCtrl'
+                    }
+                },
+                params: {
+                    offer: null
                 }
             })
 

@@ -1,11 +1,4 @@
 <ion-view>
-    <div ng-if="tellerBool != 'active'">
-        <ion-nav-buttons side="right">
-            <button class="button button-clear" ng-click="cancel()">
-                Cancel&nbsp;
-            </button>
-        </ion-nav-buttons>
-    </div>
     <form name="depositForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="teller-container background-light">
@@ -16,12 +9,10 @@
                     <div class="col col-80">
                         <div class="teller-header">
                             <div class="teller-title"><b>Bob Dylan</b>
-
-                                <div class="teller-sub">is 20 minutes walk away.</div>
+                                <div class="teller-sub">is X minutes walk away.</div>
                             </div>
-                            <div class="teller-sub">
+                            <!--<div class="teller-sub">
                                 <div class="row">
-
                                     <div class="teller-rating">
                                         <img src="img/like.png"/>
                                     </div>
@@ -35,13 +26,13 @@
                                         20
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
             </div>
-            <div ng-if="tellerBool == 'active'">
-                <div class="teller-content background-light">
+            <div ng-if="offer.status === 'Accepted'">
+                <!--<div class="teller-content background-light">
                     <div class="row teller-call">
                         <div class="col col-5"></div>
                         <button class="button block button-call col-40">
@@ -53,32 +44,32 @@
                         </button>
                         <div class="col col-5"></div>
                     </div>
-                </div>
+                </div>-->
                 <div class="teller-alert">
                     <div class="row">
                         <div class="col col-100">
                             <div class="row center">
-                                <h2><b>675 653</b></h2>
+                                <h2><b>{{ offer.transaction.pin }}</b></h2>
                             </div>
-                            <div class="row">
-                                <p>Please present this code in-person to Bob Dylan to complete your deposit.</p>
+                            <div class="row center">
+                                <p>Please present this code in-person to complete your deposit.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="map2" ng-click="mapToTeller()">
+            <div id="map2">
             </div>
             <div class="teller-container-content">
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <p><b>Instructions from Bob</b></p>
+                        <p><b>Instructions from teller</b></p>
                     </span>
                     </div>
                     <div class="row">
                     <span class="col-100 align-left">
-                        <p>Hi there, I'm at the Starbucks until 3pm. You need to be here before then. Thanks.</p>
+                        <p>{{ offer.note }}</p>
                     </span>
                     </div>
                 </div>
@@ -93,7 +84,7 @@
                         Amount
                     </span>
                     <span class="col-50 align-right">
-                        {{ currency.symbol }} {{ deposit.amount | number: 2 }}
+                        {{ offer.transaction.currency }} {{ offer.transaction.amount }}
                     </span>
                     </div>
                     <div class="row">
@@ -101,7 +92,7 @@
                         Convenience Fee
                     </span>
                     <span class="col-50 align-right">
-                        {{ currency.symbol }} {{ deposit.fee | number: 2 }}
+                        {{ offer.transaction.currency }} {{ offer.transaction.fee }}
                     </span>
                     </div>
                     <div class="row">
@@ -109,23 +100,14 @@
                         Fundo Fee
                     </span>
                     <span class="col-50 align-right">
-                        {{ currency.symbol }} {{ deposit.fundo_fee | number: 2 }}
+                        {{ offer.transaction.currency }} {{ offer.fee }}
                     </span>
                     </div>
-                    <div class="row">
-                    <span class="col-50 align-left">
-                        Discount
-                    </span>
-                    <span class="col-50 align-right">
-                        {{ currency.symbol }} {{ deposit.discount | number: 2 }}
-                    </span>
-                    </div>
-                    <div class="row">
                     <span class="col-50 align-left">
                         Total
                     </span>
                     <span class="col-50 align-right">
-                        {{ currency.symbol }} {{ deposit.total | number: 2 }}
+                        {{ offer.transaction.currency }} {{ offer.transaction.amount }}
                     </span>
                     </div>
                 </div>
@@ -137,7 +119,7 @@
                     </div>
                     <div class="row">
                     <span class="col-100 align-left">
-                        You must pay {{ currency.symbol }} {{ deposit.total | number: 2 }} cash to make a deposit of {{ currency.symbol }} {{ deposit.amount | number: 2 }}.
+                        You must pay {{ offer.transaction.currency }} {{ offer.transaction.amount }} cash to make a deposit of {{ offer.transaction.currency }} {{ offer.transaction.amount }}.
                     </span>
                     </div>
                 </div>
@@ -149,12 +131,12 @@
         <ion-footer-bar class="bar-dark">
         </ion-footer-bar>
 
-        <div ng-if="tellerBool != 'active'">
+        <div ng-if="offer.status === 'Pending'">
             <button class="bar bar-footer high-footer" ng-click="accept()">
                 <h1 class="title">Accept</h1>
             </button>
         </div>
-        <div ng-if="tellerBool == 'active'">
+        <div ng-if="offer.status === 'Accepted'">
             <button class="bar bar-footer high-footer cancel" ng-click="cancel()">
                 <h1 class="title">Cancel</h1>
             </button>

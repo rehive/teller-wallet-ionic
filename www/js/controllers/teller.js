@@ -2,7 +2,7 @@ angular.module('generic-client.controllers.teller', [])
 
     .controller('TellerCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $cordovaGeolocation, $window, Teller) {
         'use strict';
-        $scope.data = {};
+        $scope.tellerMode = JSON.parse($window.localStorage.getItem('tellerMode'));
 
         $scope.activateTellerMode = function () {
             $ionicLoading.show({
@@ -15,8 +15,8 @@ angular.module('generic-client.controllers.teller', [])
                 Teller.activate(position.coords.latitude, position.coords.longitude).then(function (res) {
                     if (res.status === 200) {
                         $ionicLoading.hide();
-                        $window.localStorage.setItem('tellerMode', JSON.stringify('active'));
-                        $window.location.reload();
+                        $scope.tellerMode = 'enabled';
+                        $window.localStorage.setItem('tellerMode', JSON.stringify($scope.tellerMode));
                     } else {
                         $ionicLoading.hide();
                         $ionicPopup.alert({title: "Error", template: res.data.message});
@@ -38,8 +38,8 @@ angular.module('generic-client.controllers.teller', [])
             Teller.deactivate().then(function (res) {
                 if (res.status === 200) {
                     $ionicLoading.hide();
-                    $window.localStorage.setItem('tellerMode', JSON.stringify('disabled'));
-                    $window.location.reload();
+                    $scope.tellerMode = 'disabled';
+                    $window.localStorage.setItem('tellerMode', JSON.stringify($scope.tellerMode));
                 } else {
                     $ionicLoading.hide();
                     $ionicPopup.alert({title: "Error", template: res.data.message});
@@ -97,9 +97,14 @@ angular.module('generic-client.controllers.teller', [])
         'use strict';
 
         $scope.refreshData = function () {
-            Teller.tellerOffers().success(
+            Teller.tellerOffers("Pending").success(
                 function (res) {
-                    $scope.offers = res.data.results;
+                    $scope.pendingOffers = res.data.results;
+                }
+            );
+            Teller.tellerOffers("Accepted").success(
+                function (res) {
+                    $scope.acceptedOffers = res.data.results;
                 }
             );
         }
@@ -157,6 +162,14 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerHistoryCtrl', function () {
-        'use strict';
+    .controller('TellerHistoryCtrl', function ($scope, Teller) {
+        $scope.refreshData = function () {
+            Teller.tellerOffers().success(
+                function (res) {
+                    $scope.offers = res.data.results;
+                }
+            );
+        }
+
+        $scope.refreshData()
     });
