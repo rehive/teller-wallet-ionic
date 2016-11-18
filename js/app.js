@@ -427,7 +427,20 @@ angular.module('generic-client', ['ionic',
                 views: {
                     'menuContent': {
                         templateUrl: 'templates/teller/confirm_offer.html',
-                        controller: 'TellerConfirmOffersCtrl'
+                        controller: 'TellerConfirmOfferCtrl'
+                    }
+                },
+                params: {
+                    id: null
+                }
+            })
+
+            .state('app.teller_completed_offer', {
+                url: '/teller_completed_offer',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/completed_offer.html',
+                        controller: 'TellerCompletedOfferCtrl'
                     }
                 },
                 params: {

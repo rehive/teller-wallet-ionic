@@ -137,7 +137,7 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerConfirmOffersCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller) {
+    .controller('TellerConfirmOfferCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller) {
         'use strict';
 
         $scope.submit = function (form) {
@@ -149,7 +149,9 @@ angular.module('generic-client.controllers.teller', [])
                 Teller.tellerConfirmOffer($stateParams.id, form.code.$viewValue).then(function (res) {
                     if (res.status === 200) {
                         $ionicLoading.hide();
-                        $state.go('app.teller');
+                        $state.go('app.teller_completed_offer', {
+                            id: $stateParams.id
+                        });
                     } else {
                         $ionicLoading.hide();
                         $ionicPopup.alert({title: "Error", template: res.data.message});
@@ -172,4 +174,9 @@ angular.module('generic-client.controllers.teller', [])
         }
 
         $scope.refreshData()
+    })
+
+    .controller('TellerCompletedOfferCtrl', function ($scope, $window, $state, $stateParams) {
+        'use strict';
+
     });
