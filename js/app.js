@@ -30,14 +30,13 @@ angular.module('generic-client', ['ionic',
     'generic-client.services.tellers',
     'generic-client.filters.contacts'])
 
-    .constant('API', 'http://localhost:8080/api/2')
-    //.constant('API', 'https://rehive.com/api/2')
-    .constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
-    //.constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
+    //.constant('API', 'http://localhost:8080/api/2')
+    .constant('API', 'https://rehive.com/api/2')
+    //.constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
+    .constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
+    //.constant('COMPANY', 'test_company_1')
+    .constant('COMPANY', 'fundo_test_6')
     .constant('REFRESH_INTERVAL', 3000)
-    .constant('COMPANY', 'test_company_1')
-    //.constant('COMPANY', 'fundo_test_6')
-
 
     .config(function ($httpProvider, $ionicConfigProvider, $compileProvider) {
         'use strict';
