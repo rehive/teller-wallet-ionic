@@ -12,7 +12,7 @@ angular.module('generic-client.controllers.teller', [])
             var options = {timeout: 5000, enableHighAccuracy: true};
 
             $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
-                Teller.activate(position.coords.latitude, position.coords.longitude).then(function (res) {
+                Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
                     if (res.status === 200) {
                         $ionicLoading.hide();
                         $scope.tellerMode = 'enabled';
@@ -35,19 +35,9 @@ angular.module('generic-client.controllers.teller', [])
                 template: 'Deactivating...'
             });
 
-            Teller.deactivate().then(function (res) {
-                if (res.status === 200) {
-                    $ionicLoading.hide();
-                    $scope.tellerMode = 'disabled';
-                    $window.localStorage.setItem('tellerMode', JSON.stringify($scope.tellerMode));
-                } else {
-                    $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
-                }
-            }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
-                $ionicLoading.hide();
-            });
+            $ionicLoading.hide();
+            $scope.tellerMode = 'disabled';
+            $window.localStorage.setItem('tellerMode', JSON.stringify($scope.tellerMode));
         };
     })
 
@@ -87,7 +77,7 @@ angular.module('generic-client.controllers.teller', [])
         };
 
         $scope.declineTransaction = function () {
-            $state.go('app.teller');
+            $state.go('app.teller_transactions');
         };
 
         $scope.refreshData()

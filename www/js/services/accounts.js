@@ -27,6 +27,7 @@ angular.module('generic-client.services.accounts', [])
 
                 return res;
             },
+
             //Redirect to login if unauthorised
             responseError: function (res) {
                 if (res.status === 401 || res.status === 403) {

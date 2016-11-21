@@ -12,20 +12,6 @@ angular.module('generic-client.services.tellers', [])
             });
         };
 
-        self.activate = function (latitude, longitude) {
-            return $http.put(COMPANY_API + '/user/', {
-                teller: true,
-                latitude: latitude,
-                longitude: longitude
-            });
-        };
-
-        self.deactivate = function () {
-            return $http.put(COMPANY_API + '/user/', {
-                teller: false
-            });
-        };
-
         self.userTransaction = function (tx_id) {
             return $http.get(COMPANY_API + '/user/transactions/' + tx_id +'/');
         };
@@ -45,6 +31,9 @@ angular.module('generic-client.services.tellers', [])
         };
 
         self.deposit = function(amount, fee, currency) {
+
+            console.log(amount, fee)
+
             return $http.post(COMPANY_API + '/user/transactions/deposit/', {
                 amount: amount,
                 fee: fee,
