@@ -31,9 +31,6 @@ angular.module('generic-client.services.tellers', [])
         };
 
         self.deposit = function(amount, fee, currency) {
-
-            console.log(amount, fee)
-
             return $http.post(COMPANY_API + '/user/transactions/deposit/', {
                 amount: amount,
                 fee: fee,
@@ -61,10 +58,9 @@ angular.module('generic-client.services.tellers', [])
             return $http.get(COMPANY_API + '/teller/offers/' + offer_id + '/');
         };
 
-        self.tellerCreateOffer = function (tx_id, fee, note) {
+        self.tellerCreateOffer = function (tx_id, note) {
             return $http.post(COMPANY_API + '/teller/offers/', {
                 tx_id: tx_id,
-                fee: fee,
                 note: note
             });
         };

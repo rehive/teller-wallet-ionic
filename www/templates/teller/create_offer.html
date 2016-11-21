@@ -3,15 +3,6 @@
         <ion-content class="container-body">
             <div class="list">
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Fee</span>
-                    <input name="fee" ng-model="data.fee" type="number" placeholder="Fee" required>
-                    <div ng-messages="sendForm.fee.$error" role="alert" ng-show='sendForm.$submitted || sendForm.fee.$dirty'>
-                        <div ng-message="required" class="form-error">Please enter an fee.</div>
-                        <div ng-message="number" class="form-error">Please enter valid number.</div>
-                    </div>
-                </label>
-
-                <label class="item item-input item-stacked-label">
                     <span class="input-label">Note</span>
                     <input name="note" ng-model="data.note" type="text" placeholder="Add a short note">
                 </label>
@@ -23,7 +14,7 @@
         </ion-footer-bar>
 
         <button keyboard-attach class="high-footer bar bar-footer" ng-click="submit(tellerCreateForm)">
-            <h1 class="title">Next</h1>
+            <h1 class="title">Confirm</h1>
         </button>
     </form>
 </ion-view>

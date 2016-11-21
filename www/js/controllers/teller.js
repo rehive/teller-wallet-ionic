@@ -111,7 +111,7 @@ angular.module('generic-client.controllers.teller', [])
             });
 
             if (form.$valid) {
-                Teller.tellerCreateOffer($stateParams.id, form.fee.$viewValue, form.note.$viewValue).then(function (res) {
+                Teller.tellerCreateOffer($stateParams.id, form.note.$viewValue).then(function (res) {
                     if (res.status === 200) {
                         $ionicLoading.hide();
                         $state.go('app.teller_offers');
