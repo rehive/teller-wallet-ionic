@@ -325,19 +325,6 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.select_offer', {
-                url: '/select_offer',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/deposit/select_offer.html',
-                        controller: 'SelectOfferCtrl'
-                    }
-                },
-                params: {
-                    transaction: null
-                }
-            })
-
             .state('app.view_offer', {
                 url: '/view_offer',
                 views: {
