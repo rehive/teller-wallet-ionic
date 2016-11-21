@@ -9,9 +9,10 @@
                     <div class="col col-80">
                         <div class="teller-header">
                             <div class="teller-title"><b>Bob Dylan</b>
+
                                 <div class="teller-sub">is X minutes walk away.</div>
                             </div>
-                            <!--<div class="teller-sub">
+                            <div class="teller-sub">
                                 <div class="row">
                                     <div class="teller-rating">
                                         <img src="img/like.png"/>
@@ -26,13 +27,13 @@
                                         20
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div ng-if="offer.status === 'Accepted'">
-                <!--<div class="teller-content background-light">
+                <div class="teller-content background-light">
                     <div class="row teller-call">
                         <div class="col col-5"></div>
                         <button class="button block button-call col-40">
@@ -44,7 +45,7 @@
                         </button>
                         <div class="col col-5"></div>
                     </div>
-                </div>-->
+                </div>
                 <div class="teller-alert">
                     <div class="row">
                         <div class="col col-100">
@@ -64,12 +65,12 @@
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <p><b>Instructions from teller</b></p>
+                        <b>Instructions from teller</b>
                     </span>
                     </div>
                     <div class="row">
                     <span class="col-100 align-left">
-                        <p>{{ offer.note }}</p>
+                        {{ offer.note }}
                     </span>
                     </div>
                 </div>
@@ -103,6 +104,7 @@
                         {{ offer.transaction.currency }} {{ offer.fee }}
                     </span>
                     </div>
+                    <div class="row">
                     <span class="col-50 align-left">
                         Total
                     </span>

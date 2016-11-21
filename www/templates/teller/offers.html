@@ -1,4 +1,9 @@
 <ion-view view-title="Offers">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="cancel()">
+            Cancel&nbsp;
+        </button>
+    </ion-nav-buttons>
     <ion-content class="container-body">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
         <div class="list-default">
@@ -17,7 +22,10 @@
                             <div class="row default-top">
                                 <div class="col-90 align-left">
                                     <h2><strong>{{ offer.transaction.tx_type }}</strong></h2>
-                                    <p><b>{{ offer.transaction.currency }} {{ offer.transaction.amount }} at a {{ offer.transaction.fee }} fee</b></p>
+
+                                    <p><b>{{ offer.transaction.currency }} {{ offer.transaction.amount }} at a {{
+                                        offer.transaction.fee }} fee</b></p>
+
                                     <p>{{ offer.note }}</p>
                                 </div>
                             </div>
@@ -40,7 +48,10 @@
                             <div class="row default-top">
                                 <div class="col-90 align-left">
                                     <h2><strong>{{ offer.transaction.tx_type }}</strong></h2>
-                                    <p><b>{{ offer.transaction.currency }} {{ offer.transaction.amount }} at a {{ offer.transaction.fee }} fee</b></p>
+
+                                    <p><b>{{ offer.transaction.currency }} {{ offer.transaction.amount }} at a {{
+                                        offer.transaction.fee }} fee</b></p>
+
                                     <p>{{ offer.note }}</p>
                                 </div>
                             </div>
