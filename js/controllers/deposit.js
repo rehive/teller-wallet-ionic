@@ -105,48 +105,13 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('SearchOffersCtrl', function ($scope, $stateParams, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, $interval, Teller) {
-        'use strict';
-        $scope.transaction = $stateParams.transaction
-
-        // Trigger search on page load
-        search();
-
-        // Trigger search every 5 seconds
-        $scope.stop = $interval(search, 5000);
-
-        var dereg = $scope.$on('$destroy', function() {
-            $interval.cancel($scope.stop);
-            dereg();
-        });
-
-        function search() {
-            Teller.userOffers($scope.transaction.id).then(function (res) {
-                if (res.status === 200) {
-                    if (res.data.data.count > 0) {
-                        $interval.cancel($scope.stop);
-                        $state.go('app.select_offer', {
-                            transaction: $scope.transaction
-                        });
-                    }
-                } else {
-                    $interval.cancel($scope.stop);
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
-                }
-            }).catch(function (error) {
-                $interval.cancel($scope.stop);
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
-            });
-        }
-    })
-
-    .controller('SelectOfferCtrl', function ($scope, $state, $stateParams, $window, $ionicHistory, $ionicLoading, $cordovaGeolocation, $interval, Teller) {
+    .controller('SearchOffersCtrl', function ($scope, $state, $stateParams, $window, $ionicHistory, $ionicPopup, $ionicLoading, $cordovaGeolocation, $interval, $timeout, Teller) {
         'use strict';
 
-        $scope.data = {};
-        $scope.transaction = $stateParams.transaction
+        $scope.offers = false;
+        $scope.transaction = $stateParams.transaction;
         $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 12});
-        $scope.mappedOffers = []
+        $scope.mappedOffers = [];
 
         var options = {timeout: 5000, enableHighAccuracy: true};
 
@@ -167,10 +132,17 @@ angular.module('generic-client.controllers.deposit', [])
             search();
 
             // Trigger search every 5 seconds
-            $scope.stop = $interval(search, 5000);
+            $scope.interval = $interval(search, 5000);
 
+            // Stop search after 60 seconds
+            $scope.timeout = $timeout(function() {
+                $scope.cancel('No results', "No nearby teller offers were found, please try again later.");
+            }, 60000);
+
+            // Stop interval/timeout functions on page change
             var dereg = $scope.$on('$destroy', function() {
-                $interval.cancel($scope.stop);
+                $interval.cancel($scope.interval);
+                $timeout.cancel($scope.timeout);
                 dereg();
             });
         }, function (error) {
@@ -181,6 +153,8 @@ angular.module('generic-client.controllers.deposit', [])
             Teller.userOffers($scope.transaction.id).then(function (res) {
                 if (res.status === 200) {
                     for (var i = 0; i < res.data.data.results.length; i++) {
+                        $scope.offers = true;
+
                         var offer = res.data.data.results[i]
 
                         if ($scope.mappedOffers.indexOf(offer.id) < 0) {
@@ -206,14 +180,19 @@ angular.module('generic-client.controllers.deposit', [])
             });
         }
 
-        $scope.twoBack = function () {
+        $scope.back = function () {
             $ionicHistory.goBack(-2);
         };
 
-        $scope.submit = function (form) {
-            if (form.$valid) {
-                $state.go('app.select_teller');
+        $scope.cancel = function (title, message) {
+            $window.localStorage.removeItem('activeTellerDeposit');
+            $window.localStorage.removeItem('activeTellerDepositOffer');
+
+            if (title !== undefined && message !== undefined) {
+                $ionicPopup.alert({title: title, template: message});
             }
+
+            $state.go('app.home');
         };
     })
 
@@ -221,7 +200,7 @@ angular.module('generic-client.controllers.deposit', [])
         'use strict';
 
         $scope.data = {};
-        $scope.offer = $stateParams.offer
+        $scope.offer = $stateParams.offer;
 
         // Get offer
         // --------------------------------------------------

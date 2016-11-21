@@ -1,30 +1,42 @@
 <ion-view>
-    <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="cancel()">
-            Cancel&nbsp;
-        </button>
-    </ion-nav-buttons>
-    <form name="SearchOfferForm" method="post" novalidate>
+    <ion-nav-bar>
+        <ion-nav-back-button class="button-clear" ng-click="back()">
+            <i class="icon ion-ios-arrow-back"></i> Back
+        </ion-nav-back-button>
+    </ion-nav-bar>
+
+    <form name="SelectOfferForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="container-default-background">
                 <div class="row">
                     <div class="col col-100">
                         <div class="row">
-                            <h4>We're searching for Tellers</h4>
+                            <h4 ng-if="offers === false">We're searching for Tellers</h4>
+                            <h4 ng-if="offers === true">We found Tellers near you</h4>
                         </div>
                         <div class="row">
                             <p>You've placed a deposit request of {{ currency.symbol }} {{ transaction.amount }} and offered a {{ currency.symbol }} {{ transaction.fee | number:2 }} convenience fee.</p>
                         </div>
                     </div>
                 </div>
-            </div>
                 <div class="row">
-                    <div class="col col-100">
+                    <div class="col col-100" ng-if="offers === false">
                         <center>
                             <ion-spinner></ion-spinner>
                         </center>
                     </div>
                 </div>
+            </div>
+
+            <div id="map"></div>
         </ion-content>
     </form>
+
+    <!-- Footer bar hack to get layout right -->
+    <ion-footer-bar class="high-footer bar-dark">
+    </ion-footer-bar>
+
+    <button class="col col-100 high-footer bar bar-footer cancel" ng-click="cancel()">
+        <h1 class="title">Cancel</h1>
+    </button>
 </ion-view>
