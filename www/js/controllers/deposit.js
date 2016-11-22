@@ -181,7 +181,7 @@ angular.module('generic-client.controllers.deposit', [])
                     }
                 } else {
                     $interval.cancel($scope.stop);
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                    $ionicPopup.alert({title: "Error", template: res.data.data.message});
                 }
             }).catch(function (error) {
                 $interval.cancel($scope.stop);
