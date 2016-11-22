@@ -110,13 +110,21 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.offers = false;
         $scope.transaction = $stateParams.transaction;
-        $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 12});
+        $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 13});
         $scope.mappedOffers = [];
 
         var options = {timeout: 5000, enableHighAccuracy: true};
 
         $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
             var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            $scope.map.setCenter(latLng);
+
+            var pMarker = new google.maps.Marker({
+                position: latLng,
+                title: "You are here",
+                map: $scope.map,
+                icon: 'img/light_blue_map_marker.png'
+            });
 
             Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
                 if (res.status !== 200) {
@@ -126,8 +134,6 @@ angular.module('generic-client.controllers.deposit', [])
                 $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
             });
 
-            $scope.map.setCenter(latLng);
-
             // Trigger search on page load
             search();
 
@@ -136,7 +142,9 @@ angular.module('generic-client.controllers.deposit', [])
 
             // Stop search after 60 seconds
             $scope.timeout = $timeout(function() {
-                $scope.cancel('No results', "No nearby teller offers were found, please try again later.");
+                if ($scope.mappedOffers.length === 0) {
+                    $scope.cancel('No results', "No nearby teller offers were found, please try again later.");
+                }
             }, 60000);
 
             // Stop interval/timeout functions on page change
@@ -146,6 +154,7 @@ angular.module('generic-client.controllers.deposit', [])
                 dereg();
             });
         }, function (error) {
+            console.log(error)
             $ionicPopup.alert({title: "Error", template: "Could not get location."});
         });
 
