@@ -41,11 +41,13 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerTransactionsCtrl', function ($scope, Teller) {
+    .controller('TellerTransactionsCtrl', function ($scope, $window, Teller) {
         'use strict';
 
+        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
+
         $scope.refreshData = function () {
-            Teller.tellerTransactions().success(
+            Teller.tellerTransactions($scope.currency.code).success(
                 function (res) {
                     $scope.transactions = res.data.results;
                 }
@@ -83,16 +85,18 @@ angular.module('generic-client.controllers.teller', [])
         $scope.refreshData()
     })
 
-    .controller('TellerOffersCtrl', function ($scope, Teller) {
+    .controller('TellerOffersCtrl', function ($scope, $window, Teller) {
         'use strict';
 
+        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
+
         $scope.refreshData = function () {
-            Teller.tellerOffers("Pending").success(
+            Teller.tellerOffers($scope.currency.code, "Pending").success(
                 function (res) {
                     $scope.pendingOffers = res.data.results;
                 }
             );
-            Teller.tellerOffers("Accepted").success(
+            Teller.tellerOffers($scope.currency.code, "Accepted").success(
                 function (res) {
                     $scope.acceptedOffers = res.data.results;
                 }
@@ -177,9 +181,12 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerHistoryCtrl', function ($scope, Teller) {
+    .controller('TellerHistoryCtrl', function ($scope, $window, Teller) {
+
+        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
+
         $scope.refreshData = function () {
-            Teller.tellerOffers().success(
+            Teller.tellerOffers($scope.currency.code).success(
                 function (res) {
                     $scope.offers = res.data.results;
                 }
