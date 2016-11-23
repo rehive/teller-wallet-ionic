@@ -114,7 +114,9 @@ angular.module('generic-client.controllers.teller', [])
                 Teller.tellerCreateOffer($stateParams.id, form.note.$viewValue).then(function (res) {
                     if (res.status === 200) {
                         $ionicLoading.hide();
-                        $state.go('app.teller_offers');
+                        $state.go('app.teller_offers', {
+                            offer: res.data.data
+                        });
                     } else {
                         $ionicLoading.hide();
                         $ionicPopup.alert({title: "Error", template: res.data.message});
@@ -127,20 +129,21 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerConfirmOfferCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller) {
+    .controller('TellerViewOfferCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller) {
         'use strict';
 
-        $scope.submit = function (form) {
-            $ionicLoading.show({
-                template: 'Processing...'
-            });
+        $scope.offer = $stateParams.offer;
 
+        $scope.submit = function (form) {
             if (form.$valid) {
-                Teller.tellerConfirmOffer($stateParams.id, form.code.$viewValue).then(function (res) {
+                $ionicLoading.show({
+                    template: 'Processing...'
+                });
+                Teller.tellerConfirmOffer($scope.offer.id, form.code.$viewValue).then(function (res) {
                     if (res.status === 200) {
                         $ionicLoading.hide();
                         $state.go('app.teller_completed_offer', {
-                            id: $stateParams.id
+                            offer: offer
                         });
                     } else {
                         $ionicLoading.hide();
@@ -151,6 +154,26 @@ angular.module('generic-client.controllers.teller', [])
                     $ionicLoading.hide();
                 });
             }
+        };
+
+        $scope.cancel = function () {
+            $ionicLoading.show({
+                template: 'Cancelling...'
+            });
+
+            // Cancel the offer (but leave transaction as is)
+            Teller.tellerCancelOffer($scope.offer.id).then(function (res) {
+                if (res.status === 200) {
+                    $ionicLoading.hide();
+                    $state.go('app.teller_offers');
+                } else {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                $ionicLoading.hide();
+            });
         };
     })
 

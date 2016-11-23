@@ -30,12 +30,12 @@ angular.module('generic-client', ['ionic',
     'generic-client.services.tellers',
     'generic-client.filters.contacts'])
 
-    .constant('API', 'http://localhost:8080/api/2')
-    //.constant('API', 'https://rehive.com/api/2')
-    .constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
-    //.constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
-    .constant('COMPANY', 'test_company_1')
-    //.constant('COMPANY', 'fundo_test_6')
+    //.constant('API', 'http://localhost:8080/api/2')
+    .constant('API', 'https://rehive.com/api/2')
+    //.constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
+    .constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
+    //.constant('COMPANY', 'test_company_1')
+    .constant('COMPANY', 'fundo_test_6')
     .constant('REFRESH_INTERVAL', 3000)
 
     .config(function ($httpProvider, $ionicConfigProvider, $compileProvider) {
@@ -408,16 +408,16 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.teller_confirm_offer', {
-                url: '/teller_confirm_offer',
+            .state('app.teller_view_offer', {
+                url: '/teller_view_offer',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/teller/confirm_offer.html',
-                        controller: 'TellerConfirmOfferCtrl'
+                        templateUrl: 'templates/teller/view_offer.html',
+                        controller: 'TellerViewOfferCtrl'
                     }
                 },
                 params: {
-                    id: null
+                    offer: null
                 }
             })
 
@@ -430,7 +430,7 @@ angular.module('generic-client', ['ionic',
                     }
                 },
                 params: {
-                    id: null
+                    offer: null
                 }
             })
 

@@ -16,6 +16,12 @@ angular.module('generic-client.services.tellers', [])
             return $http.get(COMPANY_API + '/user/transactions/' + tx_id +'/');
         };
 
+        self.userCancelTransaction = function(offer_id) {
+            return $http.put(COMPANY_API + '/user/transactions/' + offer_id + '/', {
+                status: "Cancelled"
+            });
+        };
+
         self.userOffers = function (tx_id) {
             return $http.get(COMPANY_API + '/user/offers/?transaction=' + tx_id);
         };
@@ -27,6 +33,12 @@ angular.module('generic-client.services.tellers', [])
         self.userAcceptOffer = function(offer_id) {
             return $http.put(COMPANY_API + '/user/offers/' + offer_id + '/', {
                 status: "Accepted"
+            });
+        };
+
+        self.userCancelOffer = function(offer_id) {
+            return $http.put(COMPANY_API + '/user/offers/' + offer_id + '/', {
+                status: "Cancelled"
             });
         };
 
@@ -62,6 +74,12 @@ angular.module('generic-client.services.tellers', [])
             return $http.post(COMPANY_API + '/teller/offers/', {
                 tx_id: tx_id,
                 note: note
+            });
+        };
+
+        self.tellerCancelOffer = function(offer_id) {
+            return $http.put(COMPANY_API + '/teller/offers/' + offer_id + '/', {
+                status: "Cancelled"
             });
         };
 
