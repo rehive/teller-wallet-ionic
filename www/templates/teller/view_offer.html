@@ -1,6 +1,21 @@
 <ion-view view-title="Amount">
     <form name="tellerViewForm" method="post" novalidate>
         <ion-content class="container-body">
+            <div class="teller-container background-light">
+                <div class="row">
+                    <div class="col col-20">
+                        <img class="circle-base profile-teller" src="img/profile.jpg"/>
+                    </div>
+                    <div class="col col-80">
+                        <div class="teller-header">
+                            <div class="teller-title">
+                                <b>{{ offer.transaction.user.first_name }} {{ offer.transaction.user.last_name }}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="list" ng-if="offer.status === 'Accepted'">
                 <div class="teller-alert">
                     <div class="row">
