@@ -46,7 +46,7 @@ angular.module('generic-client.services.tellers', [])
             return $http.post(COMPANY_API + '/user/transactions/deposit/', {
                 amount: amount,
                 fee: fee,
-                currency: currency.code
+                currency: currency
             });
         };
 

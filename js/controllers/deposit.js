@@ -170,7 +170,7 @@ angular.module('generic-client.controllers.deposit', [])
                         var offer = res.data.data.results[i]
 
                         if ($scope.mappedOffers.indexOf(offer.id) < 0) {
-                            var mlatLng = new google.maps.LatLng(offer.teller_latitude, offer.teller_longitude);
+                            var mlatLng = new google.maps.LatLng(offer.user.latitude, offer.user.longitude);
                             var marker = new google.maps.Marker({position: mlatLng, map: $scope.map});
 
                             marker.addListener('click', function () {
@@ -260,7 +260,7 @@ angular.module('generic-client.controllers.deposit', [])
 
                     var point_a = $scope.latLng;
                     var center = $scope.latLng;
-                    var point_b = new google.maps.LatLng($scope.offer.teller_latitude, $scope.offer.teller_longitude);
+                    var point_b = new google.maps.LatLng($scope.offer.user.latitude, $scope.offer.user.longitude);
 
                     var route = {point_a: point_a, center: center, point_b: point_b};
 

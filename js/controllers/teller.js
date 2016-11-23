@@ -147,7 +147,7 @@ angular.module('generic-client.controllers.teller', [])
                     if (res.status === 200) {
                         $ionicLoading.hide();
                         $state.go('app.teller_completed_offer', {
-                            offer: offer
+                            offer: $scope.offer
                         });
                     } else {
                         $ionicLoading.hide();
