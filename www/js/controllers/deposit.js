@@ -89,7 +89,7 @@ angular.module('generic-client.controllers.deposit', [])
                 var amount = parseFloat(form.amount.$viewValue);
                 var fee = parseFloat(form.fee.$viewValue);
 
-                Teller.deposit(Conversions.to_cents(amount), Conversions.to_cents(fee), $scope.currency).then(function (res) {
+                Teller.deposit(Conversions.to_cents(amount), Conversions.to_cents(fee), $scope.currency.code).then(function (res) {
                     if (res.status === 200) {
                         $window.localStorage.setItem('activeTellerDeposit', JSON.stringify(res.data.data));
                         $ionicLoading.hide();

@@ -50,19 +50,19 @@ angular.module('generic-client.services.tellers', [])
             });
         };
 
-        self.tellerTransactions = function () {
-            return $http.get(COMPANY_API + '/teller/transactions/');
+        self.tellerTransactions = function (currency) {
+            return $http.get(COMPANY_API + '/teller/transactions/?currency=' + currency);
         };
 
         self.tellerTransaction = function (tx_id) {
             return $http.get(COMPANY_API + '/teller/transactions/?id=' + tx_id);
         };
 
-        self.tellerOffers = function (status) {
+        self.tellerOffers = function (currency, status) {
             if (status !== undefined) {
-                return $http.get(COMPANY_API + '/teller/offers/?status=' + status);
+                return $http.get(COMPANY_API + '/teller/offers/?transaction__currency=' + currency + '&status=' + status);
             } else {
-                return $http.get(COMPANY_API + '/teller/offers/');
+                return $http.get(COMPANY_API + '/teller/offers/?transaction__currency=' + currency);
             }
         };
 

@@ -28,11 +28,9 @@ angular.module('generic-client.controllers.currency_accounts', [])
 
             CurrencyAccounts.set(currency, account, issuer).then(function (res) {
                 if (res.status === 200) {
+                    $window.localStorage.setItem('myCurrency', JSON.stringify(res.data.data.currency));
                     $ionicLoading.hide();
                     $scope.listData();
-                } else {
-                    $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.message});
                 }
             }).catch(function (error) {
                 $ionicPopup.alert({title: 'Authentication failed', template: error.message});
