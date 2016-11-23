@@ -1,0 +1,116 @@
+<ion-view view-title="Amount">
+    <form name="tellerViewForm" method="post" novalidate>
+        <ion-content class="container-body">
+            <div class="list" ng-if="offer.status === 'Accepted'">
+                <div class="teller-alert">
+                    <div class="row">
+                        <div class="col col-100">
+                            <div class="row center">
+                                <h2><b>{{ offer.transaction.pin }}</b></h2>
+                            </div>
+                            <div class="row center">
+                                <p>Enter the code provided by the transactor in order to complete this transaction.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Payment code</span>
+                    <input name="code" ng-model="data.code" type="text"
+                           placeholder="Unique transaction pin" required>
+
+                    <div ng-messages="tellerViewForm.code.$error" role="alert" ng-show='tellerViewForm.$submitted || tellerViewForm.code.$dirty'>
+                        <div ng-message="required" class="form-error">Please enter a valid code
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div class="teller-container-content">
+                <div class="teller-content">
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        <b>Instructions from user</b>
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        {{ offer.transaction.note }}
+                    </span>
+                    </div>
+                </div>
+                <div class="teller-content">
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        <b>Deposit Details</b>
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Amount
+                    </span>
+                    <span class="col-50 align-right">
+                        {{ offer.transaction.currency }} {{ offer.transaction.amount }}
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Convenience Fee
+                    </span>
+                    <span class="col-50 align-right">
+                        {{ offer.transaction.currency }} {{ offer.transaction.fee }}
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Fundo Fee
+                    </span>
+                    <span class="col-50 align-right">
+                        {{ offer.transaction.currency }} {{ offer.transaction.fee }}
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-50 align-left">
+                        Total
+                    </span>
+                    <span class="col-50 align-right">
+                        {{ offer.transaction.currency }} {{ offer.transaction.amount }}
+                    </span>
+                    </div>
+                </div>
+                <div class="teller-content">
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        <b>Summary</b>
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        You must pay {{ offer.transaction.currency }} {{ offer.transaction.amount }} cash to make a deposit of {{ offer.transaction.currency }} {{ offer.transaction.amount }}.
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="teller-footer"></div>
+        </ion-content>
+
+        <!-- Footer bar hack to get layout right -->
+        <ion-footer-bar class="high-footer bar-dark">
+        </ion-footer-bar>
+
+        <div class="row">
+            <div ng-if="offer.status === 'Accepted'">
+                <button class="col col-50 high-footer bar bar-footer cancel" ng-click="cancel()">
+                    <h1 class="title">Cancel</h1>
+                </button>
+                <button class="col col-50 col-offset-50 high-footer bar bar-footer" ng-click="submit(tellerViewForm)">
+                    <h1 class="title">Confirm</h1>
+                </button>
+            </div>
+            <div ng-if="offer.status !== 'Accepted'">
+                <button class="high-footer bar bar-footer cancel" ng-click="cancel()">
+                    <h1 class="title">Cancel</h1>
+                </button>
+            </div>
+        </div>
+    </form>
+</ion-view>

@@ -76,6 +76,10 @@ angular.module('generic-client.controllers.deposit', [])
 
         $scope.submit = function (form) {
             if (form.$valid) {
+                $ionicLoading.show({
+                    template: 'Submitting...'
+                });
+
                 if (form.fee.$viewValue == null) {
                     $scope.fee = 0
                 } else {
@@ -154,7 +158,6 @@ angular.module('generic-client.controllers.deposit', [])
                 dereg();
             });
         }, function (error) {
-            console.log(error)
             $ionicPopup.alert({title: "Error", template: "Could not get location."});
         });
 
@@ -194,14 +197,31 @@ angular.module('generic-client.controllers.deposit', [])
         };
 
         $scope.cancel = function (title, message) {
-            $window.localStorage.removeItem('activeTellerDeposit');
-            $window.localStorage.removeItem('activeTellerDepositOffer');
+            $ionicLoading.show({
+                template: 'Cancelling...'
+            });
 
-            if (title !== undefined && message !== undefined) {
-                $ionicPopup.alert({title: title, template: message});
-            }
+            // Cancel the transaction and any related offers
+            Teller.userCancelTransaction($scope.transaction.id).then(function (res) {
+                if (res.status === 200) {
+                    $window.localStorage.removeItem('activeTellerDeposit');
+                    $window.localStorage.removeItem('activeTellerDepositOffer');
 
-            $state.go('app.home');
+                    // Show error messages if they were parsed
+                    if (title !== undefined && message !== undefined) {
+                        $ionicPopup.alert({title: title, template: message});
+                    }
+
+                    $ionicLoading.hide();
+                    $state.go('app.home');
+                } else {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                $ionicLoading.hide();
+            });
         };
     })
 
@@ -235,10 +255,6 @@ angular.module('generic-client.controllers.deposit', [])
                     if ($scope.offer.status === "Confirmed") {
                         $state.go('app.view_completed_offer', {
                             offer: $scope.offer
-                        });
-                    } else if (offer.status === "Cancelled") {
-                        $state.go('app.view_canclled_offer', {
-                            id: $scope.offer
                         });
                     }
 
@@ -283,11 +299,12 @@ angular.module('generic-client.controllers.deposit', [])
                         $state.go('app.view_completed_offer', {
                             id: $scope.offer.id
                         });
-                    } else if ($scope.offer.status === "Cancelled") {
-                        $state.go('app.view_cancelled_offer', {
-                            id: $scope.offer.id
-                        });
                     }
+                } else if (res.status == 400) {
+                    $ionicPopup.alert({title: 'Error', template: "The offer is no longer valid."});
+                    $state.go('app.search_offers',{
+                        transaction: $scope.offer.transaction
+                    });
                 }
             }).catch(function (error) {
                 $interval.cancel($scope.stop);
@@ -318,11 +335,24 @@ angular.module('generic-client.controllers.deposit', [])
         };
 
         $scope.cancel = function () {
-            $ionicHistory.nextViewOptions({
-                disableAnimate: true,
-                disableBack: true
+            $ionicLoading.show({
+                template: 'Cancelling...'
             });
-            $state.go('app.home', {});
+
+            // Cancel the offer (but leave transaction as is)
+            Teller.userCancelOffer($scope.offer.id).then(function (res) {
+                if (res.status === 200) {
+                    $window.localStorage.removeItem('activeTellerDepositOffer');
+                    $ionicLoading.hide();
+                    $state.go('app.search_offers');
+                } else {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                $ionicLoading.hide();
+            });
         };
     })
 

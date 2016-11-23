@@ -7,12 +7,11 @@
     <ion-content class="container-body">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
         <div class="list-default">
-
             <div class="item background-light">
                 <b>Accepted Offers</b>
             </div>
             <div ng-repeat="offer in acceptedOffers">
-                <div ui-sref="app.teller_confirm_offer({id: offer.id})">
+                <div ui-sref="app.teller_view_offer({offer: offer})">
                     <div class="item item-profile no-padding">
                         <div class="row">
                             <div class="col col-20">
@@ -38,7 +37,7 @@
                 <b>Pending Offers</b>
             </div>
             <div ng-repeat="offer in pendingOffers">
-                <div>
+                <di ui-sref="app.teller_view_offer({offer: offer})">
                     <div class="item item-profile no-padding">
                         <div class="row">
                             <div class="col col-20">
