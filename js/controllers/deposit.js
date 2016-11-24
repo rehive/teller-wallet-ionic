@@ -91,7 +91,14 @@ angular.module('generic-client.controllers.deposit', [])
 
                 Teller.deposit(Conversions.to_cents(amount), Conversions.to_cents(fee), $scope.currency.code).then(function (res) {
                     if (res.status === 200) {
-                        $window.localStorage.setItem('activeTellerDeposit', JSON.stringify(res.data.data));
+                        $scope.transaction = res.data.data
+
+                        console.log($scope.transaction)
+
+                        $scope.transaction.amount = Conversions.from_cents($scope.transaction.amount)
+                        $scope.transaction.fee = Conversions.from_cents($scope.transaction.fee)
+
+                        $window.localStorage.setItem('activeTellerDeposit', JSON.stringify($scope.transaction));
                         $ionicLoading.hide();
 
                         $state.go('app.search_offers',{
@@ -225,7 +232,7 @@ angular.module('generic-client.controllers.deposit', [])
         };
     })
 
-    .controller('ViewOfferCtrl', function ($scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $cordovaGeolocation, $ionicHistory, $interval, Teller) {
+    .controller('ViewOfferCtrl', function ($scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $cordovaGeolocation, $ionicHistory, $interval, Teller, Conversions) {
         'use strict';
 
         $scope.data = {};
@@ -249,8 +256,9 @@ angular.module('generic-client.controllers.deposit', [])
 
             Teller.userOffer($scope.offer.id).then(function (res) {
                 if (res.status === 200) {
-                    var offer = res.data.data
-                    $scope.offer = offer;
+                    $scope.offer = res.data.data
+                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
+                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
 
                     if ($scope.offer.status === "Confirmed") {
                         $state.go('app.view_completed_offer', {
@@ -294,10 +302,12 @@ angular.module('generic-client.controllers.deposit', [])
             Teller.userOffer($scope.offer.id).then(function (res) {
                 if (res.status === 200) {
                     $scope.offer = res.data.data
+                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
+                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
 
                     if ($scope.offer.status === "Confirmed") {
                         $state.go('app.view_completed_offer', {
-                            id: $scope.offer.id
+                            id: $scope.offer
                         });
                     }
                 } else if (res.status == 400) {
@@ -322,7 +332,9 @@ angular.module('generic-client.controllers.deposit', [])
             Teller.userAcceptOffer($scope.offer.id).then(function (res) {
                 if (res.status === 200) {
                     $scope.offer = res.data.data
-                    $window.localStorage.setItem('activeTellerDepositOffer', JSON.stringify(res.data.data));
+                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
+                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
+                    $window.localStorage.setItem('activeTellerDepositOffer', JSON.stringify($scope.offer));
                     $ionicLoading.hide();
                 } else {
                     $ionicLoading.hide();
