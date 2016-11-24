@@ -20,6 +20,12 @@ angular.module('generic-client.controllers.transactions', [])
 
                             for (var i = 0; i < res.data.results.length; i++) {
                                 res.data.results[i].id = i;
+
+                                if (res.data.results[i].metadata.teller !== undefined) {
+                                    var metadata = res.data.results[i].metadata;
+                                    res.data.results[i].description = "Teller " + metadata.type;
+                                }
+
                                 res.data.results[i].amount = Conversions.from_cents(res.data.results[i].amount);
                                 items.push(res.data.results[i]);
                             }
@@ -46,6 +52,12 @@ angular.module('generic-client.controllers.transactions', [])
 
                         for (var i = 0; i < res.data.results.length; i++) {
                             res.data.results[i].id = i;
+
+                            if (res.data.results[i].metadata.teller !== undefined) {
+                                var metadata = res.data.results[i].metadata;
+                                res.data.results[i].description = "Teller " + metadata.type;
+                            }
+
                             res.data.results[i].amount = Conversions.from_cents(res.data.results[i].amount);
                             $scope.items.push(res.data.results[i]);
                         }
