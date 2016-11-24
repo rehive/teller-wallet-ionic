@@ -13,7 +13,8 @@
             <div class="teller-container background-light">
                 <div class="row">
                     <div class="col col-20">
-                        <img class="circle-base profile-teller" src="img/profile_2.jpg"/>
+                        <img ng-if="transaction.user.profile !== null" class="circle-base profile-teller" src="{{ transaction.user.profile }}"/>
+                        <img ng-if="transaction.user.profile === null" class="circle-base profile-teller" src="img/profile.png"/>
                     </div>
                     <div class="col col-80">
                         <div class="teller-header">

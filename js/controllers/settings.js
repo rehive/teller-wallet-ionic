@@ -5,6 +5,20 @@ angular.module('generic-client.controllers.settings', [])
         $scope.data = {};
     })
 
+    .controller('ProfileImageCtrl', function ($rootScope, $window, $scope, $ionicPopup, $ionicModal, $state, $ionicLoading, PersonalDetails, Countries) {
+
+        $scope.submit = function (form) {
+            // $ionicLoading.show({
+            //     template: 'Uploading image...'
+            // });
+
+            if (form.$valid) {
+                console.log(form)
+            }
+        };
+
+    })
+
     .controller('PersonalDetailsCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, PersonalDetails, Countries) {
         'use strict';
 
