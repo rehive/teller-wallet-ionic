@@ -64,6 +64,7 @@ angular.module('generic-client', ['ionic',
             }
         });
 
+        $rootScope.user = JSON.parse($window.localStorage.getItem('user'));
         $rootScope.tellerMode = JSON.parse($window.localStorage.getItem('tellerMode'));
 
         $rootScope.logout = function () {
@@ -671,6 +672,16 @@ angular.module('generic-client', ['ionic',
                     'menuContent': {
                         templateUrl: 'templates/settings/index.html',
                         controller: 'SettingsCtrl'
+                    }
+                }
+            })
+
+            .state('app.profile_image', {
+                url: '/profile_image',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/settings/profile_image.html',
+                        controller: 'ProfileImageCtrl'
                     }
                 }
             })

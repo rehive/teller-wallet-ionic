@@ -1,0 +1,23 @@
+<ion-view view-title="Profile image">
+    <div ng-controller="ProfileImageCtrl">
+        <form name="profileImageForm" method="post" novalidate>
+            <ion-content class="container-body">
+                <center>
+                    <div class="col col-20">
+                        <img ng-if="user.profile !== null" class="circle-base profile-teller" src="{{ user.profile }}"/>
+                        <img ng-if="user.profile === null" class="circle-base profile-teller" src="img/profile.png"/>
+                    </div>
+                </center>
+            </ion-content>
+
+            <!-- Footer bar hack to get layout right -->
+            <ion-footer-bar class="high-footer bar-dark">
+            </ion-footer-bar>
+
+            <button keyboard-attach class="high-footer bar bar-footer" ng-click="submit(profileImageForm)"
+                    linked="clickMe">
+                <h1 class="title">Save</h1>
+            </button>
+        </form>
+    </div>
+</ion-view>
