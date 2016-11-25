@@ -3,6 +3,34 @@ angular.module('generic-client.controllers.transactions', [])
     .controller('TransactionsCtrl', function ($scope, $state, $http, $window, $ionicModal, $ionicLoading, Transaction, Balance, Conversions) {
         'use strict';
 
+        $scope.cleanTransactionDetails = function (transaction) {
+            transaction.id = i;
+
+            // If a teller deposit/withdraw
+            if (transaction.metadata.teller !== undefined) {
+                transaction.description = "Teller " + transaction.metadata.type;
+
+                if (transaction.metadata.type === "deposit") {
+                    transaction.amount = Conversions.from_cents(transaction.amount);
+                    transaction.fee = Conversions.from_cents(transaction.fee);
+                    transaction.metadata.fee = Conversions.from_cents(transaction.metadata.fee);
+                } else if (transaction.metadata.type === "withdraw") {
+                    if (transaction.amount > 0) {
+                        transaction.amount = Conversions.from_cents((transaction.amount - transaction.metadata.fee));
+                    } else {
+                        transaction.amount = Conversions.from_cents((transaction.amount + transaction.metadata.fee));
+                    }
+                    transaction.metadata.fee = Conversions.from_cents(transaction.metadata.fee);
+                    transaction.fee = Conversions.from_cents(transaction.fee);
+                }
+            // Normal transactions
+            } else {
+                transaction.amount = Conversions.from_cents(transaction.amount);
+            }
+
+            return transaction;
+        };
+
         $scope.refreshData = function () {
             var getBalance = Balance.get();
 
@@ -16,22 +44,14 @@ angular.module('generic-client.controllers.transactions', [])
 
                     getTransactions.success(
                         function (res) {
-                            var items = [];
+                            $scope.items = [];
 
                             for (var i = 0; i < res.data.results.length; i++) {
-                                res.data.results[i].id = i;
-
-                                if (res.data.results[i].metadata.teller !== undefined) {
-                                    var metadata = res.data.results[i].metadata;
-                                    res.data.results[i].description = "Teller " + metadata.type;
-                                }
-
-                                res.data.results[i].amount = Conversions.from_cents(res.data.results[i].amount);
-                                items.push(res.data.results[i]);
+                                var transaction = $scope.cleanTransactionDetails(res.data.results[i])
+                                $scope.items.push(transaction);
                             }
 
-                            $scope.items = items;
-                            $window.localStorage.setItem('myTransactions', JSON.stringify(items));
+                            $window.localStorage.setItem('myTransactions', JSON.stringify($scope.items));
                             $scope.nextUrl = res.data.next;
                             $scope.$broadcast('scroll.refreshComplete');
                         }
@@ -49,17 +69,9 @@ angular.module('generic-client.controllers.transactions', [])
             if ($scope.nextUrl) {
                 $http.get($scope.nextUrl).success(
                     function (res) {
-
                         for (var i = 0; i < res.data.results.length; i++) {
-                            res.data.results[i].id = i;
-
-                            if (res.data.results[i].metadata.teller !== undefined) {
-                                var metadata = res.data.results[i].metadata;
-                                res.data.results[i].description = "Teller " + metadata.type;
-                            }
-
-                            res.data.results[i].amount = Conversions.from_cents(res.data.results[i].amount);
-                            $scope.items.push(res.data.results[i]);
+                            var transaction = $scope.updateTransactionDetails(res.data.results[i])
+                            $scope.items.push(transaction);
                         }
 
                         $scope.nextUrl = res.data.next;

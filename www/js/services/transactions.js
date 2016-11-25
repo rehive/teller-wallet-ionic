@@ -30,7 +30,6 @@ angular.module('generic-client.services.transactions', [])
         };
     })
 
-
     .service('Withdrawal', function ($http, API) {
         'use strict';
         var self = this;
@@ -46,7 +45,6 @@ angular.module('generic-client.services.transactions', [])
         };
     })
 
-
     .service('DepositDetails', function ($http, API) {
         'use strict';
         var self = this;
@@ -55,7 +53,6 @@ angular.module('generic-client.services.transactions', [])
             return $http.get(API + '/accounts/deposits/bank/');
         };
     })
-
 
     .service('Conversions', function ($window) {
         'use strict';

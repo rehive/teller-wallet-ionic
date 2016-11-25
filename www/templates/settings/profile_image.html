@@ -4,8 +4,7 @@
             <ion-content class="container-body">
                 <center>
                     <div class="col col-20">
-                        <img ng-if="user.profile !== null" class="circle-base profile-teller" src="{{ user.profile }}"/>
-                        <img ng-if="user.profile === null" class="circle-base profile-teller" src="img/profile.png"/>
+                        <img class="circle-base profile-teller" ng-src="{{ user.profile || 'img/profile.png' }}"/>
                     </div>
                 </center>
             </ion-content>

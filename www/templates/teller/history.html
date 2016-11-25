@@ -11,14 +11,13 @@
                     <div class="item item-profile no-padding">
                         <div class="row">
                             <div class="col col-20">
-                                <img ng-if="offer.transaction.user.profile !== null" class="circle-base profile-teller" src="{{ offer.transaction.user.profile }}"/>
-                                <img ng-if="offer.transaction.user.profile === null" class="circle-base profile-teller" src="img/profile.png"/>
+                                <img class="circle-base profile-teller" ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
                             </div>
 
                             <div class="row default-top">
                                 <div class="col-90 align-left">
-                                    <h2><strong>{{ offer.transaction.tx_type }}</strong> - {{ offer.transaction.status }}</h2>
-                                    <h2>{{ offer.transaction.tx_type }} </h2>
+                                    <h2><strong>{{ offer.transaction.tx_type }}</strong></h2>
+                                    <h2>{{ offer.transaction.status }}</h2>
                                     <p><b>{{ offer.transaction.currency }} {{ offer.transaction.amount }} at a {{ offer.transaction.fee }} fee</b></p>
                                     <p>{{ offer.note }}</p>
                                 </div>
