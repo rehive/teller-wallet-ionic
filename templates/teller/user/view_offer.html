@@ -4,8 +4,7 @@
             <div class="teller-container background-light">
                 <div class="row">
                     <div class="col col-20">
-                        <img ng-if="offer.user.profile !== null" class="circle-base profile-teller" src="{{ offer.user.profile }}"/>
-                        <img ng-if="offer.user.profile === null" class="circle-base profile-teller" src="img/profile.png"/>
+                        <img class="circle-base profile-teller" ng-src="{{ offer.user.profile || 'img/profile.png' }}"/>
                     </div>
                     <div class="col col-80">
                         <div class="teller-header">
@@ -98,18 +97,10 @@
                     </div>
                     <div class="row">
                     <span class="col-50 align-left">
-                        Fundo Fee
-                    </span>
-                    <span class="col-50 align-right">
-                        {{ offer.transaction.currency }} {{ offer.transaction.fee }}
-                    </span>
-                    </div>
-                    <div class="row">
-                    <span class="col-50 align-left">
                         Total
                     </span>
                     <span class="col-50 align-right">
-                        {{ offer.transaction.currency }} {{ offer.transaction.amount }}
+                        {{ offer.transaction.currency }} {{ offer.transaction.total }}
                     </span>
                     </div>
                 </div>
@@ -121,7 +112,7 @@
                     </div>
                     <div class="row">
                     <span class="col-100 align-left">
-                        You must pay {{ offer.transaction.currency }} {{ offer.transaction.amount }} cash to make a deposit of {{ offer.transaction.currency }} {{ offer.transaction.amount }}.
+                        Pay {{ offer.transaction.currency }} {{ offer.transaction.total }} for a {{ offer.transaction.amount }} {{ offer.transaction.tx_type }}.
                     </span>
                     </div>
                 </div>

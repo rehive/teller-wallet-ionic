@@ -50,6 +50,14 @@ angular.module('generic-client.services.tellers', [])
             });
         };
 
+        self.withdraw = function(amount, fee, currency) {
+            return $http.post(COMPANY_API + '/user/transactions/withdraw/', {
+                amount: amount,
+                fee: fee,
+                currency: currency
+            });
+        };
+
         self.tellerTransactions = function (currency) {
             return $http.get(COMPANY_API + '/teller/transactions/?currency=' + currency);
         };

@@ -15,8 +15,7 @@
                     <div class="item item-profile no-padding">
                         <div class="row">
                             <div class="col col-20">
-                                <img ng-if="offer.transaction.user.profile !== null" class="circle-base profile-teller" src="{{ offer.transaction.user.profile }}"/>
-                                <img ng-if="offer.transaction.user.profile === null" class="circle-base profile-teller" src="img/profile.png"/>
+                                <img class="circle-base profile-teller" ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
                             </div>
 
                             <div class="row default-top">
@@ -42,8 +41,7 @@
                     <div class="item item-profile no-padding">
                         <div class="row">
                             <div class="col col-20">
-                                <img ng-if="offer.transaction.user.profile !== null" class="circle-base profile-teller" src="{{ offer.transaction.user.profile }}"/>
-                                <img ng-if="offer.transaction.user.profile === null" class="circle-base profile-teller" src="img/profile.png"/>
+                                <img class="circle-base profile-teller" ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
                             </div>
 
                             <div class="row default-top">

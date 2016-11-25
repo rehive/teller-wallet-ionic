@@ -298,12 +298,12 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.deposit_amount', {
-                url: '/deposit_amount',
+            .state('app.teller_user_deposit', {
+                url: '/teller_user_deposit',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/deposit/amount.html',
-                        controller: 'DepositAmountCtrl'
+                        templateUrl: 'templates/teller/user/deposit.html',
+                        controller: 'TellerUserDepositAmountCtrl'
                     }
                 },
                 params: {
@@ -313,12 +313,27 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.search_offers', {
-                url: '/search_offers',
+            .state('app.teller_user_withdraw', {
+                url: '/teller_user_withdraw',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/deposit/search_offers.html',
-                        controller: 'SearchOffersCtrl'
+                        templateUrl: 'templates/teller/user/withdraw.html',
+                        controller: 'TellerUserWithdrawAmountCtrl'
+                    }
+                },
+                params: {
+                    amount: null,
+                    currency: null,
+                    fee: null
+                }
+            })
+
+            .state('app.teller_user_search_offers', {
+                url: '/teller_user_search_offers',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/user/search_offers.html',
+                        controller: 'TellerUserSearchOffersCtrl'
                     }
                 },
                 params: {
@@ -326,12 +341,12 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.view_offer', {
-                url: '/view_offer',
+            .state('app.teller_user_view_offer', {
+                url: '/teller_user_view_offer',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/deposit/view_offer.html',
-                        controller: 'ViewOfferCtrl'
+                        templateUrl: 'templates/teller/user/view_offer.html',
+                        controller: 'TellerUserViewOfferCtrl'
                     }
                 },
                 params: {
@@ -339,25 +354,12 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.view_completed_offer', {
-                url: '/view_completed_offer',
+            .state('app.teller_user_view_completed_offer', {
+                url: '/teller_user_view_completed_offer',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/deposit/view_completed_offer.html',
-                        controller: 'ViewCompletedOfferCtrl'
-                    }
-                },
-                params: {
-                    offer: null
-                }
-            })
-
-            .state('app.view_cancelled_offer', {
-                url: '/view_cancelled_offer',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/deposit/view_cancelled_offer.html',
-                        controller: 'ViewCancelledOfferCtrl'
+                        templateUrl: 'templates/teller/user/view_completed_offer.html',
+                        controller: 'TellerUserViewCompletedOfferCtrl'
                     }
                 },
                 params: {

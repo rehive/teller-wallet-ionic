@@ -2,9 +2,13 @@ angular.module('generic-client.controllers.withdraw', [])
 
     .controller('WithdrawToCtrl', function ($scope, $state, $window, $ionicHistory, $stateParams, BitcoinWithdrawalAccount, BankAccount) {
         'use strict';
-        $scope.items = [{'title': 'Bank account', 'accType': 'bank_account'}];
+        $scope.items = [{'title': 'Bank account', 'accType': 'bank_account'},
+                        {'title': 'Teller Withdraw', 'accType': 'teller'}];
         $scope.data = {};
         $scope.accType = $stateParams.accType;
+
+        var transaction = JSON.parse($window.localStorage.getItem('activeTellerWithdraw'));
+        var offer = JSON.parse($window.localStorage.getItem('activeTellerWithdrawOffer'));
 
         if ($stateParams['account']) {
             $ionicHistory.goBack(-2);
@@ -12,7 +16,6 @@ angular.module('generic-client.controllers.withdraw', [])
         }
 
         if ($scope.accType == 'bitcoin_account') {
-
             $scope.listData = function () {
                 BitcoinWithdrawalAccount.list().success(
                     function (res) {
@@ -28,9 +31,7 @@ angular.module('generic-client.controllers.withdraw', [])
 
             };
             $scope.listData();
-        }
-        else if ($scope.accType == 'bank_account') {
-
+        } else if ($scope.accType == 'bank_account') {
             $scope.listData = function () {
                 BankAccount.list().success(
                     function (res) {
@@ -49,18 +50,31 @@ angular.module('generic-client.controllers.withdraw', [])
         }
 
         $scope.submit = function (accType) {
-
-            var withdraw_dict = {
-                accType: accType
-            };
-            var next = 'app.withdraw_to';
-            if (accType == 'bank_account') {
-                next = 'app.withdraw_to_bank_account';
+            if (accType === 'teller') {
+                if (offer !== null && offer.id !== undefined) {
+                    $state.go('app.teller_user_view_offer', {
+                        offer: offer
+                    });
+                } else if (transaction !== null && transaction.id !== undefined) {
+                    $state.go('app.teller_user_search_offers', {
+                        transaction: transaction
+                    });
+                } else {
+                    $state.go('app.teller_user_withdraw');
+                }
+            } else if (accType === 'bank_account') {
+                $state.go('app.withdraw_to_bank_account', {
+                    accType: accType
+                });
+            } else if (accType === 'bitcoin_account') {
+                $state.go('app.withdraw_to_bitcoin_account', {
+                    accType: accType
+                });
+            } else {
+                $state.go('app.withdraw_to', {
+                    accType: accType
+                });
             }
-            else if (accType == 'bitcoin_account') {
-                next = 'app.withdraw_to_bitcoin_account';
-            }
-            $state.go(next, withdraw_dict);
         };
 
     })
