@@ -181,7 +181,7 @@ angular.module('generic-client.controllers.teller', [])
             $ionicHistory.goBack(-2);
         };
 
-        $scope.cancel = function (title, message) {
+        $scope.cancel = function (title=null, message=null) {
             $ionicLoading.show({
                 template: 'Cancelling...'
             });
@@ -189,6 +189,7 @@ angular.module('generic-client.controllers.teller', [])
             // Cancel the transaction and any related offers
             Teller.userCancelTransaction($scope.transaction.id).then(function (res) {
                 if (res.status === 200) {
+                    console.log($scope.transaction)
                     if ($scope.transaction.tx_type == "withdraw") {
                         $window.localStorage.removeItem('activeTellerWithdraw');
                         $window.localStorage.removeItem('activeTellerWithdrawOffer');
@@ -198,7 +199,7 @@ angular.module('generic-client.controllers.teller', [])
                     }
 
                     // Show error messages if they were passed
-                    if (title !== undefined && message !== undefined) {
+                    if (title !== null && message !== null) {
                         $ionicPopup.alert({title: title, template: message});
                     }
 
