@@ -37,7 +37,7 @@ angular.module('generic-client.controllers.teller', [])
                         });
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
                     $ionicPopup.alert({title: 'Authentication failed', template: error.message});
@@ -84,7 +84,7 @@ angular.module('generic-client.controllers.teller', [])
                         });
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
                     $ionicPopup.alert({title: 'Authentication failed', template: error.message});
@@ -120,7 +120,7 @@ angular.module('generic-client.controllers.teller', [])
                     $ionicPopup.alert({title: "Error", template: res.data.message});
                 }
             }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
             });
 
             // Trigger search on page load
@@ -169,7 +169,7 @@ angular.module('generic-client.controllers.teller', [])
                     }
                 } else {
                     $interval.cancel($scope.stop);
-                    $ionicPopup.alert({title: "Error", template: res.data.data.message});
+                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
                 $interval.cancel($scope.stop);
@@ -206,7 +206,7 @@ angular.module('generic-client.controllers.teller', [])
                     $state.go('app.home');
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
                 $ionicPopup.alert({title: 'Authentication failed', template: error.message});
@@ -231,10 +231,10 @@ angular.module('generic-client.controllers.teller', [])
 
             Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
                 if (res.status !== 200) {
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
             });
 
             Teller.userOffer($scope.offer.id).then(function (res) {
@@ -259,7 +259,7 @@ angular.module('generic-client.controllers.teller', [])
                     $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
                     Maps.route($scope.map2, point_a, point_b);
                 } else {
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
                 $ionicPopup.alert({title: 'Authentication failed', template: error.message});
@@ -330,7 +330,7 @@ angular.module('generic-client.controllers.teller', [])
                     $ionicLoading.hide();
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
                 $ionicLoading.hide();
@@ -356,7 +356,7 @@ angular.module('generic-client.controllers.teller', [])
                     $state.go('app.teller_user_search_offers');
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
                 $ionicPopup.alert({title: 'Authentication failed', template: error.message});
@@ -398,10 +398,10 @@ angular.module('generic-client.controllers.teller', [])
                         $window.localStorage.setItem('tellerMode', JSON.stringify($scope.tellerMode));
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
                     $ionicLoading.hide();
                 });
             }, function (error) {
@@ -532,7 +532,7 @@ angular.module('generic-client.controllers.teller', [])
                         });
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
                     $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
@@ -560,7 +560,7 @@ angular.module('generic-client.controllers.teller', [])
                         });
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
                     $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
@@ -581,7 +581,7 @@ angular.module('generic-client.controllers.teller', [])
                     $state.go('app.teller_offers');
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
+                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
                 $ionicPopup.alert({title: 'Authentication failed', template: error.message});
