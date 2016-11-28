@@ -112,7 +112,8 @@ angular.module('generic-client.controllers.teller', [])
                 position: latLng,
                 title: "You are here",
                 map: $scope.map,
-                icon: 'img/light_blue_map_marker.png'
+                icon: 'img/light_blue_map_marker.png',
+                zIndex: 1
             });
 
             Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
@@ -616,4 +617,10 @@ angular.module('generic-client.controllers.teller', [])
         'use strict';
 
         $scope.offer = $stateParams.offer;
+    })
+
+    .filter('capitalize', function() {
+        return function(input) {
+          return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+        }
     });

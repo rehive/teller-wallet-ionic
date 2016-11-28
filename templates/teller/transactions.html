@@ -16,7 +16,7 @@
 
                             <div class="row default-top">
                                 <div class="col-90 align-left">
-                                    <h2><strong>{{ transaction.tx_type }}</strong></h2>
+                                    <h2><strong>{{ transaction.tx_type | capitalize }}</strong></h2>
                                     <p><b>{{ transaction.currency }} {{ transaction.amount }} at a {{ transaction.fee }} fee</b></p>
                                     <p>{{ transaction.note }}</p>
                                 </div>
