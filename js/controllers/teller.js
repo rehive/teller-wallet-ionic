@@ -112,7 +112,8 @@ angular.module('generic-client.controllers.teller', [])
                 position: latLng,
                 title: "You are here",
                 map: $scope.map,
-                icon: 'img/light_blue_map_marker.png'
+                icon: 'img/light_blue_map_marker.png',
+                zIndex: 1
             });
 
             Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
@@ -189,7 +190,6 @@ angular.module('generic-client.controllers.teller', [])
             // Cancel the transaction and any related offers
             Teller.userCancelTransaction($scope.transaction.id).then(function (res) {
                 if (res.status === 200) {
-                    console.log($scope.transaction)
                     if ($scope.transaction.tx_type == "withdraw") {
                         $window.localStorage.removeItem('activeTellerWithdraw');
                         $window.localStorage.removeItem('activeTellerWithdrawOffer');
@@ -198,7 +198,6 @@ angular.module('generic-client.controllers.teller', [])
                         $window.localStorage.removeItem('activeTellerDepositOffer');
                     }
 
-                    // Show error messages if they were passed
                     if (title !== null && message !== null) {
                         $ionicPopup.alert({title: title, template: message});
                     }
@@ -382,6 +381,7 @@ angular.module('generic-client.controllers.teller', [])
 
     .controller('TellerCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $cordovaGeolocation, $window, Teller) {
         'use strict';
+
         $scope.tellerMode = JSON.parse($window.localStorage.getItem('tellerMode'));
 
         $scope.activateTellerMode = function () {
@@ -432,7 +432,6 @@ angular.module('generic-client.controllers.teller', [])
                     $scope.transactions = [];
 
                     for (var i = 0; i < res.data.results.length; i++) {
-
                         res.data.results[i].total = Conversions.from_cents(res.data.results[i].amount + res.data.results[i].fee);
                         res.data.results[i].amount = Conversions.from_cents(res.data.results[i].amount);
                         res.data.results[i].fee = Conversions.from_cents(res.data.results[i].fee);
@@ -592,6 +591,7 @@ angular.module('generic-client.controllers.teller', [])
     })
 
     .controller('TellerHistoryCtrl', function ($scope, $window, Teller, Conversions) {
+        'use strict';
 
         $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
 
@@ -616,4 +616,11 @@ angular.module('generic-client.controllers.teller', [])
     .controller('TellerCompletedOfferCtrl', function ($scope, $window, $state, $stateParams) {
         'use strict';
 
+        $scope.offer = $stateParams.offer;
+    })
+
+    .filter('capitalize', function() {
+        return function(input) {
+          return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+        }
     });
