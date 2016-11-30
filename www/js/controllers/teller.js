@@ -221,94 +221,6 @@ angular.module('generic-client.controllers.teller', [])
         $scope.data = {};
         $scope.offer = $stateParams.offer;
 
-        // Get offer
-        // --------------------------------------------------
-
-        var options = {timeout: 5000, enableHighAccuracy: true};
-
-        $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
-            $scope.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-            Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
-                if (res.status !== 200) {
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
-                }
-            }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
-            });
-
-            Teller.userOffer($scope.offer.id).then(function (res) {
-                if (res.status === 200) {
-                    $scope.offer = res.data.data
-                    $scope.offer.transaction.total = Conversions.from_cents($scope.offer.transaction.amount + $scope.offer.transaction.fee)
-                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
-                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
-
-                    if ($scope.offer.status === "Confirmed") {
-                        $state.go('app.teller_user_view_completed_offer', {
-                            offer: $scope.offer
-                        });
-                    }
-
-                    var point_a = $scope.latLng;
-                    var center = $scope.latLng;
-                    var point_b = new google.maps.LatLng($scope.offer.user.latitude, $scope.offer.user.longitude);
-
-                    var route = {point_a: point_a, center: center, point_b: point_b};
-
-                    $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
-                    Maps.route($scope.map2, point_a, point_b);
-                } else {
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
-                }
-            }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
-            });
-        }, function (error) {
-            $ionicPopup.alert({title: "Error", template: "Could not get location."});
-        });
-
-        // --------------------------------------------------
-
-
-        // Automatic check for completed transactions/offers
-        // --------------------------------------------------
-
-        // Every 5 seconds
-        $scope.stop = $interval(checkOfferStatus, 5000);
-
-        var dereg = $scope.$on('$destroy', function() {
-            $interval.cancel($scope.stop);
-            dereg();
-        });
-
-        function checkOfferStatus() {
-            Teller.userOffer($scope.offer.id).then(function (res) {
-                if (res.status === 200) {
-                    $scope.offer = res.data.data
-                    $scope.offer.transaction.total = Conversions.from_cents($scope.offer.transaction.amount + $scope.offer.transaction.fee)
-                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
-                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
-
-                    if ($scope.offer.status === "Confirmed") {
-                        $state.go('app.teller_user_view_completed_offer', {
-                            offer: $scope.offer
-                        });
-                    }
-                } else if (res.status == 400) {
-                    $ionicPopup.alert({title: 'Error', template: "The offer is no longer valid."});
-                    $state.go('app.teller_user_search_offers',{
-                        transaction: $scope.offer.transaction
-                    });
-                }
-            }).catch(function (error) {
-                $interval.cancel($scope.stop);
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
-            });
-        }
-
-        // --------------------------------------------------
-
         $scope.accept = function () {
             $ionicLoading.show({
                 template: 'Accepting...'
@@ -363,6 +275,105 @@ angular.module('generic-client.controllers.teller', [])
                 $ionicLoading.hide();
             });
         };
+
+        $scope.invalidate = function () {
+            if ($scope.offer.transaction.tx_type == "withdraw") {
+                $window.localStorage.removeItem('activeTellerWithdrawOffer');
+            } else if ($scope.offer.transaction.tx_type == "deposit") {
+                $window.localStorage.removeItem('activeTellerDepositOffer');
+            }
+
+            $ionicPopup.alert({title: 'Error', template: "The offer is no longer valid."});
+            $state.go('app.teller_user_search_offers',{
+                transaction: $scope.offer.transaction
+            });
+        };
+
+        // Get offer
+        // --------------------------------------------------
+
+        var options = {timeout: 5000, enableHighAccuracy: true};
+
+        $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+            $scope.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+            Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
+                if (res.status !== 200) {
+                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+            });
+
+            Teller.userOffer($scope.offer.id).then(function (res) {
+                if (res.status === 200) {
+                    $scope.offer = res.data.data
+                    $scope.offer.transaction.total = Conversions.from_cents($scope.offer.transaction.amount + $scope.offer.transaction.fee)
+                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
+                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
+
+                    if ($scope.offer.status === "Confirmed") {
+                        $state.go('app.teller_user_view_completed_offer', {
+                            offer: $scope.offer
+                        });
+                    }
+
+                    var point_a = $scope.latLng;
+                    var center = $scope.latLng;
+                    var point_b = new google.maps.LatLng($scope.offer.user.latitude, $scope.offer.user.longitude);
+
+                    var route = {point_a: point_a, center: center, point_b: point_b};
+
+                    $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
+                    Maps.route($scope.map2, point_a, point_b);
+                } else {
+                    $scope.invalidate();
+                }
+            }).catch(function (error) {
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+            });
+        }, function (error) {
+            $ionicPopup.alert({title: "Error", template: "Could not get location."});
+        });
+
+        // --------------------------------------------------
+
+
+        // Automatic check for completed transactions/offers
+        // --------------------------------------------------
+
+        // Every 5 seconds
+        $scope.stop = $interval(checkOfferStatus, 5000);
+
+        var dereg = $scope.$on('$destroy', function() {
+            $interval.cancel($scope.stop);
+            dereg();
+        });
+
+        function checkOfferStatus() {
+            Teller.userOffer($scope.offer.id).then(function (res) {
+                if (res.status === 200) {
+                    $scope.offer = res.data.data
+                    $scope.offer.transaction.total = Conversions.from_cents($scope.offer.transaction.amount + $scope.offer.transaction.fee)
+                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
+                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
+
+                    if ($scope.offer.status === "Confirmed") {
+                        $state.go('app.teller_user_view_completed_offer', {
+                            offer: $scope.offer
+                        });
+                    }
+                } else if (res.status == 400) {
+                    $scope.invalidate();
+                }
+            }).catch(function (error) {
+                $interval.cancel($scope.stop);
+                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+            });
+        }
+
+        // --------------------------------------------------
+
     })
 
     .controller('TellerUserViewCompletedOfferCtrl', function ($scope, $window, $state, $stateParams) {
