@@ -90,6 +90,10 @@ angular.module('generic-client.services.accounts', [])
             $window.localStorage.removeItem('user');
             $window.localStorage.removeItem('myTransactions');
             $window.localStorage.removeItem('wiCode');
+            $window.localStorage.removeItem('activeTellerWithdraw');
+            $window.localStorage.removeItem('activeTellerWithdrawOffer');
+            $window.localStorage.removeItem('activeTellerDeposit');
+            $window.localStorage.removeItem('activeTellerDepositOffer');
         };
     })
 
