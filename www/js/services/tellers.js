@@ -31,6 +31,7 @@ angular.module('generic-client.services.tellers', [])
         };
 
         self.userAcceptOffer = function(offer_id) {
+            console.log("Accept offer.");
             return $http.put(COMPANY_API + '/user/offers/' + offer_id + '/', {
                 status: "Accepted"
             });
