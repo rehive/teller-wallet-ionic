@@ -30,12 +30,12 @@ angular.module('generic-client', ['ionic',
     'generic-client.services.tellers',
     'generic-client.filters.contacts'])
 
-    //.constant('API', 'http://localhost:8080/api/2')
-    .constant('API', 'https://rehive.com/api/2')
-    //.constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
-    .constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
-    //.constant('COMPANY', 'test_company_1')
-    .constant('COMPANY', 'fundo_test_6')
+    .constant('API', 'http://localhost:8080/api/2')
+    //.constant('API', 'https://rehive.com/api/2')
+    .constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
+    //.constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
+    .constant('COMPANY', 'test_company_1')
+    //.constant('COMPANY', 'fundo_test_6')
     .constant('REFRESH_INTERVAL', 3000)
 
     .config(function ($httpProvider, $ionicConfigProvider, $compileProvider) {
@@ -47,6 +47,7 @@ angular.module('generic-client', ['ionic',
         //Insert JWT token into all api requests:
         $httpProvider.interceptors.push('authInterceptor');
     })
+
 
     .run(function ($ionicPlatform, $rootScope, $window, $ionicHistory, Auth, $state) {
         $ionicPlatform.ready(function () {
@@ -64,8 +65,11 @@ angular.module('generic-client', ['ionic',
             }
         });
 
-        $rootScope.user = JSON.parse($window.localStorage.getItem('user'));
         $rootScope.tellerMode = JSON.parse($window.localStorage.getItem('tellerMode'));
+
+        if ($window.localStorage.getItem('user')) {
+            $rootScope.user = JSON.parse($window.localStorage.getItem('user'));
+        }
 
         $rootScope.logout = function () {
             Auth.logout();
