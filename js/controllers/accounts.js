@@ -1,6 +1,6 @@
 angular.module('generic-client.controllers.accounts', [])
 
-    .controller('LoginCtrl', function ($scope, $ionicModal, $state, $ionicLoading, $rootScope, User, $ionicPopup, COMPANY) {
+    .controller('LoginCtrl', function ($scope, $window, $ionicModal, $state, $ionicLoading, $rootScope, User, $ionicPopup, COMPANY) {
         'use strict';
 
         $ionicModal.fromTemplateUrl('templates/accounts/signup.html', {
