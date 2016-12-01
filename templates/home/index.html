@@ -12,6 +12,7 @@
     </div>
 
     <ion-content class="custom-header-margin">
+        <ion-refresher on-refresh="refreshData()" spinner="none" on-pulling="none" pulling-icon="none"></ion-refresher>
 
         <div class="custom-body">
             <div ng-if="tellerMode == 'active'">
