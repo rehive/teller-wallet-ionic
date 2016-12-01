@@ -6,21 +6,19 @@
             <div class="item background-light">
                 <b>History</b>
             </div>
-            <div ng-repeat="offer in offers">
-                <div>
-                    <div class="item item-profile no-padding">
-                        <div class="row">
-                            <div class="col col-20">
-                                <img class="circle-base profile-image" ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
+            <div class="block">
+                <div ng-repeat="offer in offers">
+                    <div class="item item-avatar item-icon-left no-padding">
+                        <img class="circle-base profile-image"
+                             ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
+                        <div class="row default-top">
+                            <div class="col col-50 align-left">
+                                <h2>{{ offer.transaction.tx_type | capitalize }}</h2>
+                                <h5>{{ offer.transaction.currency }} {{ offer.transaction.fee }} Earnings</h5>
                             </div>
-
-                            <div class="row default-top">
-                                <div class="col-90 align-left">
-                                    <h2><strong>{{ offer.transaction.tx_type | capitalize }}</strong></h2>
-                                    <h2>{{ offer.status }}</h2>
-                                    <p><b>{{ offer.transaction.currency }} {{ offer.transaction.amount }} at a {{ offer.transaction.fee }} fee</b></p>
-                                    <p>{{ offer.note }}</p>
-                                </div>
+                            <div class="col align-right">
+                                <h3>{{ offer.transaction.currency }} {{ offer.transaction.amount }}</h3>
+                                <h5>{{ offer.created | date:'d MMM yyyy' }} | {{ offer.status }}</h5>
                             </div>
                         </div>
                     </div>
