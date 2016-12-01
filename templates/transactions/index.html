@@ -1,31 +1,43 @@
-<div ng-if="items.length == 0">
-    <div class="container-card">
-        <div class="card">
-            <div class="item item-body">
-                <h2>Welcome to Fundo</h2>
+<ion-content class="custom-header-margin">
+    <ion-refresher on-refresh="refreshData()" spinner="none" on-pulling="none" pulling-icon="none"></ion-refresher>
 
-                <p>Please verify your email address to redeem any unclaimed transactions. Pull to refresh your balance.
-                </p>
+    <div class="custom-body">
+        <div ng-if="tellerMode == 'active'">
+            <div class="teller-active text-center warning">
+                <h4>Teller mode is active.</h4>
             </div>
         </div>
-    </div>
-</div>
-<div ng-if="items.length >= 0">
-    <div class="list-default">
-        <div class="block">
-            <div ng-repeat="item in items">
-                <div class="item item-avatar item-icon-left no-padding">
-                    <img class="circle-base profile-teller" ng-src="{{ item.counterparty.profile || 'img/profile_2.png' }}"/>
-                    <div class="row default-top">
-                        <div class="col col-50 align-left">
-                            <h2>{{ item.description }}</h2>
-                            <h5 ng-if="item.metadata.fee > 0">{{ item.currency.symbol }} {{ item.metadata.fee }} Earnings</h5>
-                            <h4>{{ item.note }}</h4>
-                        </div>
-                        <div class="col align-right">
-                            <h3>{{ item.currency.symbol }} {{ item.amount }}</h3>
-                            <h5 ng-if="item.fee > 0">{{ item.currency.symbol }} {{ item.fee }} Fee</h5>
-                            <h5>{{ item.created | date:'d MMM yyyy' }} | {{ item.status }}</h5>
+
+        <div ng-if="items.length == 0">
+            <div class="container-card">
+                <div class="card">
+                    <div class="item item-body">
+                        <h2>Welcome to Fundo</h2>
+
+                        <p>Please verify your email address to redeem any unclaimed transactions. Pull to refresh your balance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="items.length >= 0">
+            <div class="list-default">
+                <div class="block">
+                    <div ng-repeat="item in items">
+                        <div class="item item-avatar item-icon-left no-padding">
+                            <img class="circle-base profile-teller" ng-src="{{ item.counterparty.profile || 'img/profile_2.png' }}"/>
+                            <div class="row default-top">
+                                <div class="col col-50 align-left">
+                                    <h2>{{ item.description }}</h2>
+                                    <h5 ng-if="item.metadata.fee > 0">{{ item.currency.symbol }} {{ item.metadata.fee }} Earnings</h5>
+                                    <h4>{{ item.note }}</h4>
+                                </div>
+                                <div class="col align-right">
+                                    <h3>{{ item.currency.symbol }} {{ item.amount }}</h3>
+                                    <h5 ng-if="item.fee > 0">{{ item.currency.symbol }} {{ item.fee }} Fee</h5>
+                                    <h5>{{ item.created | date:'d MMM yyyy' }} | {{ item.status }}</h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -34,5 +46,5 @@
     </div>
 
     <ion-infinite-scroll on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
-</div>
+</ion-content>
 
