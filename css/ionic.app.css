@@ -9881,11 +9881,20 @@ a.button {
 .app-side-menu {
   background-color: #C09A00;
   color: #fff; }
+  .app-side-menu h1 {
+    font-size: 16px;
+    color: white; }
   .app-side-menu .item {
     cursor: pointer; }
 
 .app-side-menu-profile {
-  padding-top: 30px; }
+  padding-top: 20px; }
+  .app-side-menu-profile h4 {
+    font-size: 12px;
+    color: white; }
+
+.app-side-menu-details {
+  padding: 10px 0 0 20px; }
 
 .app-side-menu-list {
   position: relative; }
@@ -9940,7 +9949,7 @@ a.button {
     color: #777777; }
 
 .item-avatar {
-  padding-left: 50px; }
+  padding-left: 60px; }
 
 .item-profile {
   padding-left: 0; }
@@ -10077,8 +10086,8 @@ input.ng-invalid, input.ng-dirty {
   border-radius: 50%; }
 
 .profile-image {
-  max-width: 100%;
-  max-height: 100%; }
+  max-width: 60px;
+  max-height: 60px; }
 
 .teller-container {
   padding: 10px 0 0 0; }
