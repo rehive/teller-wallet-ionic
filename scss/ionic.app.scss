@@ -270,13 +270,27 @@ $grey: #ABABAB;
   background-color: $sidebar;
   color: $secondary;
 
+  h1 {
+    font-size: 16px;
+    color: white;
+  }
+
   .item {
     cursor: pointer;
   }
 }
 
 .app-side-menu-profile {
-  padding-top: 30px;
+  padding-top: 20px;
+
+  h4 {
+    font-size: 12px;
+    color: white;
+  }
+}
+
+.app-side-menu-details {
+  padding: 10px 0 0 20px;
 }
 
 .app-side-menu-list {
@@ -372,7 +386,7 @@ $grey: #ABABAB;
 }
 
 .item-avatar {
-  padding-left: 50px;
+  padding-left: 60px;
 }
 
 .item-profile {
@@ -571,9 +585,9 @@ input.ng-invalid, input.ng-dirty {
   border-radius: 50%;
 }
 
-.profile-teller {
-  max-width: 100%;
-  max-height: 100%;
+.profile-image {
+  max-width: 60px;
+  max-height: 60px;
 }
 
 //Teller
