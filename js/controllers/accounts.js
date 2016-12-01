@@ -136,7 +136,7 @@ angular.module('generic-client.controllers.accounts', [])
 
                 $scope.CloseModalForgot();
 
-                User.resetPassword(form.identifier.$viewValue, form.company_id.$viewValue).then(function (res) {
+                User.resetPassword(form.identifier.$viewValue, COMPANY).then(function (res) {
                     $ionicLoading.hide();
 
                     if (res.status === 200) {
