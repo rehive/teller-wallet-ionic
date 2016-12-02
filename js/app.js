@@ -3,6 +3,7 @@ angular.module('generic-client', ['ionic',
     'intlpnIonic',
     'ngMessages',
     'ngFileUpload',
+    'ngImgCrop',
     'ngCordova',
     'generic-client.controllers',
     'generic-client.controllers.accounts',
@@ -624,16 +625,26 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            .state('app.fica_camera_upload', {
-                url: '/fica_proof_of_address',
+            .state('app.fica_image', {
+                url: '/fica_image',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/fica/camera_upload.html',
-                        controller: 'FicaCameraUploadCtrl'
+                        templateUrl: 'templates/fica/image.html',
+                        controller: 'FicaImageCtrl'
+                    }
+                }
+            })
+
+            .state('app.fica_image_upload', {
+                url: '/fica_image_upload',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/fica/image_upload.html',
+                        controller: 'FicaImageUploadCtrl'
                     }
                 },
                 params: {
-                    file: null
+                    fileData: null
                 }
             })
 
@@ -689,6 +700,19 @@ angular.module('generic-client', ['ionic',
                         templateUrl: 'templates/settings/profile_image.html',
                         controller: 'ProfileImageCtrl'
                     }
+                }
+            })
+
+            .state('app.profile_image_upload', {
+                url: '/profile_image_upload',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/settings/profile_image_upload.html',
+                        controller: 'ProfileImageUploadCtrl'
+                    }
+                },
+                params: {
+                    fileData: null
                 }
             })
 
