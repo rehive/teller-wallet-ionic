@@ -1,14 +1,15 @@
 /*global Firebase, console, angular */
 angular.module('generic-client.services.accounts', [])
 
-    .factory('authInterceptor', function (API, COMPANY_API, Auth, $location) {
+    .factory('authInterceptor', function (API, COMPANY_API, CONVERSION_API, Auth, $location) {
         'use strict';
         return {
             // automatically attach Authorization header
             request: function (config) {
                 var token = Auth.getToken();
 
-                if (token && (config.url.indexOf(API) === 0 || config.url.indexOf(COMPANY_API) === 0)) {
+                if (token && (config.url.indexOf(API) === 0 || config.url.indexOf(COMPANY_API) === 0
+                    || config.url.indexOf(CONVERSION_API) === 0)) {
                     config.headers.Authorization = 'JWT ' + token;
                 }
 
