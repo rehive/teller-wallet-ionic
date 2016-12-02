@@ -1,0 +1,31 @@
+<ion-view view-title="Amount">
+    <div ng-controller="ConvertCtrl" >
+        <form name="convertForm" method="post" novalidate>
+            <ion-content class="container-body">
+                <div class="list">
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Amount</span>
+                        <input name="amount" ng-model="data.amount" type="number" placeholder="Amount you want to pay" required>
+                        <div ng-messages="convertForm.amount.$error" role="alert" ng-show='convertForm.$submitted || convertForm.amount.$dirty'>
+                            <div ng-message="required" class="form-error">Please enter an amount.</div>
+                            <div ng-message="number" class="form-error">Please enter valid number.</div>
+                        </div>
+                    </label>
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Note</span>
+                        <input name="note" ng-model="data.note" type="text" placeholder="Add a short note">
+                    </label>
+                </div>
+            </ion-content>
+
+            <!-- Footer bar hack to get layout right -->
+            <ion-footer-bar class="high-footer bar-dark">
+            </ion-footer-bar>
+
+            <button keyboard-attach class="high-footer bar bar-footer" ng-click="submit(convertForm)" linked="clickMe">
+                <h1 class="title">Next</h1>
+            </button>
+        </form>
+    </div>
+</ion-view>

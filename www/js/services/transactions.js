@@ -54,7 +54,7 @@ angular.module('generic-client.services.transactions', [])
         };
     })
 
-    .service('Conversions', function ($window) {
+    .service('Conversions', function ($window, $http, CONVERSION_API) {
         'use strict';
         var self = this;
 
@@ -67,4 +67,20 @@ angular.module('generic-client.services.transactions', [])
             var currency = JSON.parse($window.localStorage.myCurrency);
             return parseFloat(amount*Math.pow(10, currency.divisibility)).toFixed(currency.divisibility);
         };
-    });
+
+        self.createQuote = function (amount, currency, to_currency) {
+            return $http.post(CONVERSION_API + '/client/transactions/quote/', {
+                from_amount: amount,
+                from_currency: currency,
+                to_currency: to_currency
+            });
+        };
+
+        self.createConversion = function (quoteRef, recipient, note) {
+            return $http.post(CONVERSION_API + '/client/transactions/conversion/', {
+                quote_ref: quoteRef,
+                recipient: recipient,
+                note: note
+            });
+        };
+    })

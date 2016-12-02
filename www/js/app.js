@@ -11,6 +11,7 @@ angular.module('generic-client', ['ionic',
     'generic-client.controllers.send',
     'generic-client.controllers.deposit',
     'generic-client.controllers.withdraw',
+    'generic-client.controllers.convert',
     'generic-client.controllers.receive',
     'generic-client.controllers.teller',
     'generic-client.controllers.promotions',
@@ -31,12 +32,14 @@ angular.module('generic-client', ['ionic',
     'generic-client.services.tellers',
     'generic-client.filters.contacts'])
 
-    //.constant('API', 'http://localhost:8080/api/2')
-    .constant('API', 'https://rehive.com/api/2')
-    //.constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
-    .constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
-    //.constant('COMPANY', 'test_20')
-    .constant('COMPANY', 'fundo_test_6')
+    .constant('API', 'http://localhost:8080/api/2')
+    //.constant('API', 'https://rehive.com/api/2')
+    .constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
+    //.constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
+    .constant('CONVERSION_API', 'http://localhost:8080/adapters/conversion')
+    //.constant('CONVERSION_API', 'https://rehive.com/adapters/conversion')
+    .constant('COMPANY', 'test_company_1')
+    //.constant('COMPANY', 'fundo_test_6')
     .constant('REFRESH_INTERVAL', 3000)
 
     .config(function ($httpProvider, $ionicConfigProvider, $compileProvider) {
@@ -369,6 +372,62 @@ angular.module('generic-client', ['ionic',
                 },
                 params: {
                     offer: null
+                }
+            })
+
+            // Convert
+            .state('app.convert', {
+                url: '/convert',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/convert/index.html',
+                        controller: 'ConvertCtrl'
+                    }
+                }
+            })
+
+            .state('app.convert_to', {
+                url: '/convert_to',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/convert/to.html',
+                        controller: 'ConvertToCtrl'
+                    }
+                },
+                params: {
+                    amount: null,
+                    currency: null,
+                    note: null
+                }
+            })
+
+            .state('app.convert_confirm', {
+                url: '/convert_confirm',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/convert/confirm.html',
+                        controller: 'ConvertConfirmCtrl'
+                    }
+                },
+                params: {
+                    amount: null,
+                    currency: null,
+                    to_currency: null,
+                    note: null
+                }
+            })
+
+            .state('app.convert_success', {
+                url: '/convert_success',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/convert/success.html',
+                        controller: 'ConvertSuccessCtrl'
+                    }
+                },
+                params: {
+                    quote: null,
+                    note: null
                 }
             })
 

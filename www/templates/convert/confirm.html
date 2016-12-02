@@ -1,0 +1,25 @@
+<ion-view view-title="">
+    <div class="custom-header">
+        <div class="col text-center">
+            <h2>You are converting {{ quote.from_currency }} {{ quote.from_amount }} to {{ quote.to_currency }} {{ quote.to_amount }} at a rate of {{ quote.rate }}.
+            </h2>
+        </div>
+    </div>
+
+    <ion-content class="custom-header-margin">
+        <div class="custom-body">
+            <div class="container-note text-center" ng-if="note">
+                {{ note }}
+            </div>
+        </div>
+    </ion-content>
+
+    <div class="row">
+        <a class="col col-50 high-footer bar bar-footer cancel" menu-close href="#/app/dashboard">
+            <h1 class="title">Cancel</h1>
+        </a>
+        <button class="col col-50 col-offset-50 high-footer bar bar-footer" ng-click="confirm()">
+            <h1 class="title">Confirm</h1>
+        </button>
+    </div>
+</ion-view>
