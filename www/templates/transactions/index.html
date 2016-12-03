@@ -1,5 +1,5 @@
 <ion-content class="custom-header-margin">
-    <ion-refresher on-refresh="refreshData()" spinner="none" on-pulling="none" pulling-icon="none"></ion-refresher>
+    <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
 
     <div class="custom-body">
         <div ng-if="tellerMode == 'active'">
