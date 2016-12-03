@@ -447,6 +447,7 @@ angular.module('generic-client.controllers.teller', [])
                         res.data.results[i].amount = Conversions.from_cents(res.data.results[i].amount);
                         res.data.results[i].fee = Conversions.from_cents(res.data.results[i].fee);
                         $scope.transactions.push(res.data.results[i]);
+                        $scope.$broadcast('scroll.refreshComplete');
                     }
                 }
             );
@@ -513,7 +514,10 @@ angular.module('generic-client.controllers.teller', [])
                         res.data.results[i].transaction.amount = Conversions.from_cents(res.data.results[i].transaction.amount);
                         res.data.results[i].transaction.fee = Conversions.from_cents(res.data.results[i].transaction.fee);
                         $scope.acceptedOffers.push(res.data.results[i]);
+                        $scope.$broadcast('scroll.refreshComplete');
                     }
+
+                    $scope.$broadcast('scroll.refreshComplete');
                 }
             );
         }
