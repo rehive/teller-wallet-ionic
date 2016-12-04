@@ -23,6 +23,12 @@ angular.module('generic-client.controllers.transactions', [])
                     transaction.metadata.fee = Conversions.from_cents(transaction.metadata.fee);
                     transaction.fee = Conversions.from_cents(transaction.fee);
                 }
+            // Conversions
+            } else if (transaction.metadata.rate !== undefined) {
+                transaction.description = "Conversion " + transaction.tx_type;
+                transaction.metadata.from_amount = Conversions.from_cents(transaction.metadata.from_amount);
+                transaction.metadata.to_amount = Conversions.from_cents(transaction.metadata.to_amount);
+                transaction.amount = Conversions.from_cents(transaction.amount);
             // Normal transactions
             } else {
                 transaction.amount = Conversions.from_cents(transaction.amount);
