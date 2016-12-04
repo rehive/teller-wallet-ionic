@@ -3,12 +3,15 @@
         <form name="convertToForm" method="post" novalidate>
             <ion-content class="container-body">
                 <div class="list">
-                    <label class="item item-input item-stacked-label">
-                        <span class="input-label">Currency</span>
-                        <input name="to_currency" ng-model="data.to_currency" type="text" placeholder="Currency code" required>
-                        <div ng-messages="convertToForm.amount.$error" role="alert" ng-show='convertToForm.$submitted || convertToForm.amount.$dirty'>
-                            <div ng-message="required" class="form-error">Please enter a currency.</div>
-                        </div>
+                    <label class="item item-input item-select">
+                        <span class="input-label">Currency {{ currency.code }}</span>
+                        <select ng-model="data.to_currency" name="to_currency" required>
+                            <option ng-if="currency.code !== USD" value="USD" selected>USD</option>
+                            <option ng-if="currency.code !== SGD" value="SGD" selected>SGD</option>
+                            <option ng-if="currency.code !== IDR" value="IDR" selected>IDR</option>
+                            <option ng-if="currency.code !== EUR" value="EUR" selected>EUR</option>
+                            <option ng-if="currency.code !== CNY" value="CNY" selected>CNY</option>
+                        </select>
                     </label>
                 </div>
             </ion-content>

@@ -56,7 +56,7 @@ angular.module('generic-client.controllers.convert', [])
                     $scope.quote.to_amount = Conversions.from_cents($scope.quote.to_amount)
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
                     $ionicHistory.goBack(-2);
                 }
             }).catch(function (error) {
@@ -79,7 +79,7 @@ angular.module('generic-client.controllers.convert', [])
                     });
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                    $ionicPopup.alert({title: "Error", template: res.data.message});
                     $ionicHistory.goBack(-2);
                 }
             }).catch(function (error) {
