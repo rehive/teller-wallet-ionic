@@ -1,49 +1,59 @@
-<ion-view>
+<ion-view view-title="">
     <form name="depositForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="teller-alert">
                 <div class="row">
                     <div class="col col-100">
                         <div class="row center">
-                            <h4><b>Earn {{ transaction.currency }} {{ transaction.fee }} for {{ transaction.amount }} {{ transaction.tx_type }}.</b></h4>
+                            <h4><b>Earn {{ currency.symbol }} {{ transaction.fee }} for {{ currency.symbol }} {{
+                                transaction.amount }} {{ transaction.tx_type }}.</b></h4>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="teller-container background-light">
                 <div class="row">
-                    <div class="col col-20">
-                        <img class="circle-base profile-image" ng-src="{{ transaction.user.profile || 'img/profile.png' }}"/>
+
+                    <div class="profile-header">
+                        <img class="circle-base profile-image"
+                             ng-src="{{ transaction.user.profile || 'img/profile_2.png' }}"/>
                     </div>
-                    <div class="col col-80">
+
+                    <div class="row default-top">
                         <div class="teller-header">
-                            <div class="teller-title"><b>
-                                {{ transaction.user.first_name }} {{ transaction.user.last_name }}</b>
+                            <div class="teller-title"><b>{{ transaction.user.first_name }} {{ transaction.user.last_name
+                                }}</b>
+
+                                <div class="teller-sub">is 20 minutes walk away.</div>
+                            </div>
+
+                            <div class="teller-sub">
+                                <div class="row">
+
+                                    <div class="teller-rating">
+                                        <img src="img/like.png"/>
+                                    </div>
+                                    <div class="teller-rating-text">
+                                        20
+                                    </div>
+                                    <div class="teller-rating">
+                                        <img src="img/dislike.png"/>
+                                    </div>
+                                    <div class="teller-rating-text">
+                                        20
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
-                <!--<div class="teller-content background-light">
-                    <div class="row teller-call">
-                        <div class="col col-5"></div>
-                        <button class="button block button-call col-40">
-                            Call
-                        </button>
-                        <div class="col col-10"></div>
-                        <button class="button block button-call col-40">
-                            Text
-                        </button>
-                        <div class="col col-5"></div>
-                    </div>
-                </div>-->
-            </div>
+
             <div class="teller-container-content">
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <b>{{ transaction.tx_type | capitalize }}  Details</b>
+                        <b>{{ transaction.tx_type | capitalize }} Details</b>
                     </span>
                     </div>
                     <div class="row">
@@ -51,7 +61,7 @@
                         Amount
                     </span>
                     <span class="col-50 align-right">
-                        {{ transaction.currency }} {{ transaction.amount }}
+                        {{ currency.symbol }} {{ transaction.amount }}
                     </span>
                     </div>
                     <div class="row">
@@ -59,7 +69,7 @@
                         Convenience Fee
                     </span>
                     <span class="col-50 align-right">
-                        {{ transaction.currency }} {{ transaction.fee }}
+                        {{ currency.symbol }} {{ transaction.fee }}
                     </span>
                     </div>
                     <div class="row">
@@ -67,7 +77,7 @@
                         Total
                     </span>
                     <span class="col-50 align-right">
-                        {{ transaction.currency }} {{ transaction.total }}
+                        {{ currency.symbol }} {{ transaction.total }}
                     </span>
                     </div>
                 </div>

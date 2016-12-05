@@ -1,4 +1,9 @@
-<ion-view view-title="Offers">
+<ion-view view-title="History">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="close()">
+            Cancel&nbsp;
+        </button>
+    </ion-nav-buttons>
     <ion-content class="container-body">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
         <div class="list-default">
@@ -8,17 +13,18 @@
             </div>
             <div class="block">
                 <div ng-repeat="offer in offers">
-                    <div class="item item-avatar item-icon-left no-padding">
-                        <img class="circle-base profile-image"
-                             ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
-                        <div class="row default-top">
-                            <div class="col col-50 align-left">
-                                <h2>{{ offer.transaction.tx_type | capitalize }}</h2>
-                                <h5>{{ offer.transaction.currency }} {{ offer.transaction.fee }} Earnings</h5>
-                            </div>
-                            <div class="col align-right">
-                                <h3>{{ offer.transaction.currency }} {{ offer.transaction.amount }}</h3>
-                                <h5>{{ offer.created | date:'d MMM yyyy' }} | {{ offer.status }}</h5>
+                    <div ng-if="offer.status == 'Confirmed'">
+                        <div class="item item-avatar item-icon-left no-padding">
+                            <img class="circle-base profile-image"
+                                 ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
+
+                            <div class="row default-top">
+                                <div class="col align-left">
+                                    <h2>You've earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{
+                                        currency.symbol }} {{ offer.transaction.amount }} {{
+                                        offer.transaction.tx_type }}.</h2>
+                                    <h5>{{ offer.created | date:'d MMM yyyy' }}</h5>
+                                </div>
                             </div>
                         </div>
                     </div>

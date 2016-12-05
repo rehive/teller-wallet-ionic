@@ -97,7 +97,7 @@ angular.module('generic-client.controllers.fica', [])
                 };
                 reader.readAsDataURL(file);
             }
-        }
+        };
 
         $scope.getFile = function () {
             'use strict';

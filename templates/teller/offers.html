@@ -1,6 +1,6 @@
 <ion-view view-title="Offers">
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="cancel()">
+        <button class="button button-clear" ng-click="close()">
             Cancel&nbsp;
         </button>
     </ion-nav-buttons>
@@ -10,22 +10,19 @@
             <div class="item background-light">
                 <b>Accepted Offers</b>
             </div>
-            <div ng-repeat="offer in acceptedOffers">
-                <div ui-sref="app.teller_view_offer({offer: offer})">
-                    <div class="item item-profile no-padding">
-                        <div class="row">
-                            <div class="col col-20">
-                                <img class="circle-base profile-image" ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
-                            </div>
+            <div class="block">
+                <div ng-repeat="offer in acceptedOffers">
+                    <div ui-sref="app.teller_view_offer({offer: offer})">
+                        <div class="item item-avatar item-icon-left no-padding">
+
+                            <img class="circle-base profile-image"
+                                 ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
 
                             <div class="row default-top">
-                                <div class="col-90 align-left">
-                                    <h2><strong>{{ offer.transaction.tx_type | capitalize }}</strong></h2>
-
-                                    <p><b>{{ offer.transaction.currency }} {{ offer.transaction.amount }} at a {{
-                                        offer.transaction.fee }} fee</b></p>
-
-                                    <p>{{ offer.note }}</p>
+                                <div class="col align-left">
+                                    <h2>Earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{ currency.symbol }} {{ offer.transaction.amount }} {{
+                                        offer.transaction.tx_type }}.</h2>
+                                    <h4>Expected arrival is 10 minutes.</h4>
                                 </div>
                             </div>
                         </div>
@@ -36,22 +33,19 @@
             <div class="item background-light">
                 <b>Pending Offers</b>
             </div>
-            <div ng-repeat="offer in pendingOffers">
-                <div ui-sref="app.teller_view_offer({offer: offer})">
-                    <div class="item item-profile no-padding">
-                        <div class="row">
-                            <div class="col col-20">
-                                <img class="circle-base profile-image" ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
-                            </div>
+            <div class="block">
+                <div ng-repeat="offer in pendingOffers">
+                    <div ui-sref="app.teller_view_offer({offer: offer})">
+                        <div class="item item-avatar item-icon-left no-padding">
+
+                            <img class="circle-base profile-image"
+                                 ng-src="{{ offer.transaction.user.profile || 'img/profile.png' }}"/>
 
                             <div class="row default-top">
-                                <div class="col-90 align-left">
-                                    <h2><strong>{{ offer.transaction.tx_type | capitalize }}</strong></h2>
-
-                                    <p><b>{{ offer.transaction.currency }} {{ offer.transaction.amount }} at a {{
-                                        offer.transaction.fee }} fee</b></p>
-
-                                    <p>{{ offer.note }}</p>
+                                <div class="col align-left">
+                                    <h2>Earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{ currency.symbol }} {{ offer.transaction.amount }} {{
+                                        offer.transaction.tx_type }}.</h2>
+                                    <h4>Expected arrival is 10 minutes.</h4>
                                 </div>
                             </div>
                         </div>

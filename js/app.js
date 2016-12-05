@@ -80,7 +80,7 @@ angular.module('generic-client', ['ionic',
             $state.go('login');
         };
 
-        $rootScope.cancel = function () {
+        $rootScope.close = function () {
             $ionicHistory.nextViewOptions({
                 disableAnimate: true,
                 disableBack: true
@@ -375,62 +375,6 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
-            // Convert
-            .state('app.convert', {
-                url: '/convert',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/convert/index.html',
-                        controller: 'ConvertCtrl'
-                    }
-                }
-            })
-
-            .state('app.convert_to', {
-                url: '/convert_to',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/convert/to.html',
-                        controller: 'ConvertToCtrl'
-                    }
-                },
-                params: {
-                    amount: null,
-                    currency: null,
-                    note: null
-                }
-            })
-
-            .state('app.convert_confirm', {
-                url: '/convert_confirm',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/convert/confirm.html',
-                        controller: 'ConvertConfirmCtrl'
-                    }
-                },
-                params: {
-                    amount: null,
-                    currency: null,
-                    to_currency: null,
-                    note: null
-                }
-            })
-
-            .state('app.convert_success', {
-                url: '/convert_success',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/convert/success.html',
-                        controller: 'ConvertSuccessCtrl'
-                    }
-                },
-                params: {
-                    quote: null,
-                    note: null
-                }
-            })
-
             // Teller
             .state('app.teller', {
                 url: '/teller',
@@ -488,6 +432,16 @@ angular.module('generic-client', ['ionic',
                 }
             })
 
+            .state('app.map_to_teller', {
+                url: '/map_to_teller',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/teller/user/map_to_teller.html',
+                        controller: 'MapToTellerCtrl'
+                    }
+                }
+            })
+
             .state('app.teller_completed_offer', {
                 url: '/teller_completed_offer',
                 views: {
@@ -521,6 +475,62 @@ angular.module('generic-client', ['ionic',
                         templateUrl: 'templates/teller/history.html',
                         controller: 'TellerHistoryCtrl'
                     }
+                }
+            })
+
+            // Convert
+            .state('app.convert', {
+                url: '/convert',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/convert/index.html',
+                        controller: 'ConvertCtrl'
+                    }
+                }
+            })
+
+            .state('app.convert_to', {
+                url: '/convert_to',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/convert/to.html',
+                        controller: 'ConvertToCtrl'
+                    }
+                },
+                params: {
+                    amount: null,
+                    currency: null,
+                    note: null
+                }
+            })
+
+            .state('app.convert_confirm', {
+                url: '/convert_confirm',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/convert/confirm.html',
+                        controller: 'ConvertConfirmCtrl'
+                    }
+                },
+                params: {
+                    amount: null,
+                    currency: null,
+                    to_currency: null,
+                    note: null
+                }
+            })
+
+            .state('app.convert_success', {
+                url: '/convert_success',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/convert/success.html',
+                        controller: 'ConvertSuccessCtrl'
+                    }
+                },
+                params: {
+                    quote: null,
+                    note: null
                 }
             })
 
