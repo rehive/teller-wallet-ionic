@@ -18,7 +18,7 @@ angular.module('generic-client.controllers.settings', [])
         $scope.upload = function () {
             if ($scope.image.fileData) {
                 // Convert data URL to blob file
-                var file = Upload.dataUrltoBlob(($scope.image.croppedFileData || $scope.image.fileData), "file")
+                var file = Upload.dataUrltoBlob(($scope.image.croppedFileData || $scope.image.fileData), "file");
 
                 Upload.upload({
                     url: API + "/users/profile/",
