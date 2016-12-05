@@ -2,8 +2,8 @@
 angular.module('generic-client', ['ionic',
     'intlpnIonic',
     'ngMessages',
-    'ngFileUpload',
     'ngImgCrop',
+    'ngFileUpload',
     'ngCordova',
     'generic-client.controllers',
     'generic-client.controllers.accounts',
@@ -40,6 +40,7 @@ angular.module('generic-client', ['ionic',
     .constant('CONVERSION_API', 'https://rehive.com/adapters/conversion')
     //.constant('COMPANY', 'test_company_1')
     .constant('COMPANY', 'fundo_test_6')
+
     .constant('REFRESH_INTERVAL', 3000)
 
     .config(function ($httpProvider, $ionicConfigProvider, $compileProvider) {

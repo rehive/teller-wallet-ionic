@@ -67,7 +67,7 @@ angular.module('generic-client.controllers.settings', [])
                 };
                 reader.readAsDataURL(file);
             }
-        }
+        };
 
         $scope.getFile = function () {
             'use strict';
