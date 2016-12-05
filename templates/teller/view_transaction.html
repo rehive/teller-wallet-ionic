@@ -1,4 +1,9 @@
 <ion-view view-title="">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="close()">
+            Close&nbsp;
+        </button>
+    </ion-nav-buttons>
     <form name="depositForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="teller-alert">
@@ -53,7 +58,7 @@
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <b>{{ transaction.tx_type | capitalize }} Details</b>
+                        <b>{{ transaction.tx_type | capitalize }} Details ({{ transaction.currency }})</b>
                     </span>
                     </div>
                     <div class="row">
@@ -81,18 +86,29 @@
                     </span>
                     </div>
                 </div>
+                <div class="teller-content">
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        <b>Summary</b>
+                    </span>
+                    </div>
+                    <div class="row">
+                    <span class="col-100 align-left">
+                        Earn {{ currency.symbol }} {{ transaction.fee }} for  {{ currency.symbol }} {{ transaction.amount }} {{ transaction.tx_type }}.
+                    </span>
+                    </div>
+                </div>
+
             </div>
+
             <div class="teller-footer"></div>
         </ion-content>
 
         <div class="row">
-            <button class="col col-50 high-footer bar bar-footer cancel" ng-click="declineTransaction()">
-                <h1 class="title">Back</h1>
-            </button>
-            <button class="col col-50 col-offset-50 high-footer bar bar-footer"
-                    ng-click="acceptTransaction()">
+            <button class="high-footer bar bar-footer" ng-click="acceptTransaction()">
                 <h1 class="title">Accept</h1>
             </button>
+
         </div>
     </form>
 </ion-view>

@@ -1,11 +1,19 @@
-<ion-view view-title="Amount">
+<ion-view view-title="Instructions">
     <form name="tellerCreateForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="list">
-                <label class="item item-input item-stacked-label">
-                    <span class="input-label">Note</span>
-                    <input name="note" ng-model="data.note" type="text" placeholder="Add a short note">
-                </label>
+                <div class="item item-input item-stacked-label">
+                    <span class="input-label">How can the customer find you?</span>
+                    <br>
+                    <textarea rows="2" name="note" ng-model="data.note" type="text"
+                           placeholder="Please provide basic instructions how to find you, e.g. what are you wearing or where you will be sitting." required style="line-height: 20px; font-size: 14px; padding-top:5px;"></textarea>
+
+                    <div ng-messages="tellerCreateForm.note.$error" role="alert"
+                         ng-show='tellerCreateForm.$submitted || tellerCreateForm.note.$dirty'>
+                        <div ng-message="required" class="form-error">Please provide instructions for the customer.
+                        </div>
+                    </div>
+                </div>
             </div>
         </ion-content>
 

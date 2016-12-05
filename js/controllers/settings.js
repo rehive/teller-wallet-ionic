@@ -86,6 +86,7 @@ angular.module('generic-client.controllers.settings', [])
                     $cordovaCamera.getPicture(cameraOptions).then(function (file) {
                         $scope.upload(file)
                     });
+
                 });
             } else {
                 document.getElementById('upload').click();

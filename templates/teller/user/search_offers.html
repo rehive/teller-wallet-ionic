@@ -4,7 +4,11 @@
             <i class="icon ion-ios-arrow-back"></i> Back
         </ion-nav-back-button>
     </ion-nav-bar>
-
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="close()">
+            Close&nbsp;
+        </button>
+    </ion-nav-buttons>
     <form name="SelectOfferForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="container-default-background">
@@ -15,7 +19,9 @@
                             <h4 ng-if="offers === true">We found tellers near you</h4>
                         </div>
                         <div class="row">
-                            <p>You've placed a deposit request of {{ currency.symbol }} {{ transaction.amount }} and offered a {{ currency.symbol }} {{ transaction.fee }} convenience fee. Cancel this transaction if you want to increase your fee.</p>
+                            <p>You've placed a deposit request of {{ currency.symbol }} {{ transaction.amount }} and
+                                offered a {{ currency.symbol }} {{ transaction.fee }} convenience fee. Cancel this
+                                transaction if you want to increase your fee.</p>
                         </div>
                     </div>
                 </div>
@@ -36,7 +42,7 @@
     <ion-footer-bar class="high-footer bar-dark">
     </ion-footer-bar>
 
-    <button class="col col-100 high-footer bar bar-footer cancel" ng-click="cancel()">
+    <button class="col col-100 high-footer bar bar-footer cancel" ng-click="cancel(null, null)">
         <h1 class="title">Cancel</h1>
     </button>
 </ion-view>
