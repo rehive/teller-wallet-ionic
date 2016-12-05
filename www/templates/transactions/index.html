@@ -29,7 +29,7 @@
                             <div class="row default-top">
                                 <div class="col col-50 align-left">
                                     <h2>{{ item.description }}</h2>
-                                    <h5 ng-if="item.metadata.fee > 0">{{ item.currency.symbol }} {{ item.metadata.fee }} Earnings</h5>
+                                    <h5 ng-if="item.metadata.fee > 0">You've earned {{ item.currency.symbol }} {{ item.metadata.fee }}.</h5>
                                     <h5 ng-if="item.metadata.rate > 0">{{ item.metadata.from_currency }} {{ item.metadata.from_amount }} to {{ item.metadata.to_currency }} {{ item.metadata.to_amount }}</h5>
                                     <h4>{{ item.note }}</h4>
                                 </div>

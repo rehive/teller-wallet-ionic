@@ -21,7 +21,7 @@
             <div class="row app-side-menu-profile">
                 <div class="col-20">
                     <div class="row">
-                        <img class="circle-base profile-image" ng-src="{{ user.profile || 'img/profile_1.png' }}" ng-click="getFile()"/>
+                        <img class="circle-base profile-image" ng-src="{{ user.profile || 'img/profile_1.png' }}"/>
                     </div>
                 </div>
                 <div class="col-80">
@@ -30,11 +30,6 @@
                         <h4>{{ user.email }}</h4>
                     </div>
                 </div>
-                <!-- Hidden button for PC uploads -->
-                <button id="upload" class="hide button button-block" ngf-select="upload($file, $invalidFiles)"
-                        ngf-max-size="10MB">
-                    Upload File
-                </button>
             </div>
             <ion-list class="app-side-menu-list">
                 <ion-item menu-close ui-sref="app.home">

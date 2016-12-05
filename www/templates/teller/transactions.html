@@ -1,24 +1,30 @@
 <ion-view view-title="Requests Nearby">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="close()">
+            Cancel&nbsp;
+        </button>
+    </ion-nav-buttons>
     <ion-content class="container-body">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
         <div class="list-default">
 
             <div class="item background-light">
-                <b>Transactions</b>
+                <b>Select Requests ({{ currency.code }})</b>
             </div>
-            <div ng-repeat="transaction in transactions">
-                <div ui-sref="app.teller_view_transaction({id: transaction.id})">
-                    <div class="item item-profile no-padding">
-                        <div class="row">
-                            <div class="col col-20">
-                                <img class="circle-base profile-image" ng-src="{{ transaction.user.profile || 'img/profile_2.png' }}"/>
-                            </div>
+
+            <div class="block">
+                <div ng-repeat="transaction in transactions">
+                    <div ui-sref="app.teller_view_transaction({id: transaction.id})">
+                        <div class="item item-avatar item-icon-left no-padding">
+
+                            <img class="circle-base profile-image"
+                                 ng-src="{{ transaction.user.profile || 'img/profile_2.png' }}"/>
 
                             <div class="row default-top">
-                                <div class="col-90 align-left">
-                                    <h2><strong>{{ transaction.tx_type | capitalize }}</strong></h2>
-                                    <p><b>{{ transaction.currency }} {{ transaction.amount }} at a {{ transaction.fee }} fee</b></p>
-                                    <p>{{ transaction.note }}</p>
+                                <div class="col align-left">
+                                    <h2>Earn {{ currency.symbol }} {{ transaction.fee }} for {{ currency.symbol }} {{ transaction.amount }} {{
+                                        transaction.tx_type }}.</h2>
+                                    <h4>{{ transaction.user.first_name }} is 10 min away.</h4>
                                 </div>
                             </div>
                         </div>

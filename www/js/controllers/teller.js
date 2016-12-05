@@ -94,11 +94,12 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerUserSearchOffersCtrl', function ($scope, $state, $stateParams, $window, $ionicHistory, $ionicPopup, $ionicLoading, $cordovaGeolocation, $interval, $timeout, Teller) {
+    .controller('TellerUserSearchOffersCtrl', function ($scope, $rootScope, $state, $stateParams, $window, $ionicHistory, $ionicPopup, $ionicLoading, $cordovaGeolocation, $interval, $timeout, Teller) {
         'use strict';
 
         $scope.offers = false;
         $scope.transaction = $stateParams.transaction;
+        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
         $scope.map = new google.maps.Map(document.getElementById('map'), {zoom: 13});
         $scope.mappedOffers = [];
 
@@ -182,7 +183,7 @@ angular.module('generic-client.controllers.teller', [])
             $ionicHistory.goBack(-2);
         };
 
-        $scope.cancel = function (title=null, message=null) {
+        $scope.cancel = function (title, message) {
             $ionicLoading.show({
                 template: 'Cancelling...'
             });
@@ -203,7 +204,8 @@ angular.module('generic-client.controllers.teller', [])
                     }
 
                     $ionicLoading.hide();
-                    $state.go('app.home');
+                    //$state.go('app.home');
+                    $rootScope.cancel();
                 } else {
                     $ionicLoading.hide();
                     $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
@@ -228,7 +230,7 @@ angular.module('generic-client.controllers.teller', [])
 
             Teller.userAcceptOffer($scope.offer.id).then(function (res) {
                 if (res.status === 200) {
-                    $scope.offer = res.data.data
+                    $scope.offer = res.data.data;
                     $scope.offer.transaction.total = Conversions.from_cents($scope.offer.transaction.amount + $scope.offer.transaction.fee)
                     $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
                     $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
@@ -323,6 +325,7 @@ angular.module('generic-client.controllers.teller', [])
                     var point_b = new google.maps.LatLng($scope.offer.user.latitude, $scope.offer.user.longitude);
 
                     var route = {point_a: point_a, center: center, point_b: point_b};
+                    $window.localStorage.setItem('route', JSON.stringify(route));
 
                     $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
                     Maps.route($scope.map2, point_a, point_b);
@@ -374,6 +377,18 @@ angular.module('generic-client.controllers.teller', [])
 
         // --------------------------------------------------
 
+        $scope.mapToTeller = function () {
+            $state.go('app.map_to_teller', {});
+        };
+
+    })
+
+    .controller('MapToTellerCtrl', function ($scope, $state, $window, Maps) {
+        'use strict';
+        $scope.data = {};
+        var route = JSON.parse($window.localStorage.getItem('route'));
+        $scope.map3 = new google.maps.Map(document.getElementById('map3'), {zoom: 4, center: route['center']});
+        Maps.route($scope.map3, route['point_a'], route['point_b']);
     })
 
     .controller('TellerUserViewCompletedOfferCtrl', function ($scope, $window, $state, $stateParams) {
@@ -456,8 +471,10 @@ angular.module('generic-client.controllers.teller', [])
         $scope.refreshData()
     })
 
-    .controller('TellerViewTransactionCtrl', function ($state, $stateParams, $scope, Teller, Conversions) {
+    .controller('TellerViewTransactionCtrl', function ($state, $window, $stateParams, $scope, Teller, Conversions) {
         'use strict';
+
+        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
 
         $scope.refreshData = function () {
             Teller.tellerTransaction($stateParams.id).success(
@@ -561,6 +578,7 @@ angular.module('generic-client.controllers.teller', [])
         'use strict';
 
         $scope.offer = $stateParams.offer;
+        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
 
         $scope.submit = function (form) {
             if (form.$valid) {
