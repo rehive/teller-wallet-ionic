@@ -9905,11 +9905,7 @@ a.button {
       border-bottom: none; }
     .app-side-menu-list .item a {
       color: #fff;
-<<<<<<< HEAD
       background-color: #C09A00;
-=======
-      background-color: #2070A0;
->>>>>>> upstream/master
       padding: 12px; }
       .app-side-menu-list .item a.activated {
         background-color: #C09A00;
@@ -10070,7 +10066,6 @@ input.ng-invalid, input.ng-dirty {
   padding: 15px; }
   .company-logo-menu img {
     width: 150px; }
-<<<<<<< HEAD
 
 .scroll {
   height: 100%; }
@@ -10086,8 +10081,6 @@ input.ng-invalid, input.ng-dirty {
 #map3 {
   width: 100%;
   height: 100%; }
-=======
->>>>>>> upstream/master
 
 .circle-base {
   border-radius: 50%; }
@@ -10096,12 +10089,9 @@ input.ng-invalid, input.ng-dirty {
   max-width: 60px;
   max-height: 60px; }
 
-<<<<<<< HEAD
 .profile-header {
   padding-left: 10px; }
 
-=======
->>>>>>> upstream/master
 .profile-image-edit {
   max-width: 200px;
   max-height: 200px;
@@ -10115,7 +10105,6 @@ input.ng-invalid, input.ng-dirty {
 
 img-crop {
   position: absolute; }
-<<<<<<< HEAD
 
 .teller-container {
   padding: 10px 0 0 0; }
@@ -10172,5 +10161,3 @@ img-crop {
     color: #FFF; }
   .teller-active p {
     color: #FFF; }
-=======
->>>>>>> upstream/master
