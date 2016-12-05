@@ -32,7 +32,7 @@ angular.module('generic-client.controllers.teller', [])
                         $window.localStorage.setItem('activeTellerWithdraw', JSON.stringify($scope.transaction));
                         $ionicLoading.hide();
 
-                        $state.go('app.teller_user_search_offers',{
+                        $state.go('app.teller_user_search_offers', {
                             transaction: res.data.data
                         });
                     } else {
@@ -79,7 +79,7 @@ angular.module('generic-client.controllers.teller', [])
                         $window.localStorage.setItem('activeTellerDeposit', JSON.stringify($scope.transaction));
                         $ionicLoading.hide();
 
-                        $state.go('app.teller_user_search_offers',{
+                        $state.go('app.teller_user_search_offers', {
                             transaction: res.data.data
                         });
                     } else {
@@ -132,14 +132,14 @@ angular.module('generic-client.controllers.teller', [])
             $scope.interval = $interval(search, 5000);
 
             // Stop search after 60 seconds
-            $scope.timeout = $timeout(function() {
+            $scope.timeout = $timeout(function () {
                 if ($scope.mappedOffers.length === 0) {
                     $scope.cancel('No results', "No nearby teller offers were found, please try again later.");
                 }
             }, 60000);
 
             // Stop interval/timeout functions on page change
-            var dereg = $scope.$on('$destroy', function() {
+            var dereg = $scope.$on('$destroy', function () {
                 $interval.cancel($scope.interval);
                 $timeout.cancel($scope.timeout);
                 dereg();
@@ -204,8 +204,7 @@ angular.module('generic-client.controllers.teller', [])
                     }
 
                     $ionicLoading.hide();
-                    //$state.go('app.home');
-                    $rootScope.cancel();
+                    $rootScope.close();
                 } else {
                     $ionicLoading.hide();
                     $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
@@ -221,6 +220,7 @@ angular.module('generic-client.controllers.teller', [])
         'use strict';
 
         $scope.data = {};
+        $scope.currency = JSON.parse($window.localStorage.getItem('myCurrency'));
         $scope.offer = $stateParams.offer;
 
         $scope.accept = function () {
@@ -286,7 +286,7 @@ angular.module('generic-client.controllers.teller', [])
             }
 
             $ionicPopup.alert({title: 'Error', template: "The offer is no longer valid."});
-            $state.go('app.teller_user_search_offers',{
+            $state.go('app.teller_user_search_offers', {
                 transaction: $scope.offer.transaction
             });
         };
@@ -348,7 +348,7 @@ angular.module('generic-client.controllers.teller', [])
         // Every 5 seconds
         $scope.stop = $interval(checkOfferStatus, 5000);
 
-        var dereg = $scope.$on('$destroy', function() {
+        var dereg = $scope.$on('$destroy', function () {
             $interval.cancel($scope.stop);
             dereg();
         });
@@ -542,15 +542,17 @@ angular.module('generic-client.controllers.teller', [])
         $scope.refreshData()
     })
 
-    .controller('TellerCreateOfferCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller, Conversions) {
+    .controller('TellerCreateOfferCtrl', function ($scope, $ionicHistory, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller, Conversions) {
         'use strict';
 
         $scope.submit = function (form) {
-            $ionicLoading.show({
-                template: 'Creating...'
-            });
 
             if (form.$valid) {
+
+                $ionicLoading.show({
+                    template: 'Creating...'
+                });
+
                 Teller.tellerCreateOffer($stateParams.id, form.note.$viewValue).then(function (res) {
                     if (res.status === 200) {
                         $scope.offer = res.data.data;
@@ -559,6 +561,10 @@ angular.module('generic-client.controllers.teller', [])
                         $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee);
 
                         $ionicLoading.hide();
+                        $ionicHistory.nextViewOptions({
+                            disableAnimate: true,
+                            disableBack: true
+                        });
                         $state.go('app.teller_offers', {
                             offer: $scope.offer
                         });
@@ -652,8 +658,8 @@ angular.module('generic-client.controllers.teller', [])
         $scope.offer = $stateParams.offer;
     })
 
-    .filter('capitalize', function() {
-        return function(input) {
-          return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+    .filter('capitalize', function () {
+        return function (input) {
+            return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
         }
     });

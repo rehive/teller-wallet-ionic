@@ -1,17 +1,12 @@
 <ion-view view-title="Requests Nearby">
     <ion-nav-buttons side="right">
         <button class="button button-clear" ng-click="close()">
-            Cancel&nbsp;
+            Close&nbsp;
         </button>
     </ion-nav-buttons>
     <ion-content class="container-body">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
         <div class="list-default">
-
-            <div class="item background-light">
-                <b>Select Requests ({{ currency.code }})</b>
-            </div>
-
             <div class="block">
                 <div ng-repeat="transaction in transactions">
                     <div ui-sref="app.teller_view_transaction({id: transaction.id})">

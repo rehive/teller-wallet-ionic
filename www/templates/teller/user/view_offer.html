@@ -3,16 +3,23 @@
         <ion-content class="container-body">
             <div class="teller-container background-light">
                 <div class="row">
-                    <div class="col col-20">
-                        <img class="circle-base profile-image" ng-src="{{ offer.user.profile || 'img/profile.png' }}"/>
+
+                    <div class="profile-header">
+                        <img class="circle-base profile-image"
+                             ng-src="{{ offer.user.profile || 'img/profile_2.png' }}"/>
                     </div>
-                    <div class="col col-80">
+
+                    <div class="row default-top">
                         <div class="teller-header">
-                            <div class="teller-title">
-                                <b>{{ offer.user.first_name }} {{ offer.user.last_name }}</b>
+                            <div class="teller-title"><b>{{ offer.user.first_name }} {{
+                                offer.user.last_name }}</b>
+
+                                <div class="teller-sub">is 20 minutes walk away.</div>
                             </div>
+
                             <div class="teller-sub">
                                 <div class="row">
+
                                     <div class="teller-rating">
                                         <img src="img/like.png"/>
                                     </div>
@@ -31,6 +38,7 @@
                     </div>
                 </div>
             </div>
+
             <div ng-if="offer.status === 'Accepted'">
                 <div class="teller-content background-light">
                     <div class="row teller-call">
@@ -76,7 +84,7 @@
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <b>Deposit Details</b>
+                        <b>Deposit Details ({{ offer.transaction.currency }})</b>
                     </span>
                     </div>
                     <div class="row">
@@ -84,7 +92,7 @@
                         Amount
                     </span>
                     <span class="col-50 align-right">
-                        {{ offer.transaction.currency }} {{ offer.transaction.amount }}
+                        {{ currency.symbol }} {{ offer.transaction.amount }}
                     </span>
                     </div>
                     <div class="row">
@@ -92,7 +100,7 @@
                         Convenience Fee
                     </span>
                     <span class="col-50 align-right">
-                        {{ offer.transaction.currency }} {{ offer.transaction.fee }}
+                        {{ currency.symbol }} {{ offer.transaction.fee }}
                     </span>
                     </div>
                     <div class="row">
@@ -100,7 +108,7 @@
                         Total
                     </span>
                     <span class="col-50 align-right">
-                        {{ offer.transaction.currency }} {{ offer.transaction.total }}
+                        {{ currency.symbol }} {{ offer.transaction.total }}
                     </span>
                     </div>
                 </div>
@@ -112,7 +120,7 @@
                     </div>
                     <div class="row">
                     <span class="col-100 align-left">
-                        Pay {{ offer.transaction.currency }} {{ offer.transaction.total }} for a {{ offer.transaction.amount }} {{ offer.transaction.tx_type }}.
+                        Pay {{ currency.symbol }} {{ offer.transaction.total }} for a {{ currency.symbol }} {{ offer.transaction.amount }} {{ offer.transaction.tx_type }}.
                     </span>
                     </div>
                 </div>
