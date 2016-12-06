@@ -180,8 +180,12 @@ angular.module('generic-client.controllers.teller', [])
         }
 
         $scope.back = function () {
-            $ionicHistory.goBack(-2);
-        };
+            if ($scope.transaction.tx_type == 'deposit') {
+                $state.go('app.deposit');
+            } else if ($scope.transaction.tx_type == 'withdraw') {
+                $state.go('app.withdraw');
+            }
+        }
 
         $scope.cancel = function (title, message) {
             $ionicLoading.show({
@@ -241,10 +245,12 @@ angular.module('generic-client.controllers.teller', [])
                         $window.localStorage.setItem('activeTellerDepositOffer', JSON.stringify($scope.offer));
                     }
                     $ionicLoading.hide();
-                    console.log("Remove back button.");
                     $ionicHistory.nextViewOptions({
                         disableAnimate: true,
                         disableBack: true
+                    });
+                    $state.go('app.teller_user_view_offer', {
+                        offer: $scope.offer
                     });
                 } else {
                     $ionicLoading.hide();
@@ -271,7 +277,9 @@ angular.module('generic-client.controllers.teller', [])
                     }
 
                     $ionicLoading.hide();
-                    $state.go('app.teller_user_search_offers');
+                    $state.go('app.teller_user_search_offers', {
+                        transaction: $scope.offer.transaction
+                    });
                 } else {
                     $ionicLoading.hide();
                     $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
