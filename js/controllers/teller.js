@@ -480,11 +480,11 @@ angular.module('generic-client.controllers.teller', [])
                         res.data.results[i].amount = Conversions.from_cents(res.data.results[i].amount);
                         res.data.results[i].fee = Conversions.from_cents(res.data.results[i].fee);
                         $scope.transactions.push(res.data.results[i]);
-                        $scope.$broadcast('scroll.refreshComplete');
                     }
+                    $scope.$broadcast('scroll.refreshComplete');
                 }
             );
-        }
+        };
 
         $scope.refreshData()
     })
