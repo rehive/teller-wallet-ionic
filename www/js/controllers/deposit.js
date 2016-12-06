@@ -1,6 +1,6 @@
 angular.module('generic-client.controllers.deposit', [])
 
-    .controller('DepositCtrl', function ($scope, $state, $window, $stateParams) {
+    .controller('DepositCtrl', function ($scope, $state, $window, $ionicHistory) {
         'use strict';
         $scope.items = [{'title': 'Bank Deposit', 'method': 'bank_deposit'},
             {'title': 'Teller Deposit', 'method': 'teller_deposit'}];
