@@ -240,8 +240,12 @@ angular.module('generic-client.controllers.teller', [])
                     } else if ($scope.offer.transaction.tx_type == "deposit") {
                         $window.localStorage.setItem('activeTellerDepositOffer', JSON.stringify($scope.offer));
                     }
-
                     $ionicLoading.hide();
+                    console.log("Remove back button.");
+                    $ionicHistory.nextViewOptions({
+                        disableAnimate: true,
+                        disableBack: true
+                    });
                 } else {
                     $ionicLoading.hide();
                     $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
@@ -645,6 +649,7 @@ angular.module('generic-client.controllers.teller', [])
                         res.data.results[i].transaction.fee = Conversions.from_cents(res.data.results[i].transaction.fee);
                         $scope.offers.push(res.data.results[i]);
                     }
+                    $scope.$broadcast('scroll.refreshComplete');
                 }
             );
         }

@@ -6,6 +6,18 @@
     </ion-nav-buttons>
     <ion-content class="container-body">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
+        <div ng-if="transactions.length == 0">
+            <div class="container-card">
+                <div class="card">
+                    <div class="item item-body line-space">
+                        <h2>No Requests Nearby</h2>
+
+                        <p>There are currently no transaction requests in your area. Pull to refresh.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="list-default">
             <div class="block">
                 <div ng-repeat="transaction in transactions">

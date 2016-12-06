@@ -10014,6 +10014,9 @@ input.ng-invalid, input.ng-dirty {
   height: 1000px;
   background-color: #F6F6F6; }
 
+.line-space p {
+  white-space: pre-line; }
+
 .container-default {
   padding: 10px; }
 
