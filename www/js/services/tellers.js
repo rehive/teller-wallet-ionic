@@ -43,6 +43,14 @@ angular.module('generic-client.services.tellers', [])
             });
         };
 
+        self.userRateOffer = function(offer_id, value, note) {
+            return $http.put(COMPANY_API + '/user/ratings/', {
+                offer_id: offer_id,
+                value: value,
+                note: note
+            });
+        };
+
         self.deposit = function(amount, fee, currency) {
             return $http.post(COMPANY_API + '/user/transactions/deposit/', {
                 amount: amount,
