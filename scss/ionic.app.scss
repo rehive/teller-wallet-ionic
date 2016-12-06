@@ -472,6 +472,12 @@ input.ng-invalid, input.ng-dirty {
   background-color: $background;
 }
 
+.line-space {
+  p {
+    white-space: pre-line;
+  }
+}
+
 // Container
 .container-body {
 }
