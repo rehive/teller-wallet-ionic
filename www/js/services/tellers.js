@@ -43,7 +43,7 @@ angular.module('generic-client.services.tellers', [])
             });
         };
 
-        self.userRateOffer = function(offer_id, value, note) {
+        self.userRateUser = function(offer_id, value, note) {
             return $http.post(COMPANY_API + '/user/ratings/', {
                 offer_id: offer_id,
                 value: value,
