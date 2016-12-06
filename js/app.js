@@ -48,7 +48,7 @@ angular.module('generic-client', ['ionic',
         //Switch off caching:
         $ionicConfigProvider.views.maxCache(0);
         $ionicConfigProvider.tabs.position('bottom');
-        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|bitcoin):/);
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|sms|chrome-extension|bitcoin):/);
         //Insert JWT token into all api requests:
         $httpProvider.interceptors.push('authInterceptor');
     })
