@@ -4,11 +4,25 @@
             Cancel&nbsp;
         </button>
     </ion-nav-buttons>
-    <ion-content class="container-body">
+    <ion-content class="container-body line-space">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
         <div class="list-default">
             <div class="item background-light">
-                <b>Accepted Offers</b>
+                <b>Matched Offers</b>
+
+                <p>List of customers that have accepted your offer and will arrive soon.</p>
+            </div>
+            <div ng-if="acceptedOffers == 0">
+                <div class="container-card">
+                    <div class="card">
+                        <div class="item item-body line-space">
+                            <h2>No Matches Yet</h2>
+
+                            <p>You currently have no matched offers. Pull to refresh.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="block">
                 <div ng-repeat="offer in acceptedOffers">
@@ -20,7 +34,8 @@
 
                             <div class="row default-top">
                                 <div class="col align-left">
-                                    <h2>Earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{ currency.symbol }} {{ offer.transaction.amount }} {{
+                                    <h2>Earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{ currency.symbol }}
+                                        {{ offer.transaction.amount }} {{
                                         offer.transaction.tx_type }}.</h2>
                                     <h4>Expected arrival is 10 minutes.</h4>
                                 </div>
@@ -32,6 +47,20 @@
 
             <div class="item background-light">
                 <b>Pending Offers</b>
+
+                <p>You are waiting for users to accept your offer. If a user accepts your offer, you will be matched.</p>
+            </div>
+            <div ng-if="pendingOffers == 0">
+                <div class="container-card">
+                    <div class="card">
+                        <div class="item item-body line-space">
+                            <h2>No Pending Offers</h2>
+
+                            <p>You currently have no pending offers. Pull to refresh.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="block">
                 <div ng-repeat="offer in pendingOffers">
@@ -43,7 +72,8 @@
 
                             <div class="row default-top">
                                 <div class="col align-left">
-                                    <h2>Earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{ currency.symbol }} {{ offer.transaction.amount }} {{
+                                    <h2>Earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{ currency.symbol }}
+                                        {{ offer.transaction.amount }} {{
                                         offer.transaction.tx_type }}.</h2>
                                     <h4>Expected arrival is 10 minutes.</h4>
                                 </div>

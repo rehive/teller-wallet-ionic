@@ -203,8 +203,8 @@ angular.module('generic-client', ['ionic',
             })
 
             // Withdraw
-            .state('app.withdraw_to', {
-                url: '/withdraw_to',
+            .state('app.withdraw', {
+                url: '/withdraw',
                 views: {
                     'menuContent': {
                         templateUrl: 'templates/withdraw/to.html',

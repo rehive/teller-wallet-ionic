@@ -23,7 +23,7 @@ angular.module('generic-client.controllers.currency_accounts', [])
 
         $scope.setToken = function (currency, account, issuer) {
             $ionicLoading.show({
-                template: 'Switching Account Token...'
+                template: 'Switching Currencies...'
             });
 
             CurrencyAccounts.set(currency, account, issuer).then(function (res) {
