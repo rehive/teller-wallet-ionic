@@ -10099,8 +10099,8 @@ input.ng-invalid, input.ng-dirty {
 
 .crop-area {
   overflow: hidden;
-  height: 200px;
-  position: relative; }
+  width: 100%;
+  height: 450px; }
 
 img-crop {
   position: absolute; }
