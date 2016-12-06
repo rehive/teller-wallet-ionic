@@ -10161,3 +10161,14 @@ img-crop {
     color: #FFF; }
   .teller-active p {
     color: #FFF; }
+
+.teller-thumbs .ion-thumbsup,
+.teller-thumbs .ion-thumbsdown {
+  font-size: 8em;
+  cursor: pointer; }
+
+.teller-thumbs .ion-thumbsup.selected {
+  color: green; }
+
+.teller-thumbs .ion-thumbsdown.selected {
+  color: red; }
