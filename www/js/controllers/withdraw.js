@@ -71,7 +71,7 @@ angular.module('generic-client.controllers.withdraw', [])
                     accType: accType
                 });
             } else {
-                $state.go('app.withdraw_to', {
+                $state.go('app.withdraw', {
                     accType: accType
                 });
             }
