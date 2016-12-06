@@ -24,18 +24,17 @@
 
                             <div class="teller-sub">
                                 <div class="row">
-
                                     <div class="teller-rating">
                                         <img src="img/like.png"/>
                                     </div>
                                     <div class="teller-rating-text">
-                                        20
+                                        {{ offer.user.rating.positive }}
                                     </div>
                                     <div class="teller-rating">
                                         <img src="img/dislike.png"/>
                                     </div>
                                     <div class="teller-rating-text">
-                                        20
+                                        {{ offer.user.rating.negative }}
                                     </div>
                                 </div>
                             </div>
