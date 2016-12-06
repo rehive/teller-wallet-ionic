@@ -473,9 +473,7 @@ input.ng-invalid, input.ng-dirty {
 }
 
 .line-space {
-  p {
-    white-space: pre-line;
-  }
+
 }
 
 // Container
@@ -608,8 +606,7 @@ input.ng-invalid, input.ng-dirty {
 
 .crop-area {
   overflow: hidden;
-  width: 100%;
-  height: 450px;
+  height: 200px;
   position: relative;
 }
 
