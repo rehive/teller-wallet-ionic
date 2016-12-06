@@ -59,13 +59,13 @@
                 <div class="teller-content background-light">
                     <div class="row teller-call">
                         <div class="col col-5"></div>
-                        <button class="button block button-call col-40">
+                        <a href="tel:{{ offer.transaction.user.mobile_number }}" class="button block button-call col-40">
                             Call
-                        </button>
+                        </a>
                         <div class="col col-10"></div>
-                        <button class="button block button-call col-40">
+                        <a href="sms:{{ offer.transaction.user.mobile_number }}" class="button block button-call col-40">
                             Text
-                        </button>
+                        </a>
                         <div class="col col-5"></div>
                     </div>
                 </div>
