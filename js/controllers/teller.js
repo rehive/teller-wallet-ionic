@@ -409,7 +409,7 @@ angular.module('generic-client.controllers.teller', [])
         Maps.route($scope.map3, route['point_a'], route['point_b']);
     })
 
-    .controller('TellerUserViewCompletedOfferCtrl', function ($scope, $window, $state, $stateParams, $ionicPopup, $ionicLoading, Teller) {
+    .controller('TellerUserViewCompletedOfferCtrl', function ($scope, $window, $state, $stateParams, $ionicPopup, $ionicLoading, $ionicHistory, Teller) {
         'use strict';
 
         $scope.offer = $stateParams.offer;
@@ -429,7 +429,7 @@ angular.module('generic-client.controllers.teller', [])
                     template: 'Rating teller...'
                 });
 
-                Teller.userRateOffer($scope.offer.id, $scope.rating, form.note.$viewValue).then(function (res) {
+                Teller.userRateUser($scope.offer.id, $scope.rating, form.note.$viewValue).then(function (res) {
                     if (res.status === 200) {
                         // Clear saved data
                         if ($scope.offer.transaction.tx_type == "withdraw") {
@@ -440,6 +440,9 @@ angular.module('generic-client.controllers.teller', [])
                             $window.localStorage.removeItem('activeTellerDepositOffer');
                         }
 
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true
+                        });
                         $ionicLoading.hide();
                         $state.go('app.home');
                     } else {
@@ -702,10 +705,44 @@ angular.module('generic-client.controllers.teller', [])
         $scope.refreshData()
     })
 
-    .controller('TellerCompletedOfferCtrl', function ($scope, $window, $state, $stateParams) {
+    .controller('TellerCompletedOfferCtrl', function ($scope, $window, $state, $stateParams, $ionicPopup, $ionicLoading, $ionicHistory, Teller) {
         'use strict';
 
         $scope.offer = $stateParams.offer;
+        $scope.rating = 1;
+
+        $scope.rateUp = function () {
+            $scope.rating = 1;
+        };
+
+        $scope.rateDown = function () {
+            $scope.rating = 0;
+        };
+
+        $scope.rate = function (form) {
+            if (form.$valid) {
+                $ionicLoading.show({
+                    template: 'Rating user...'
+                });
+
+                Teller.userRateUser($scope.offer.id, $scope.rating, form.note.$viewValue).then(function (res) {
+                    if (res.status === 200) {
+                        $ionicLoading.hide();
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true
+                        });
+                        $state.go('app.teller');
+                    } else {
+                        $ionicLoading.hide();
+                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                    }
+                }).catch(function (error) {
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicLoading.hide();
+                });
+            }
+        };
+
     })
 
     .filter('capitalize', function () {
