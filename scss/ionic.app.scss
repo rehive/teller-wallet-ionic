@@ -472,12 +472,9 @@ input.ng-invalid, input.ng-dirty {
   background-color: $background;
 }
 
-.line-space {
-
-}
-
 // Container
 .container-body {
+
 }
 
 .container-default {
@@ -608,6 +605,7 @@ input.ng-invalid, input.ng-dirty {
   overflow: hidden;
   width: 100%;
   height: 450px;
+  position: relative;
 }
 
 img-crop {
