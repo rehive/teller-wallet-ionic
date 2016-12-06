@@ -44,7 +44,7 @@ angular.module('generic-client.services.tellers', [])
         };
 
         self.userRateOffer = function(offer_id, value, note) {
-            return $http.put(COMPANY_API + '/user/ratings/', {
+            return $http.post(COMPANY_API + '/user/ratings/', {
                 offer_id: offer_id,
                 value: value,
                 note: note

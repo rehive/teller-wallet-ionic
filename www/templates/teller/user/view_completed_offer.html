@@ -1,13 +1,33 @@
 <ion-view view-title="" hide-back-button="true" hide-nav-bar="true">
-    <ion-content>
-        <div class="container-success row text-center">
-            <div class="col col-100">
-                <h2>Transaction is complete.</h2>
+    <form name="ratingForm" method="post" novalidate>
+        <ion-content class="container-body">
+            <div class="container-success row text-center">
+                <div class="col col-100">
+                    <h2>Transaction is complete.</h2>
+                </div>
             </div>
-        </div>
-    </ion-content>
+            <div class="row text-center">
+                <div class="col col-100">
+                    <h4>
+                        Please rate the teller and the service they provided.
+                    </h4>
+                </div>
+            </div>
+            <div class="list">
+                <div class="item teller-thumbs">
+                    <i class="ion-thumbsup align-left" ng-click="rateUp()" ng-class="{'selected': rating == 1}"></i>
+                    <i class="ion-thumbsdown align-right" ng-click="rateDown()" ng-class="{'selected': rating == 0}"></i>
+                </div>
+                <input ng-model="rating" value="{{ rating }}" name="rating" type="hidden" placeholder="Rating" required>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Note</span>
+                    <input name="note" ng-model="data.note" type="text" placeholder="Add a short note">
+                </label>
+            </div>
+        </ion-content>
 
-    <a class="high-footer bar bar-footer" menu-close href="#/app/dashboard">
-        <h1 class="title">Done</h1>
-    </a>
+        <button keyboard-attach class="bar bar-footer high-footer" ng-click="rate(ratingForm)">
+            <h1 class="title">Done</h1>
+        </button>
+    </form>
 </ion-view>

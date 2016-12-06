@@ -409,18 +409,49 @@ angular.module('generic-client.controllers.teller', [])
         Maps.route($scope.map3, route['point_a'], route['point_b']);
     })
 
-    .controller('TellerUserViewCompletedOfferCtrl', function ($scope, $window, $state, $stateParams) {
+    .controller('TellerUserViewCompletedOfferCtrl', function ($scope, $window, $state, $stateParams, $ionicPopup, $ionicLoading, Teller) {
         'use strict';
 
         $scope.offer = $stateParams.offer;
+        $scope.rating = 1;
 
-        if ($scope.offer.transaction.tx_type == "withdraw") {
-            $window.localStorage.removeItem('activeTellerWithdraw');
-            $window.localStorage.removeItem('activeTellerWithdrawOffer');
-        } else if ($scope.offer.transaction.tx_type == "deposit") {
-            $window.localStorage.removeItem('activeTellerDeposit');
-            $window.localStorage.removeItem('activeTellerDepositOffer');
-        }
+        $scope.rateUp = function () {
+            $scope.rating = 1;
+        };
+
+        $scope.rateDown = function () {
+            $scope.rating = 0;
+        };
+
+        $scope.rate = function (form) {
+            if (form.$valid) {
+                $ionicLoading.show({
+                    template: 'Rating teller...'
+                });
+
+                Teller.userRateOffer($scope.offer.id, $scope.rating, form.note.$viewValue).then(function (res) {
+                    if (res.status === 200) {
+                        // Clear saved data
+                        if ($scope.offer.transaction.tx_type == "withdraw") {
+                            $window.localStorage.removeItem('activeTellerWithdraw');
+                            $window.localStorage.removeItem('activeTellerWithdrawOffer');
+                        } else if ($scope.offer.transaction.tx_type == "deposit") {
+                            $window.localStorage.removeItem('activeTellerDeposit');
+                            $window.localStorage.removeItem('activeTellerDepositOffer');
+                        }
+
+                        $ionicLoading.hide();
+                        $state.go('app.home');
+                    } else {
+                        $ionicLoading.hide();
+                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                    }
+                }).catch(function (error) {
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicLoading.hide();
+                });
+            }
+        };
     })
 
     .controller('TellerCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $cordovaGeolocation, $window, Teller) {
