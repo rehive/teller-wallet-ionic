@@ -13,8 +13,6 @@ angular.module('generic-client.controllers.settings', [])
            croppedFileData: ''
         };
 
-        $ionicLoading.hide();
-
         $scope.upload = function () {
             if ($scope.image.fileData) {
                 // Convert data URL to blob file
@@ -113,7 +111,6 @@ angular.module('generic-client.controllers.settings', [])
                         if (country[i].code == res.data.nationality) {
                             var nationality = country[i].name;
                         }
-
                     }
 
                     $scope.data = {

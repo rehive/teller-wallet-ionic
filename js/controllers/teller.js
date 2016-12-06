@@ -180,8 +180,18 @@ angular.module('generic-client.controllers.teller', [])
         }
 
         $scope.back = function () {
-            $ionicHistory.goBack(-2);
-        };
+            if ($scope.transaction.tx_type == 'deposit') {
+                $ionicHistory.nextViewOptions({
+                    disableBack: true
+                });
+                $state.go('app.deposit');
+            } else if ($scope.transaction.tx_type == 'withdraw') {
+                $ionicHistory.nextViewOptions({
+                    disableBack: true
+                });
+                $state.go('app.withdraw');
+            }
+        }
 
         $scope.cancel = function (title, message) {
             $ionicLoading.show({
@@ -240,8 +250,14 @@ angular.module('generic-client.controllers.teller', [])
                     } else if ($scope.offer.transaction.tx_type == "deposit") {
                         $window.localStorage.setItem('activeTellerDepositOffer', JSON.stringify($scope.offer));
                     }
-
                     $ionicLoading.hide();
+                    $ionicHistory.nextViewOptions({
+                        disableAnimate: true,
+                        disableBack: true
+                    });
+                    $state.go('app.teller_user_view_offer', {
+                        offer: $scope.offer
+                    });
                 } else {
                     $ionicLoading.hide();
                     $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
@@ -267,7 +283,9 @@ angular.module('generic-client.controllers.teller', [])
                     }
 
                     $ionicLoading.hide();
-                    $state.go('app.teller_user_search_offers');
+                    $state.go('app.teller_user_search_offers', {
+                        transaction: $scope.offer.transaction
+                    });
                 } else {
                     $ionicLoading.hide();
                     $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
@@ -462,11 +480,11 @@ angular.module('generic-client.controllers.teller', [])
                         res.data.results[i].amount = Conversions.from_cents(res.data.results[i].amount);
                         res.data.results[i].fee = Conversions.from_cents(res.data.results[i].fee);
                         $scope.transactions.push(res.data.results[i]);
-                        $scope.$broadcast('scroll.refreshComplete');
                     }
+                    $scope.$broadcast('scroll.refreshComplete');
                 }
             );
-        }
+        };
 
         $scope.refreshData()
     })
@@ -645,6 +663,7 @@ angular.module('generic-client.controllers.teller', [])
                         res.data.results[i].transaction.fee = Conversions.from_cents(res.data.results[i].transaction.fee);
                         $scope.offers.push(res.data.results[i]);
                     }
+                    $scope.$broadcast('scroll.refreshComplete');
                 }
             );
         }
