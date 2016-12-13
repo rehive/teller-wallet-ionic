@@ -3,12 +3,11 @@
     <name>Fundo</name>
     <description>
         Your local Teller on demand for cash deposits and withdrawals.
-    </description>
+  </description>
     <author email="helghardt@rehive.com" href="https://rehive.com/">
       Rehive
     </author>
     <content src="index.html" />
-    <access origin="*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
@@ -70,8 +69,11 @@
         <icon height="87" src="resources/ios/icon/icon-small@3x.png" width="87" />
     </platform>
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
-    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="cordova-plugin-whitelist" spec="~1.3.0" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.0" />
     <plugin name="cordova-plugin-statusbar" spec="~2.2.0" />
+    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <allow-navigation href="*" />
+    <allow-navigation href="http://192.168.1.100:8100" />
+    <plugin name="com.bez4pieci.cookies" spec="https://github.com/bez4pieci/Phonegap-Cookies-Plugin.git" />
 </widget>
