@@ -94,7 +94,7 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerUserSearchOffersCtrl', function ($scope, $rootScope, $state, $stateParams, $window, $ionicHistory, $ionicPopup, $ionicLoading, $cordovaGeolocation, $interval, $timeout, Teller) {
+    .controller('TellerUserSearchOffersCtrl', function ($ionicPlatform, $scope, $rootScope, $state, $stateParams, $window, $ionicHistory, $ionicPopup, $ionicLoading, $cordovaGeolocation, $interval, $timeout, Teller) {
         'use strict';
 
         $scope.offers = false;
@@ -105,47 +105,49 @@ angular.module('generic-client.controllers.teller', [])
 
         var options = {timeout: 5000, enableHighAccuracy: true};
 
-        $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
-            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            $scope.map.setCenter(latLng);
+        $ionicPlatform.ready(function () {
+            $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+                var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                $scope.map.setCenter(latLng);
 
-            var pMarker = new google.maps.Marker({
-                position: latLng,
-                title: "You are here",
-                map: $scope.map,
-                icon: 'img/light_blue_map_marker.png',
-                zIndex: 1
+                var pMarker = new google.maps.Marker({
+                    position: latLng,
+                    title: "You are here",
+                    map: $scope.map,
+                    icon: 'img/light_blue_map_marker.png',
+                    zIndex: 1
+                });
+
+                Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
+                    if (res.status !== 200) {
+                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                    }
+                }).catch(function (error) {
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                });
+
+                // Trigger search on page load
+                search();
+
+                // Trigger search every 5 seconds
+                $scope.interval = $interval(search, 5000);
+
+                // Stop search after 60 seconds
+                $scope.timeout = $timeout(function () {
+                    if ($scope.mappedOffers.length === 0) {
+                        $scope.cancel('No results', "No nearby teller offers were found, please try again later.");
+                    }
+                }, 60000);
+
+                // Stop interval/timeout functions on page change
+                var dereg = $scope.$on('$destroy', function () {
+                    $interval.cancel($scope.interval);
+                    $timeout.cancel($scope.timeout);
+                    dereg();
+                });
+            }, function (error) {
+                $ionicPopup.alert({title: "Error", template: "Could not get location."});
             });
-
-            Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
-                if (res.status !== 200) {
-                    $ionicPopup.alert({title: "Error", template: res.data.message});
-                }
-            }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
-            });
-
-            // Trigger search on page load
-            search();
-
-            // Trigger search every 5 seconds
-            $scope.interval = $interval(search, 5000);
-
-            // Stop search after 60 seconds
-            $scope.timeout = $timeout(function () {
-                if ($scope.mappedOffers.length === 0) {
-                    $scope.cancel('No results', "No nearby teller offers were found, please try again later.");
-                }
-            }, 60000);
-
-            // Stop interval/timeout functions on page change
-            var dereg = $scope.$on('$destroy', function () {
-                $interval.cancel($scope.interval);
-                $timeout.cancel($scope.timeout);
-                dereg();
-            });
-        }, function (error) {
-            $ionicPopup.alert({title: "Error", template: "Could not get location."});
         });
 
         function search() {
@@ -226,7 +228,7 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerUserViewOfferCtrl', function ($scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $cordovaGeolocation, $ionicHistory, $interval, Teller, Conversions) {
+    .controller('TellerUserViewOfferCtrl', function ($ionicPlatform, $scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $cordovaGeolocation, $ionicHistory, $interval, Teller, Conversions) {
         'use strict';
 
         $scope.data = {};
@@ -314,47 +316,49 @@ angular.module('generic-client.controllers.teller', [])
 
         var options = {timeout: 5000, enableHighAccuracy: true};
 
-        $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
-            $scope.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        $ionicPlatform.ready(function () {
+            $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+                $scope.latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-            Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
-                if (res.status !== 200) {
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
-                }
-            }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
-            });
-
-            Teller.userOffer($scope.offer.id).then(function (res) {
-                if (res.status === 200) {
-                    $scope.offer = res.data.data
-                    $scope.offer.transaction.total = Conversions.from_cents($scope.offer.transaction.amount + $scope.offer.transaction.fee)
-                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
-                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
-
-                    if ($scope.offer.status === "Confirmed") {
-                        $state.go('app.teller_user_view_completed_offer', {
-                            offer: $scope.offer
-                        });
+                Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
+                    if (res.status !== 200) {
+                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
                     }
+                }).catch(function (error) {
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                });
 
-                    var point_a = $scope.latLng;
-                    var center = $scope.latLng;
-                    var point_b = new google.maps.LatLng($scope.offer.user.latitude, $scope.offer.user.longitude);
+                Teller.userOffer($scope.offer.id).then(function (res) {
+                    if (res.status === 200) {
+                        $scope.offer = res.data.data
+                        $scope.offer.transaction.total = Conversions.from_cents($scope.offer.transaction.amount + $scope.offer.transaction.fee)
+                        $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
+                        $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
 
-                    var route = {point_a: point_a, center: center, point_b: point_b};
-                    $window.localStorage.setItem('route', JSON.stringify(route));
+                        if ($scope.offer.status === "Confirmed") {
+                            $state.go('app.teller_user_view_completed_offer', {
+                                offer: $scope.offer
+                            });
+                        }
 
-                    $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
-                    Maps.route($scope.map2, point_a, point_b);
-                } else {
-                    $scope.invalidate();
-                }
-            }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                        var point_a = $scope.latLng;
+                        var center = $scope.latLng;
+                        var point_b = new google.maps.LatLng($scope.offer.user.latitude, $scope.offer.user.longitude);
+
+                        var route = {point_a: point_a, center: center, point_b: point_b};
+                        $window.localStorage.setItem('route', JSON.stringify(route));
+
+                        $scope.map2 = new google.maps.Map(document.getElementById('map2'), {zoom: 4, center: center});
+                        Maps.route($scope.map2, point_a, point_b);
+                    } else {
+                        $scope.invalidate();
+                    }
+                }).catch(function (error) {
+                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                });
+            }, function (error) {
+                $ionicPopup.alert({title: "Error", template: "Could not get location."});
             });
-        }, function (error) {
-            $ionicPopup.alert({title: "Error", template: "Could not get location."});
         });
 
         // --------------------------------------------------
@@ -457,7 +461,7 @@ angular.module('generic-client.controllers.teller', [])
         };
     })
 
-    .controller('TellerCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $cordovaGeolocation, $window, Teller) {
+    .controller('TellerCtrl', function ($ionicPlatform, $scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $cordovaGeolocation, $window, Teller) {
         'use strict';
 
         $scope.tellerMode = JSON.parse($window.localStorage.getItem('tellerMode'));
@@ -469,22 +473,24 @@ angular.module('generic-client.controllers.teller', [])
 
             var options = {timeout: 5000, enableHighAccuracy: true};
 
-            $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
-                Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
-                    if (res.status === 200) {
+            $ionicPlatform.ready(function () {
+                $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+                    Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
+                        if (res.status === 200) {
+                            $ionicLoading.hide();
+                            $scope.tellerMode = 'enabled';
+                            $window.localStorage.setItem('tellerMode', JSON.stringify($scope.tellerMode));
+                        } else {
+                            $ionicLoading.hide();
+                            $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                        }
+                    }).catch(function (error) {
+                        $ionicPopup.alert({title: 'Authentication failed', template: error.message});
                         $ionicLoading.hide();
-                        $scope.tellerMode = 'enabled';
-                        $window.localStorage.setItem('tellerMode', JSON.stringify($scope.tellerMode));
-                    } else {
-                        $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
-                    }
-                }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
-                    $ionicLoading.hide();
+                    });
+                }, function (error) {
+                    alert(error.message);
                 });
-            }, function (error) {
-                alert("Could not get location.");
             });
         };
 
