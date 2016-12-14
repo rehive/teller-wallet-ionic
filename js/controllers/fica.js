@@ -47,10 +47,7 @@ angular.module('generic-client.controllers.fica', [])
 
         $scope.upload = function () {
             if ($scope.image.fileData) {
-                // Convert data URL to blob file
-
                 Promise.resolve(Upload.dataUrltoBlob($scope.image.fileData, "file")).then(function(file) {
-
                     Upload.upload({
                         url: API + "/users/document/",
                         data: {
@@ -115,12 +112,9 @@ angular.module('generic-client.controllers.fica', [])
                 ionic.Platform.ready(function () {
                     var cameraOptions = {
                         quality: 75,
-                        destinationType: Camera.DestinationType.DATA_URL,
-                        sourceType: Camera.PictureSourceType.CAMERA,
-                        allowEdit: true,
-                        encodingType: Camera.EncodingType.JPEG,
+                        allowEdit: false,
                         popoverOptions: CameraPopoverOptions,
-                        saveToPhotoAlbum: true
+                        correctOrientation: true
                     };
 
                     $cordovaCamera.getPicture(cameraOptions).then(function (file) {
