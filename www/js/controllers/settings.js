@@ -13,6 +13,15 @@ angular.module('generic-client.controllers.settings', [])
            croppedFileData: ''
         };
 
+        $scope.loadDone = function () {
+            $ionicLoading.hide();
+        };
+
+        $scope.loadError = function () {
+            $ionicLoading.hide();
+            $ionicPopup.alert({title: "Error", template: "There was an error rendering the file."});
+        };
+
         $scope.upload = function () {
             if ($scope.image.fileData) {
                 // Convert data URL to blob file
@@ -29,6 +38,7 @@ angular.module('generic-client.controllers.settings', [])
                         $rootScope.user.profile = res.data.data.profile;
                         $window.localStorage.setItem('user', JSON.stringify($rootScope.user));
 
+                        // Show messages and redirect
                         $ionicLoading.hide();
                         $ionicPopup.alert({title: "Success", template: "Upload complete."});
                         $state.go('app.profile_image');
@@ -62,8 +72,6 @@ angular.module('generic-client.controllers.settings', [])
                     $timeout(function() {
                         $state.go('app.profile_image_upload', {
                             fileData: evt.target.result
-                        }).then(function() {
-                            $ionicLoading.hide();
                         });
                     });
                 };
@@ -77,12 +85,9 @@ angular.module('generic-client.controllers.settings', [])
                 ionic.Platform.ready(function(){
                     var cameraOptions = {
                         quality: 75,
-                        destinationType: Camera.DestinationType.DATA_URL,
-                        sourceType: Camera.PictureSourceType.CAMERA,
-                        allowEdit: true,
-                        encodingType: Camera.EncodingType.JPEG,
+                        allowEdit: false,
                         popoverOptions: CameraPopoverOptions,
-                        saveToPhotoAlbum: true
+                        correctOrientation: true
                     };
 
                     $cordovaCamera.getPicture(cameraOptions).then(function (file) {

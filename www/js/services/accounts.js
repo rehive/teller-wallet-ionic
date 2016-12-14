@@ -96,7 +96,9 @@ angular.module('generic-client.services.accounts', [])
             $window.localStorage.removeItem('activeTellerDeposit');
             $window.localStorage.removeItem('activeTellerDepositOffer');
 
-            window.cookies.clear();
+            if (typeof window.cookies != 'undefined') {
+                window.cookies.clear();
+            }
         };
     })
 
