@@ -38,9 +38,7 @@ angular.module('generic-client.controllers.settings', [])
                         $rootScope.user.profile = res.data.data.profile;
                         $window.localStorage.setItem('user', JSON.stringify($rootScope.user));
 
-                        // Show messages and redirect
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Success", template: "Upload complete."});
                         $state.go('app.profile_image');
                     }, function (res) {
                         $ionicLoading.hide();
@@ -60,23 +58,21 @@ angular.module('generic-client.controllers.settings', [])
     .controller('ProfileImageCtrl', function ($state, $scope, $ionicLoading, $ionicPopup, $cordovaFileTransfer, $cordovaCamera, $timeout) {
         'use strict';
 
-        $scope.upload = function (file) {
-            if (file) {
-                $ionicLoading.show({
-                    template: 'Processing...'
-                });
+        $scope.getFromFiles = function (file) {
+            $ionicLoading.show({
+                template: 'Processing...'
+            });
 
-                // Convert to Data URL
-                var reader = new FileReader();
-                reader.onloadend = function (evt) {
-                    $timeout(function() {
-                        $state.go('app.profile_image_upload', {
-                            fileData: evt.target.result
-                        });
+            // Convert to Data URL
+            var reader = new FileReader();
+            reader.onloadend = function (evt) {
+                $timeout(function() {
+                    $state.go('app.profile_image_upload', {
+                        fileData: evt.target.result
                     });
-                };
-                reader.readAsDataURL(file);
-            }
+                });
+            };
+            reader.readAsDataURL(file);
         };
 
         $scope.getFile = function () {
@@ -86,14 +82,17 @@ angular.module('generic-client.controllers.settings', [])
                     var cameraOptions = {
                         quality: 75,
                         allowEdit: false,
-                        popoverOptions: CameraPopoverOptions,
+                        destinationType: Camera.DestinationType.DATA_URL,
                         correctOrientation: true
                     };
 
-                    $cordovaCamera.getPicture(cameraOptions).then(function (file) {
-                        $scope.upload(file)
-                    });
+                    $cordovaCamera.getPicture(cameraOptions).then(function (imageData) {
+                        var file = "data:image/jpeg;base64," + imageData.replace(/(\r\n|\n|\r)/gm, '');
 
+                        $state.go('app.profile_image_upload', {
+                            fileData: file
+                        });
+                    });
                 });
             } else {
                 document.getElementById('upload').click();
