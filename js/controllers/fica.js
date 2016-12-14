@@ -85,25 +85,23 @@ angular.module('generic-client.controllers.fica', [])
     .controller('FicaImageCtrl', function ($state, $scope, $ionicLoading, $ionicPopup, $cordovaFileTransfer, $cordovaCamera, $timeout) {
         'use strict';
 
-        $scope.upload = function (file) {
-            if (file) {
-                $ionicLoading.show({
-                    template: 'Processing...'
-                });
+        $scope.getFromFiles = function (file) {
+            $ionicLoading.show({
+                template: 'Processing...'
+            });
 
-                // Convert to Data URL
-                var reader = new FileReader();
-                reader.onload = function (evt) {
-                    $timeout(function() {
-                        $state.go('app.fica_image_upload', {
-                            fileData: evt.target.result
-                        }).then(function() {
-                            $ionicLoading.hide();
-                        });
+            // Convert to Data URL
+            var reader = new FileReader();
+            reader.onloadend = function (evt) {
+                $timeout(function() {
+                    $state.go('app.fica_image_upload', {
+                        fileData: evt.target.result
+                    }).then(function() {
+                        $ionicLoading.hide();
                     });
-                };
-                reader.readAsDataURL(file);
-            }
+                });
+            };
+            reader.readAsDataURL(file);
         };
 
         $scope.getFile = function () {
@@ -113,12 +111,18 @@ angular.module('generic-client.controllers.fica', [])
                     var cameraOptions = {
                         quality: 75,
                         allowEdit: false,
-                        popoverOptions: CameraPopoverOptions,
+                        destinationType: Camera.DestinationType.DATA_URL,
                         correctOrientation: true
                     };
 
-                    $cordovaCamera.getPicture(cameraOptions).then(function (file) {
-                        $scope.upload(file)
+                    $cordovaCamera.getPicture(cameraOptions).then(function (imageData) {
+                        var file = "data:image/jpeg;base64," + imageData.replace(/(\r\n|\n|\r)/gm, '');
+
+                        $state.go('app.fica_image_upload', {
+                            fileData: file
+                        }).then(function() {
+                            $ionicLoading.hide();
+                        });
                     });
                 });
             } else {
