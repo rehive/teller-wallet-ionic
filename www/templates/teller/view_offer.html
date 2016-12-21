@@ -1,7 +1,6 @@
-<ion-view view-title="Offer {{offer.status}}">
+<ion-view view-title="{{'OFFER' | translate}}">
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="close()">
-            Close&nbsp;
+        <button class="button button-clear" ng-click="close()" translate="CLOSE">
         </button>
     </ion-nav-buttons>
     <form name="tellerViewForm" method="post" novalidate>
@@ -11,8 +10,10 @@
                     <div class="row">
                         <div class="col col-100">
                             <div class="row center">
-                                <h4><b>Earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{ currency.symbol }}
-                                    {{ offer.transaction.amount }} {{ offer.transaction.tx_type }}.</b></h4>
+                                <h4>
+                                    <b translate="TELLER_OFFER_TRANSACTION"
+                                        translate-values="{ currency: currency.symbol, fee: offer.transaction.fee, amount: offer.transaction.amount, tx_type: offer.transaction.tx_type}"></b>
+                                </h4>
                             </div>
                         </div>
                     </div>
@@ -20,7 +21,6 @@
             </div>
             <div class="teller-container background-light">
                 <div class="row">
-
                     <div class="profile-header">
                         <img class="circle-base profile-image"
                              ng-src="{{ offer.transaction.user.profile || 'img/profile_2.png' }}"/>
@@ -28,10 +28,10 @@
 
                     <div class="row default-top">
                         <div class="teller-header">
-                            <div class="teller-title"><b>{{ offer.transaction.user.first_name }} {{
-                                offer.transaction.user.last_name }}</b>
-
-                                <div class="teller-sub">is 20 minutes walk away.</div>
+                            <div class="teller-title">
+                                <b>{{ offer.transaction.user.first_name }} {{
+                                    offer.transaction.user.last_name }}</b>
+                                <!--<div class="teller-sub">is 20 minutes walk away.</div>-->
                             </div>
 
                             <div class="teller-sub">
@@ -59,12 +59,10 @@
                 <div class="teller-content background-light">
                     <div class="row teller-call">
                         <div class="col col-5"></div>
-                        <a href="tel:{{ offer.transaction.user.mobile_number }}" class="button block button-call col-40">
-                            Call
+                        <a href="tel:{{ offer.transaction.user.mobile_number }}" class="button block button-call col-40" translate="CALL">
                         </a>
                         <div class="col col-10"></div>
-                        <a href="sms:{{ offer.transaction.user.mobile_number }}" class="button block button-call col-40">
-                            Text
+                        <a href="sms:{{ offer.transaction.user.mobile_number }}" class="button block button-call col-40" translate="TEXT">
                         </a>
                         <div class="col col-5"></div>
                     </div>
@@ -76,20 +74,20 @@
                                 <h2><b>{{ offer.transaction.pin }}</b></h2>
                             </div>
                             <div class="row center">
-                                <p><b>{{ offer.transaction.user.first_name }}</b> will provide you with a code. Enter
-                                    the code below in order to complete this transaction.</p>
+                                <p translate="TELLER_CODE_INSTRUCTIONS"
+                                   translate-values="{ first_name: offer.transaction.user.first_name}"></p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Payment code</span>
+                    <span class="input-label" translate="PIN"></span>
                     <input name="code" ng-model="data.code" type="text"
-                           placeholder="Unique transaction pin" required>
+                           placeholder="{{'PIN_PLACEHOLDER' | translate}}" required>
 
                     <div ng-messages="tellerViewForm.code.$error" role="alert"
                          ng-show='tellerViewForm.$submitted || tellerViewForm.code.$dirty'>
-                        <div ng-message="required" class="form-error">Please enter a valid code
+                        <div ng-message="required" class="form-error" translate="PIN_REQUIRED_MESSAGE">
                         </div>
                     </div>
                 </label>
@@ -99,7 +97,7 @@
                     <div class="teller-content">
                         <div class="row">
                     <span class="col-100 align-left">
-                        <b>Instructions from user</b>
+                        <b translate="USER_INSTRUCTIONS"></b>
                     </span>
                         </div>
                         <div class="row">
@@ -112,28 +110,25 @@
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <b>Deposit Details ({{ offer.transaction.currency }})</b>
+                        <b>{{'DETAILS' | translate}} ({{ offer.transaction.currency }})</b>
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-50 align-left">
-                        Amount
+                    <span class="col-50 align-left" translate="AMOUNT">
                     </span>
                     <span class="col-50 align-right">
                         {{ currency.symbol }} {{ offer.transaction.amount }}
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-50 align-left">
-                        Convenience Fee
+                    <span class="col-50 align-left" translate="CONVENIENCE_FEE">
                     </span>
                     <span class="col-50 align-right">
                         {{ currency.symbol }} {{ offer.transaction.fee }}
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-50 align-left">
-                        Total
+                    <span class="col-50 align-left" translate="TOTAL">
                     </span>
                     <span class="col-50 align-right">
                         {{ currency.symbol }} {{ offer.transaction.total }}
@@ -147,8 +142,9 @@
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-100 align-left">
-                        Earn {{ currency.symbol }} {{ offer.transaction.fee }} for  {{ currency.symbol }} {{ offer.transaction.amount }} {{ offer.transaction.tx_type }}.
+                    <span class="col-100 align-left"
+                        translate="TELLER_OFFER_TRANSACTION"
+                        translate-values="{ currency: currency.symbol, fee: offer.transaction.fee, amount: offer.transaction.amount, tx_type: offer.transaction.tx_type}">
                     </span>
                     </div>
                 </div>
@@ -163,15 +159,15 @@
         <div class="row">
             <div ng-if="offer.status === 'Accepted'">
                 <button class="col col-50 high-footer bar bar-footer cancel" ng-click="cancel()">
-                    <h1 class="title">Cancel</h1>
+                    <h1 class="title" translate="CANCEL"></h1>
                 </button>
                 <button class="col col-50 col-offset-50 high-footer bar bar-footer" ng-click="submit(tellerViewForm)">
-                    <h1 class="title">Confirm</h1>
+                    <h1 class="title" translate="CONFIRM"></h1>
                 </button>
             </div>
             <div ng-if="offer.status !== 'Accepted'">
                 <button class="high-footer bar bar-footer cancel" ng-click="cancel()">
-                    <h1 class="title">Cancel</h1>
+                    <h1 class="title" translate="CANCEL"></h1>
                 </button>
             </div>
         </div>

@@ -1,14 +1,12 @@
-<ion-view view-title="">
+<ion-view view-title="{{'VIEW_OFFER' | translate}}">
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="close()">
-            Close&nbsp;
+        <button class="button button-clear" ng-click="close()" translate="CLOSE">
         </button>
     </ion-nav-buttons>
     <form name="depositForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="teller-container background-light">
                 <div class="row">
-
                     <div class="profile-header">
                         <img class="circle-base profile-image"
                              ng-src="{{ offer.user.profile || 'img/profile_2.png' }}"/>
@@ -18,8 +16,7 @@
                         <div class="teller-header">
                             <div class="teller-title"><b>{{ offer.user.first_name }} {{
                                 offer.user.last_name }}</b>
-
-                                <div class="teller-sub">is 20 minutes walk away.</div>
+                                <!--<div class="teller-sub">is 20 minutes walk away.</div>-->
                             </div>
 
                             <div class="teller-sub">
@@ -47,12 +44,10 @@
                 <div class="teller-content background-light">
                     <div class="row teller-call">
                         <div class="col col-5"></div>
-                        <a href="tel:{{ offer.user.mobile_number }}" class="button block button-call col-40">
-                            Call
+                        <a href="tel:{{ offer.user.mobile_number }}" class="button block button-call col-40" translate="CALL">
                         </a>
                         <div class="col col-10"></div>
-                        <a href="sms:{{ offer.user.mobile_number }}" class="button block button-call col-40">
-                            Text
+                        <a href="sms:{{ offer.user.mobile_number }}" class="button block button-call col-40" translate="TEXT">
                         </a>
                         <div class="col col-5"></div>
                     </div>
@@ -64,7 +59,7 @@
                                 <h2><b>{{ offer.transaction.pin }}</b></h2>
                             </div>
                             <div class="row center">
-                                <p>Please present this code in-person to the teller to complete your deposit.</p>
+                                <p translate="USER_CODE_INSTRUCTIONS"></p>
                             </div>
                         </div>
                     </div>
@@ -76,7 +71,7 @@
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <b>Instructions from teller</b>
+                        <b translate="TELLER_INSTRUCTIONS"></b>
                     </span>
                     </div>
                     <div class="row">
@@ -88,28 +83,25 @@
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <b>Deposit Details ({{ offer.transaction.currency }})</b>
+                        <b>{{'DETAILS' | translate}} ({{ offer.transaction.currency }})</b>
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-50 align-left">
-                        Amount
+                    <span class="col-50 align-left" translate="AMOUNT">
                     </span>
                     <span class="col-50 align-right">
                         {{ currency.symbol }} {{ offer.transaction.amount }}
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-50 align-left">
-                        Convenience Fee
+                    <span class="col-50 align-left" translate="CONVENIENCE_FEE">
                     </span>
                     <span class="col-50 align-right">
                         {{ currency.symbol }} {{ offer.transaction.fee }}
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-50 align-left">
-                        Total
+                    <span class="col-50 align-left" translate="TOTAL">
                     </span>
                     <span class="col-50 align-right">
                         {{ currency.symbol }} {{ offer.transaction.total }}
@@ -119,12 +111,13 @@
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <b>Summary</b>
+                        <b translate="SUMMARY"></b>
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-100 align-left">
-                        Pay {{ currency.symbol }} {{ offer.transaction.total }} for a {{ currency.symbol }} {{ offer.transaction.amount }} {{ offer.transaction.tx_type }}.
+                    <span class="col-100 align-left"
+                        translate="SUMMARY_DESCRIPTION"
+                        translate-values="{ currency: currency.symbol, total: offer.transaction.total, amount: offer.transaction.amount, tx_type: offer.transaction.tx_type }">
                     </span>
                     </div>
                 </div>
@@ -138,12 +131,12 @@
 
         <div ng-if="offer.status === 'Pending'">
             <button class="bar bar-footer high-footer" ng-click="accept()">
-                <h1 class="title">Accept</h1>
+                <h1 class="title" translate="ACCEPT"></h1>
             </button>
         </div>
         <div ng-if="offer.status === 'Accepted'">
             <button class="bar bar-footer high-footer cancel" ng-click="cancel()">
-                <h1 class="title">Cancel</h1>
+                <h1 class="title" translate="CANCEL"></h1>
             </button>
         </div>
     </form>

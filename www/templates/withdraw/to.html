@@ -1,13 +1,13 @@
-<ion-view view-title="Withdraw To">
+<ion-view view-title="{{'WITHDRAW_TO' | translate}}">
     <ion-nav-buttons side="right">
         <button class="button button-clear" ng-click="close()">
             Close&nbsp;
         </button>
     </ion-nav-buttons>
+
     <div ng-controller="WithdrawToCtrl">
         <form name="WithdrawToForm" method="post" novalidate>
             <ion-content class="container-body">
-
                 <div class="list">
                     <div ng-repeat="item in items">
                         <a class="item item-icon-right" ng-click="submit('{{ item.accType }}')">
@@ -16,7 +16,6 @@
                         </a>
                     </div>
                 </div>
-
             </ion-content>
         </form>
     </div>

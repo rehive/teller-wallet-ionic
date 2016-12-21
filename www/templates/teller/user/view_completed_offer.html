@@ -1,16 +1,14 @@
-<ion-view view-title="" hide-back-button="true" hide-nav-bar="true">
+<ion-view view-title="{{'COMPLETE_OFFER' | translate}}" hide-back-button="true" hide-nav-bar="true">
     <form name="ratingForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="container-success row text-center">
                 <div class="col col-100">
-                    <h2>Transaction is complete.</h2>
+                    <h2 translate="COMPLETED_TEXT"></h2>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col col-100">
-                    <h4>
-                        Please rate the teller and the service they provided.
-                    </h4>
+                    <h4 translate="RATE_TELLER_INSTRUCTIONS"></h4>
                 </div>
             </div>
             <div class="list">
@@ -20,14 +18,14 @@
                 </div>
                 <input ng-model="rating" value="{{ rating }}" name="rating" type="hidden" placeholder="Rating" required>
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Note</span>
-                    <input name="note" ng-model="data.note" type="text" placeholder="Add a short note">
+                    <span class="input-label" translate="NOTE"></span>
+                    <input name="note" ng-model="data.note" type="text" placeholder="{{'NOTE' | translate}}">
                 </label>
             </div>
         </ion-content>
 
         <button keyboard-attach class="bar bar-footer high-footer" ng-click="rate(ratingForm)">
-            <h1 class="title">Done</h1>
+            <h1 class="title" translate="DONE"></h1>
         </button>
     </form>
 </ion-view>
