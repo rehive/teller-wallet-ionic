@@ -33,34 +33,37 @@
             </div>
             <ion-list class="app-side-menu-list">
                 <ion-item menu-close ui-sref="app.home">
-                    <h1>Home</h1>
+                    {{'HOME' | translate}}
                 </ion-item>
                 <ion-item menu-close ui-sref="app.teller">
-                    <h1>Teller</h1>
+                    {{'TELLER' | translate}}
                 </ion-item>
                 <ion-item menu-close ui-sref="app.deposit">
-                    <h1>Deposit</h1>
+                    {{'DEPOSIT' | translate}}
                 </ion-item>
                 <ion-item menu-close ui-sref="app.withdraw">
-                    <h1>Withdraw</h1>
+                    {{'WITHDRAW' | translate}}
                 </ion-item>
                 <ion-item menu-close ui-sref="app.convert">
-                    <h1>Convert</h1>
+                    {{'CONVERT' | translate}}
                 </ion-item>
+                <!--<ion-item menu-close ui-sref="app.receive">
+                    {{'RECEIVE' | translate}}
+                </ion-item>-->
                 <ion-item menu-close ui-sref="app.currency_accounts">
-                    <h1>Currencies</h1>
+                    {{'ACCOUNTS' | translate}}
                 </ion-item>
+                <!--<ion-item menu-close ui-sref="app.promotion_code">
+                    {{'PROMOTIONS' | translate}}
+                </ion-item>-->
                 <ion-item menu-close ui-sref="app.settings">
-                    <h1>Settings</h1>
+                    {{'SETTINGS' | translate}}
                 </ion-item>
                 <ion-item menu-close ui-sref="app.about">
-                    <h1>About</h1>
+                    {{'ABOUT' | translate}}
                 </ion-item>
-                <!--<ion-item menu-close ui-sref="app.help">-->
-                <!--Help-->
-                <!--</ion-item>-->
                 <ion-item class="item-complex" menu-close ng-click="logout()">
-                    <a class="item-content"><h1>Logout</h1></a>
+                    <a class="item-content" translate="LOGOUT"></a>
                 </ion-item>
             </ion-list>
         </ion-content>

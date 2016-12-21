@@ -1,7 +1,6 @@
-<ion-view view-title="Requests Nearby">
+<ion-view view-title="{{'REQUEST_NEARBY' | translate}}">
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="close()">
-            Close&nbsp;
+        <button class="button button-clear" ng-click="close()" translate="CLOSE">
         </button>
     </ion-nav-buttons>
     <ion-content class="container-body">
@@ -10,10 +9,8 @@
             <div class="container-card">
                 <div class="card">
                     <div class="item item-body line-space">
-                        <h2>No Requests Nearby</h2>
-
-                        <p>There are currently no transaction requests in your area. Pull to refresh.
-                        </p>
+                        <h2 translate="NO_REQUEST_NEARBY"></h2>
+                        <p translate="NO_REQUEST_NEARBY_DESCRIPTION"></p>
                     </div>
                 </div>
             </div>
@@ -23,15 +20,14 @@
                 <div ng-repeat="transaction in transactions">
                     <div ui-sref="app.teller_view_transaction({id: transaction.id})">
                         <div class="item item-avatar item-icon-left no-padding">
-
                             <img class="circle-base profile-image"
                                  ng-src="{{ transaction.user.profile || 'img/profile_2.png' }}"/>
 
                             <div class="row default-top">
                                 <div class="col align-left">
-                                    <h2>Earn {{ currency.symbol }} {{ transaction.fee }} for {{ currency.symbol }} {{ transaction.amount }} {{
-                                        transaction.tx_type }}.</h2>
-                                    <h4>{{ transaction.user.first_name }} is 10 min away.</h4>
+                                    <h2 translate="TELLER_OFFER_TRANSACTION"
+                                        translate-values="{ currency: currency.symbol, fee: transaction.fee, amount: transaction.amount, tx_type: transaction.tx_type}"></h2>
+                                    <!--<h4>{{ transaction.user.first_name }} is 10 min away.</h4>-->
                                 </div>
                             </div>
                         </div>

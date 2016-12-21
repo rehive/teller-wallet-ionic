@@ -1,21 +1,20 @@
-<ion-view view-title="Instructions">
+<ion-view view-title="{{'CREATE_OFFER' | translate}}">
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="close()">
-            Close&nbsp;
+        <button class="button button-clear" ng-click="close()" translate="CLOSE">
         </button>
     </ion-nav-buttons>
     <form name="tellerCreateForm" method="post" novalidate>
         <ion-content class="container-body">
             <div class="list">
                 <div class="item item-input item-stacked-label">
-                    <span class="input-label">How can the customer find you?</span>
+                    <span class="input-label" translate="LOCATION_NOTE"></span>
                     <br>
                     <textarea rows="2" name="note" ng-model="data.note" type="text"
-                           placeholder="Please provide basic instructions how to find you, e.g. what are you wearing or where you will be sitting." required style="line-height: 20px; font-size: 14px; padding-top:5px;"></textarea>
+                           placeholder="{{'LOCATION_NOTE_PLACEHOLDER' | translate}}" required style="line-height: 20px; font-size: 14px; padding-top:5px;"></textarea>
 
                     <div ng-messages="tellerCreateForm.note.$error" role="alert"
                          ng-show='tellerCreateForm.$submitted || tellerCreateForm.note.$dirty'>
-                        <div ng-message="required" class="form-error">Please provide instructions for the customer.
+                        <div ng-message="required" class="form-error" translate="LOCATION_NOTE_REQUIRED_MESSAGE">
                         </div>
                     </div>
                 </div>
@@ -27,7 +26,7 @@
         </ion-footer-bar>
 
         <button keyboard-attach class="high-footer bar bar-footer" ng-click="submit(tellerCreateForm)">
-            <h1 class="title">Confirm</h1>
+            <h1 class="title" translate="CONFIRM"></h1>
         </button>
     </form>
 </ion-view>

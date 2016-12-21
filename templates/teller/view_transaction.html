@@ -1,7 +1,6 @@
-<ion-view view-title="">
+<ion-view view-title="{{'TRANSACTION' | translate}}">
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="close()">
-            Close&nbsp;
+        <button class="button button-clear" ng-click="close()" translate="CLOSE">
         </button>
     </ion-nav-buttons>
     <form name="depositForm" method="post" novalidate>
@@ -10,15 +9,16 @@
                 <div class="row">
                     <div class="col col-100">
                         <div class="row center">
-                            <h4><b>Earn {{ currency.symbol }} {{ transaction.fee }} for {{ currency.symbol }} {{
-                                transaction.amount }} {{ transaction.tx_type }}.</b></h4>
+                            <h4>
+                                <b translate="TELLER_OFFER_TRANSACTION"
+                                    translate-values="{ currency: currency.symbol, fee: transaction.fee, amount: transaction.amount, tx_type: transaction.tx_type}"></b>
+                            </h4>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="teller-container background-light">
                 <div class="row">
-
                     <div class="profile-header">
                         <img class="circle-base profile-image"
                              ng-src="{{ transaction.user.profile || 'img/profile_2.png' }}"/>
@@ -29,7 +29,7 @@
                             <div class="teller-title"><b>{{ transaction.user.first_name }} {{ transaction.user.last_name
                                 }}</b>
 
-                                <div class="teller-sub">is 20 minutes walk away.</div>
+                                <!--<div class="teller-sub">is 20 minutes walk away.</div>-->
                             </div>
 
                             <div class="teller-sub">
@@ -57,28 +57,25 @@
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <b>{{ transaction.tx_type | capitalize }} Details ({{ transaction.currency }})</b>
+                        <b>{{ transaction.tx_type | capitalize }} {{'DETAILS' | translate}} ({{ transaction.currency }})</b>
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-50 align-left">
-                        Amount
+                    <span class="col-50 align-left" translate="AMOUNT">
                     </span>
                     <span class="col-50 align-right">
                         {{ currency.symbol }} {{ transaction.amount }}
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-50 align-left">
-                        Convenience Fee
+                    <span class="col-50 align-left" translate="CONVENIENCE_FEE">
                     </span>
                     <span class="col-50 align-right">
                         {{ currency.symbol }} {{ transaction.fee }}
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-50 align-left">
-                        Total
+                    <span class="col-50 align-left" translate="TOTAL">
                     </span>
                     <span class="col-50 align-right">
                         {{ currency.symbol }} {{ transaction.total }}
@@ -88,26 +85,24 @@
                 <div class="teller-content">
                     <div class="row">
                     <span class="col-100 align-left">
-                        <b>Summary</b>
+                        <b translate="SUMMARY"></b>
                     </span>
                     </div>
                     <div class="row">
-                    <span class="col-100 align-left">
-                        Earn {{ currency.symbol }} {{ transaction.fee }} for  {{ currency.symbol }} {{ transaction.amount }} {{ transaction.tx_type }}.
+                    <span class="col-100 align-left"
+                        translate="TELLER_OFFER_TRANSACTION"
+                        translate-values="{ currency: currency.symbol, fee: transaction.fee, amount: transaction.amount, tx_type: transaction.tx_type}">
                     </span>
                     </div>
                 </div>
-
             </div>
-
             <div class="teller-footer"></div>
         </ion-content>
 
         <div class="row">
             <button class="high-footer bar bar-footer" ng-click="acceptTransaction()">
-                <h1 class="title">Accept</h1>
+                <h1 class="title" translate="ACCEPT"></h1>
             </button>
-
         </div>
     </form>
 </ion-view>

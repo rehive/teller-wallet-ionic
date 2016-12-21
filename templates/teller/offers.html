@@ -1,25 +1,21 @@
-<ion-view view-title="Offers">
+<ion-view view-title="{{'OFFERS' | translate}}">
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="close()">
-            Cancel&nbsp;
+        <button class="button button-clear" ng-click="close()" translate="CANCEL">
         </button>
     </ion-nav-buttons>
     <ion-content class="container-body line-space">
         <ion-refresher pulling-text="pull to refresh" on-refresh="refreshData()"></ion-refresher>
         <div class="list-default">
             <div class="item background-light">
-                <b>Matched Offers</b>
-
-                <p>List of customers that have accepted your offer and will arrive soon.</p>
+                <b translate="MATCHED_OFFERS"></b>
+                <p translate="MATCHED_OFFERS_DESCRIPTION"></p>
             </div>
             <div ng-if="acceptedOffers == 0">
                 <div class="container-card">
                     <div class="card">
                         <div class="item item-body line-space">
-                            <h2>No Matches Yet</h2>
-
-                            <p>You currently have no matched offers. Pull to refresh.
-                            </p>
+                            <h2 translate="NO_MATCHED_OFFERS"></h2>
+                            <p translate="NO_MATCHED_OFFERS_DESCRIPTION"></p>
                         </div>
                     </div>
                 </div>
@@ -28,16 +24,14 @@
                 <div ng-repeat="offer in acceptedOffers">
                     <div ui-sref="app.teller_view_offer({offer: offer})">
                         <div class="item item-avatar item-icon-left no-padding">
-
                             <img class="circle-base profile-image"
                                  ng-src="{{ offer.transaction.user.profile || 'img/profile_2.png' }}"/>
 
                             <div class="row default-top">
                                 <div class="col align-left">
-                                    <h2>Earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{ currency.symbol }}
-                                        {{ offer.transaction.amount }} {{
-                                        offer.transaction.tx_type }}.</h2>
-                                    <h4>Expected arrival is 10 minutes.</h4>
+                                    <h2 translate="TELLER_OFFER_TRANSACTION"
+                                        translate-values="{ currency: currency.symbol, fee: offer.transaction.fee, amount: offer.transaction.amount, tx_type: offer.transaction.tx_type}"></h2>
+                                    <!--<h4>Expected arrival is 10 minutes.</h4>-->
                                 </div>
                             </div>
                         </div>
@@ -46,18 +40,15 @@
             </div>
 
             <div class="item background-light">
-                <b>Pending Offers</b>
-
-                <p>You are waiting for users to accept your offer. If a user accepts your offer, you will be matched.</p>
+                <b translate="PENDING_OFFERS"></b>
+                <p translate="PENDING_OFFERS_DESCRIPTION"></p>
             </div>
             <div ng-if="pendingOffers == 0">
                 <div class="container-card">
                     <div class="card">
                         <div class="item item-body line-space">
-                            <h2>No Pending Offers</h2>
-
-                            <p>You currently have no pending offers. Pull to refresh.
-                            </p>
+                            <h2 translate="NO_PENDING_OFFERS"></h2>
+                            <p translate="NO_PENDING_OFFERS_DESCRIPTION"></p>
                         </div>
                     </div>
                 </div>
@@ -66,16 +57,14 @@
                 <div ng-repeat="offer in pendingOffers">
                     <div ui-sref="app.teller_view_offer({offer: offer})">
                         <div class="item item-avatar item-icon-left no-padding">
-
                             <img class="circle-base profile-image"
                                  ng-src="{{ offer.transaction.user.profile || 'img/profile_2.png' }}"/>
 
                             <div class="row default-top">
                                 <div class="col align-left">
-                                    <h2>Earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{ currency.symbol }}
-                                        {{ offer.transaction.amount }} {{
-                                        offer.transaction.tx_type }}.</h2>
-                                    <h4>Expected arrival is 10 minutes.</h4>
+                                    <h2 translate="TELLER_OFFER_TRANSACTION"
+                                        translate-values="{ currency: currency.symbol, fee: offer.transaction.fee, amount: offer.transaction.amount, tx_type: offer.transaction.tx_type}"></h2>
+                                    <!--<h4>Expected arrival is 10 minutes.</h4>-->
                                 </div>
                             </div>
                         </div>

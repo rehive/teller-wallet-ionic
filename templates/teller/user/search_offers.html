@@ -1,12 +1,11 @@
-<ion-view>
+<ion-view view-title="{{'SEARCH_OFFERS' | translate}}">
     <ion-nav-bar>
         <ion-nav-back-button class="button-clear" ng-click="back()">
-            <i class="icon ion-ios-arrow-back"></i> Back
+            <i class="icon ion-ios-arrow-back"></i> {{'BACK' | translate}}
         </ion-nav-back-button>
     </ion-nav-bar>
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="close()">
-            Close&nbsp;
+        <button class="button button-clear" ng-click="close()" translate="CLOSE">
         </button>
     </ion-nav-buttons>
     <form name="SelectOfferForm" method="post" novalidate>
@@ -15,13 +14,12 @@
                 <div class="row">
                     <div class="col col-100">
                         <div class="row">
-                            <h4 ng-if="offers === false">We're searching for tellers</h4>
-                            <h4 ng-if="offers === true">We found tellers near you</h4>
+                            <h4 ng-if="offers === false" translate="SEARCHING_TEXT"></h4>
+                            <h4 ng-if="offers === true" translate="FOUND_TEXT"></h4>
                         </div>
                         <div class="row">
-                            <p>You've placed a {{ transaction.tx_type }} request of {{ currency.symbol }} {{ transaction.amount }} and
-                                offered a {{ currency.symbol }} {{ transaction.fee }} convenience fee. Cancel this
-                                transaction if you want to increase your fee.</p>
+                            <p translate="SEARCH_DESCRIPTION"
+                               translate-values="{ tx_type: transaction.tx_type, currency: currency.symbol, amount: transaction.amount, fee: transaction.fee}"></p>
                         </div>
                     </div>
                 </div>
@@ -43,6 +41,6 @@
     </ion-footer-bar>
 
     <button class="col col-100 high-footer bar bar-footer cancel" ng-click="cancel(null, null)">
-        <h1 class="title">Cancel</h1>
+        <h1 class="title" translate="CANCEL"></h1>
     </button>
 </ion-view>

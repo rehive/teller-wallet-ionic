@@ -1,7 +1,6 @@
-<ion-view view-title="History">
+<ion-view view-title="{{'HISTORY' | translate}}">
     <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="close()">
-            Cancel&nbsp;
+        <button class="button button-clear" ng-click="close()" translate="CANCEL">
         </button>
     </ion-nav-buttons>
     <ion-content class="container-body">
@@ -9,7 +8,7 @@
         <div class="list-default">
 
             <div class="item background-light">
-                <b>History</b>
+                <b translate="HISTORY"></b>
             </div>
             <div class="block">
                 <div ng-repeat="offer in offers">
@@ -20,9 +19,8 @@
 
                             <div class="row default-top">
                                 <div class="col align-left">
-                                    <h2>You've earn {{ currency.symbol }} {{ offer.transaction.fee }} for {{
-                                        currency.symbol }} {{ offer.transaction.amount }} {{
-                                        offer.transaction.tx_type }}.</h2>
+                                    <h2 translate="TELLER_TRANSACTION"
+                                        translate-values="{ currency: currency.symbol, fee: offer.transaction.fee, currency: currency.symbol, amount: offer.transaction.amount, tx_type: offer.transaction.tx_type}"></h2>
                                     <h5>{{ offer.created | date:'d MMM yyyy' }}</h5>
                                 </div>
                             </div>

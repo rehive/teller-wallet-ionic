@@ -1,6 +1,6 @@
 angular.module('generic-client.controllers.teller', [])
 
-    .controller('TellerUserWithdrawAmountCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, Teller, Conversions) {
+    .controller('TellerUserWithdrawAmountCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, $translate, Teller, Conversions) {
         'use strict';
 
         $scope.data = {};
@@ -9,7 +9,7 @@ angular.module('generic-client.controllers.teller', [])
         $scope.submit = function (form) {
             if (form.$valid) {
                 $ionicLoading.show({
-                    template: 'Submitting...'
+                    template: $translate.instant("LOADER_PROCESSING")
                 });
 
                 if (form.fee.$viewValue == null) {
@@ -37,17 +37,17 @@ angular.module('generic-client.controllers.teller', [])
                         });
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                        $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                     $ionicLoading.hide();
                 });
             }
         };
     })
 
-    .controller('TellerUserDepositAmountCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, Teller, Conversions) {
+    .controller('TellerUserDepositAmountCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $window, $translate, Teller, Conversions) {
         'use strict';
 
         $scope.data = {};
@@ -56,7 +56,7 @@ angular.module('generic-client.controllers.teller', [])
         $scope.submit = function (form) {
             if (form.$valid) {
                 $ionicLoading.show({
-                    template: 'Submitting...'
+                    template: $translate.instant("LOADER_PROCESSING")
                 });
 
                 if (form.fee.$viewValue == null) {
@@ -84,17 +84,17 @@ angular.module('generic-client.controllers.teller', [])
                         });
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                        $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                     $ionicLoading.hide();
                 });
             }
         };
     })
 
-    .controller('TellerUserSearchOffersCtrl', function ($ionicPlatform, $scope, $rootScope, $state, $stateParams, $window, $ionicHistory, $ionicPopup, $ionicLoading, $cordovaGeolocation, $interval, $timeout, Teller) {
+    .controller('TellerUserSearchOffersCtrl', function ($ionicPlatform, $scope, $rootScope, $state, $stateParams, $window, $ionicHistory, $ionicPopup, $ionicLoading, $cordovaGeolocation, $interval, $timeout, $translate, Teller) {
         'use strict';
 
         $scope.offers = false;
@@ -112,7 +112,7 @@ angular.module('generic-client.controllers.teller', [])
 
                 var pMarker = new google.maps.Marker({
                     position: latLng,
-                    title: "You are here",
+                    title: $translate.instant("POSITION_TEXT"),
                     map: $scope.map,
                     icon: 'img/light_blue_map_marker.png',
                     zIndex: 1
@@ -120,10 +120,10 @@ angular.module('generic-client.controllers.teller', [])
 
                 Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
                     if (res.status !== 200) {
-                        $ionicPopup.alert({title: "Error", template: res.data.message});
+                        $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.message});
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                 });
 
                 // Trigger search on page load
@@ -135,7 +135,7 @@ angular.module('generic-client.controllers.teller', [])
                 // Stop search after 60 seconds
                 $scope.timeout = $timeout(function () {
                     if ($scope.mappedOffers.length === 0) {
-                        $scope.cancel('No results', "No nearby teller offers were found, please try again later.");
+                        $scope.cancel($translate.instant("NO_RESULTS_ERROR"), $translate.instant("NO_OFFERS_ERROR"));
                     }
                 }, 60000);
 
@@ -146,7 +146,7 @@ angular.module('generic-client.controllers.teller', [])
                     dereg();
                 });
             }, function (error) {
-                $ionicPopup.alert({title: "Error", template: "Could not get location."});
+                $ionicPopup.alert({title: $translate.instant("ERROR"), template: $translate.instant("LOCATION_ERROR")});
             });
         });
 
@@ -173,11 +173,11 @@ angular.module('generic-client.controllers.teller', [])
                     }
                 } else {
                     $interval.cancel($scope.stop);
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                    $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
                 $interval.cancel($scope.stop);
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
             });
         }
 
@@ -197,7 +197,7 @@ angular.module('generic-client.controllers.teller', [])
 
         $scope.cancel = function (title, message) {
             $ionicLoading.show({
-                template: 'Cancelling...'
+                template: $translate.instant("LOADER_CANCELLING")
             });
 
             // Cancel the transaction and any related offers
@@ -216,19 +216,22 @@ angular.module('generic-client.controllers.teller', [])
                     }
 
                     $ionicLoading.hide();
-                    $rootScope.close();
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true
+                    });
+                    $state.go('app.home');
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                    $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                 $ionicLoading.hide();
             });
         };
     })
 
-    .controller('TellerUserViewOfferCtrl', function ($ionicPlatform, $scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $cordovaGeolocation, $ionicHistory, $interval, Teller, Conversions) {
+    .controller('TellerUserViewOfferCtrl', function ($ionicPlatform, $scope, $state, $ionicPopup, $ionicLoading, $stateParams, $window, Maps, $cordovaGeolocation, $ionicHistory, $interval, $translate, Teller, Conversions) {
         'use strict';
 
         $scope.data = {};
@@ -237,15 +240,15 @@ angular.module('generic-client.controllers.teller', [])
 
         $scope.accept = function () {
             $ionicLoading.show({
-                template: 'Accepting...'
+                template: $translate.instant("LOADER_PROCESSING")
             });
 
             Teller.userAcceptOffer($scope.offer.id).then(function (res) {
                 if (res.status === 200) {
                     $scope.offer = res.data.data;
-                    $scope.offer.transaction.total = Conversions.from_cents($scope.offer.transaction.amount + $scope.offer.transaction.fee)
-                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount)
-                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee)
+                    $scope.offer.transaction.total = Conversions.from_cents($scope.offer.transaction.amount + $scope.offer.transaction.fee);
+                    $scope.offer.transaction.amount = Conversions.from_cents($scope.offer.transaction.amount);
+                    $scope.offer.transaction.fee = Conversions.from_cents($scope.offer.transaction.fee);
 
                     if ($scope.offer.transaction.tx_type == "withdraw") {
                         $window.localStorage.setItem('activeTellerWithdrawOffer', JSON.stringify($scope.offer));
@@ -262,17 +265,17 @@ angular.module('generic-client.controllers.teller', [])
                     });
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                    $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
                 $ionicLoading.hide();
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
             });
         };
 
         $scope.cancel = function () {
             $ionicLoading.show({
-                template: 'Cancelling...'
+                template: $translate.instant("LOADER_CANCELLING")
             });
 
             // Cancel the offer (but leave transaction as is)
@@ -290,10 +293,10 @@ angular.module('generic-client.controllers.teller', [])
                     });
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                    $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                 $ionicLoading.hide();
             });
         };
@@ -305,7 +308,7 @@ angular.module('generic-client.controllers.teller', [])
                 $window.localStorage.removeItem('activeTellerDepositOffer');
             }
 
-            $ionicPopup.alert({title: 'Error', template: "The offer is no longer valid."});
+            $ionicPopup.alert({title: $translate.instant("ERROR"), template: $translate.instant("INVALID_OFFER")});
             $state.go('app.teller_user_search_offers', {
                 transaction: $scope.offer.transaction
             });
@@ -322,10 +325,10 @@ angular.module('generic-client.controllers.teller', [])
 
                 Teller.updateLocation(position.coords.latitude, position.coords.longitude).then(function (res) {
                     if (res.status !== 200) {
-                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                        $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                 });
 
                 Teller.userOffer($scope.offer.id).then(function (res) {
@@ -354,10 +357,10 @@ angular.module('generic-client.controllers.teller', [])
                         $scope.invalidate();
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                 });
             }, function (error) {
-                $ionicPopup.alert({title: "Error", template: "Could not get location."});
+                $ionicPopup.alert({title: $translate.instant("ERROR"), template: $translate.instant("LOCATION_ERROR")});
             });
         });
 
@@ -393,7 +396,7 @@ angular.module('generic-client.controllers.teller', [])
                 }
             }).catch(function (error) {
                 $interval.cancel($scope.stop);
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
             });
         }
 
@@ -413,7 +416,7 @@ angular.module('generic-client.controllers.teller', [])
         Maps.route($scope.map3, route['point_a'], route['point_b']);
     })
 
-    .controller('TellerUserViewCompletedOfferCtrl', function ($scope, $window, $state, $stateParams, $ionicPopup, $ionicLoading, $ionicHistory, Teller) {
+    .controller('TellerUserViewCompletedOfferCtrl', function ($scope, $window, $state, $stateParams, $ionicPopup, $ionicLoading, $ionicHistory, $translate, Teller) {
         'use strict';
 
         $scope.offer = $stateParams.offer;
@@ -430,7 +433,7 @@ angular.module('generic-client.controllers.teller', [])
         $scope.rate = function (form) {
             if (form.$valid) {
                 $ionicLoading.show({
-                    template: 'Rating teller...'
+                    template: $translate.instant("LOADER_PROCESSING")
                 });
 
                 Teller.userRateUser($scope.offer.id, $scope.rating, form.note.$viewValue).then(function (res) {
@@ -451,24 +454,24 @@ angular.module('generic-client.controllers.teller', [])
                         $state.go('app.home');
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                        $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                     $ionicLoading.hide();
                 });
             }
         };
     })
 
-    .controller('TellerCtrl', function ($ionicPlatform, $scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $cordovaGeolocation, $window, Teller) {
+    .controller('TellerCtrl', function ($ionicPlatform, $scope, $ionicPopup, $ionicModal, $state, $ionicLoading, $cordovaGeolocation, $translate, $window, Teller) {
         'use strict';
 
         $scope.tellerMode = JSON.parse($window.localStorage.getItem('tellerMode'));
 
         $scope.activateTellerMode = function () {
             $ionicLoading.show({
-                template: 'Activating...'
+                template: $translate.instant("LOADER_ACTIVATING")
             });
 
             var options = {timeout: 5000, enableHighAccuracy: true};
@@ -482,10 +485,10 @@ angular.module('generic-client.controllers.teller', [])
                             $window.localStorage.setItem('tellerMode', JSON.stringify($scope.tellerMode));
                         } else {
                             $ionicLoading.hide();
-                            $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                            $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                         }
                     }).catch(function (error) {
-                        $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                        $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                         $ionicLoading.hide();
                     });
                 }, function (error) {
@@ -496,7 +499,7 @@ angular.module('generic-client.controllers.teller', [])
 
         $scope.disableTellerMode = function () {
             $ionicLoading.show({
-                template: 'Deactivating...'
+                template: $translate.instant("LOADER_DEACTIVATING")
             });
 
             $ionicLoading.hide();
@@ -600,7 +603,7 @@ angular.module('generic-client.controllers.teller', [])
         $scope.refreshData()
     })
 
-    .controller('TellerCreateOfferCtrl', function ($scope, $ionicHistory, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller, Conversions) {
+    .controller('TellerCreateOfferCtrl', function ($scope, $ionicHistory, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, $translate, Teller, Conversions) {
         'use strict';
 
         $scope.submit = function (form) {
@@ -608,7 +611,7 @@ angular.module('generic-client.controllers.teller', [])
             if (form.$valid) {
 
                 $ionicLoading.show({
-                    template: 'Creating...'
+                    template: $translate.instant("LOADER_PROCESSING")
                 });
 
                 Teller.tellerCreateOffer($stateParams.id, form.note.$viewValue).then(function (res) {
@@ -628,17 +631,17 @@ angular.module('generic-client.controllers.teller', [])
                         });
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                        $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+                    $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.data.message});
                     $ionicLoading.hide();
                 });
             }
         };
     })
 
-    .controller('TellerViewOfferCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, Teller) {
+    .controller('TellerViewOfferCtrl', function ($scope, $ionicPopup, $ionicModal, $state, $stateParams, $ionicLoading, $window, $translate, Teller) {
         'use strict';
 
         $scope.offer = $stateParams.offer;
@@ -647,7 +650,7 @@ angular.module('generic-client.controllers.teller', [])
         $scope.submit = function (form) {
             if (form.$valid) {
                 $ionicLoading.show({
-                    template: 'Processing...'
+                    template: $translate.instant("LOADER_PROCESSING")
                 });
                 Teller.tellerConfirmOffer($scope.offer.id, form.code.$viewValue).then(function (res) {
                     if (res.status === 200) {
@@ -657,10 +660,10 @@ angular.module('generic-client.controllers.teller', [])
                         });
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                        $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.data.message});
+                    $ionicPopup.alert({title: $translate.instant("AUTEHNTICATION_ERROR"), template: error.data.message});
                     $ionicLoading.hide();
                 });
             }
@@ -668,7 +671,7 @@ angular.module('generic-client.controllers.teller', [])
 
         $scope.cancel = function () {
             $ionicLoading.show({
-                template: 'Cancelling...'
+                template: $translate.instant("LOADER_CANCELLING")
             });
 
             // Cancel the offer (but leave transaction as is)
@@ -678,10 +681,10 @@ angular.module('generic-client.controllers.teller', [])
                     $state.go('app.teller_offers');
                 } else {
                     $ionicLoading.hide();
-                    $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                    $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                 }
             }).catch(function (error) {
-                $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                 $ionicLoading.hide();
             });
         };
@@ -711,7 +714,7 @@ angular.module('generic-client.controllers.teller', [])
         $scope.refreshData()
     })
 
-    .controller('TellerCompletedOfferCtrl', function ($scope, $window, $state, $stateParams, $ionicPopup, $ionicLoading, $ionicHistory, Teller) {
+    .controller('TellerCompletedOfferCtrl', function ($scope, $window, $state, $stateParams, $ionicPopup, $ionicLoading, $ionicHistory, $translate, Teller) {
         'use strict';
 
         $scope.offer = $stateParams.offer;
@@ -728,7 +731,7 @@ angular.module('generic-client.controllers.teller', [])
         $scope.rate = function (form) {
             if (form.$valid) {
                 $ionicLoading.show({
-                    template: 'Rating user...'
+                    template: $translate.instant("LOADER_PROCESSING")
                 });
 
                 Teller.userRateUser($scope.offer.id, $scope.rating, form.note.$viewValue).then(function (res) {
@@ -740,10 +743,10 @@ angular.module('generic-client.controllers.teller', [])
                         $state.go('app.teller');
                     } else {
                         $ionicLoading.hide();
-                        $ionicPopup.alert({title: "Error", template: res.data.data.join(", ")});
+                        $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});
                     }
                 }).catch(function (error) {
-                    $ionicPopup.alert({title: 'Authentication failed', template: error.message});
+                    $ionicPopup.alert({title: $translate.instant("AUTHENTICATION_ERROR"), template: error.message});
                     $ionicLoading.hide();
                 });
             }

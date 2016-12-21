@@ -5,6 +5,7 @@ angular.module('generic-client', ['ionic',
     'ngImgCrop',
     'ngFileUpload',
     'ngCordova',
+    'pascalprecht.translate',
     'generic-client.controllers',
     'generic-client.controllers.accounts',
     'generic-client.controllers.transactions',
@@ -45,7 +46,7 @@ angular.module('generic-client', ['ionic',
 
     .config(function ($httpProvider, $ionicConfigProvider, $compileProvider) {
         'use strict';
-        //Switch off caching:
+        // Switch off caching:
         $ionicConfigProvider.views.maxCache(0);
         $ionicConfigProvider.tabs.position('bottom');
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|sms|chrome-extension|bitcoin):/);
@@ -53,8 +54,20 @@ angular.module('generic-client', ['ionic',
         $httpProvider.interceptors.push('authInterceptor');
     })
 
+    .config(['$translateProvider', function($translateProvider) {
+        $translateProvider
+        .useStaticFilesLoader({
+            prefix: '/translations/',
+            suffix: '.json'
+        })
+        .preferredLanguage('en')
+        .fallbackLanguage('en')
+        .useMissingTranslationHandlerLog()
+        .useSanitizeValueStrategy('sanitize');
+    }])
 
-    .run(function ($ionicPlatform, $rootScope, $window, $ionicHistory, Auth, $state) {
+    .run(function ($window, $ionicPlatform, $rootScope, Auth, $state, $translate) {
+
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -71,6 +84,10 @@ angular.module('generic-client', ['ionic',
         });
 
         $rootScope.tellerMode = JSON.parse($window.localStorage.getItem('tellerMode'));
+
+        if ($window.localStorage.getItem('language')) {
+            $translate.use($window.localStorage.getItem('language'));
+        }
 
         if ($window.localStorage.getItem('user')) {
             $rootScope.user = JSON.parse($window.localStorage.getItem('user'));
