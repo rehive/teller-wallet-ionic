@@ -216,10 +216,7 @@ angular.module('generic-client.controllers.teller', [])
                     }
 
                     $ionicLoading.hide();
-                    $ionicHistory.nextViewOptions({
-                        disableBack: true
-                    });
-                    $state.go('app.home');
+                    $rootScope.close();
                 } else {
                     $ionicLoading.hide();
                     $ionicPopup.alert({title: $translate.instant("ERROR"), template: res.data.data.join(", ")});

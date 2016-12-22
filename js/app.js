@@ -57,7 +57,7 @@ angular.module('generic-client', ['ionic',
     .config(['$translateProvider', function($translateProvider) {
         $translateProvider
         .useStaticFilesLoader({
-            prefix: '/translations/',
+            prefix: 'translations/',
             suffix: '.json'
         })
         .preferredLanguage('en')
@@ -66,7 +66,7 @@ angular.module('generic-client', ['ionic',
         .useSanitizeValueStrategy('sanitize');
     }])
 
-    .run(function ($window, $ionicPlatform, $rootScope, Auth, $state, $translate) {
+    .run(function ($window, $ionicPlatform, $rootScope, Auth, $state, $translate, $ionicHistory) {
 
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
