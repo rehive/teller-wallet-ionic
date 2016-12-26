@@ -43,7 +43,7 @@
                                     <h4>{{ item.note }}</h4>
                                 </div>
 
-                                <div class="col align-right">
+                                <div class="col col-40 align-right">
                                     <h3>{{ item.currency.symbol }} {{ item.amount }}</h3>
                                     <h5 ng-if="item.fee > 0">{{ item.currency.symbol }} {{ item.fee }} {{'FEE' | translate}}</h5>
                                     <h5>{{ item.created | date:'d MMM yyyy' }} | {{ item.status }}</h5>
