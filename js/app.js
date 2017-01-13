@@ -35,10 +35,10 @@ angular.module('generic-client', ['ionic',
 
     //.constant('API', 'http://localhost:8080/api/2')
     .constant('API', 'https://rehive.com/api/2')
-    //.constant('COMPANY_API', 'http://localhost:8080/adapters/fundo')
-    .constant('COMPANY_API', 'https://rehive.com/adapters/fundo')
-    //.constant('CONVERSION_API', 'http://localhost:8080/adapters/conversion')
-    .constant('CONVERSION_API', 'https://rehive.com/adapters/conversion')
+    //.constant('COMPANY_API', 'http://localhost:8080/services/teller')
+    .constant('COMPANY_API', 'https://rehive.com/services/teller')
+    //.constant('CONVERSION_API', 'http://localhost:8080/services/conversion')
+    .constant('CONVERSION_API', 'https://rehive.com/services/conversion')
     //.constant('COMPANY', 'test_company_1')
     .constant('COMPANY', 'test_company_1')
 
