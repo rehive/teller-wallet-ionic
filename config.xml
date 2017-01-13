@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ionicframework.genericclient365662" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Fundo</name>
+    <name>Rehive Teller</name>
     <description>
         Your local Teller on demand for cash deposits and withdrawals.
   </description>
