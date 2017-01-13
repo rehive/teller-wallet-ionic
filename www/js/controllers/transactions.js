@@ -52,7 +52,7 @@ angular.module('generic-client.controllers.transactions', [])
                         $scope.items = [];
 
                         for (var i = 0; i < res.data.results.length; i++) {
-                            var transaction = $scope.cleanTransactionDetails(res.data.results[i])
+                            var transaction = $scope.cleanTransactionDetails(res.data.results[i]);
                             $scope.items.push(transaction);
                         }
 
@@ -73,7 +73,7 @@ angular.module('generic-client.controllers.transactions', [])
                 $http.get($scope.nextUrl).success(
                     function (res) {
                         for (var i = 0; i < res.data.results.length; i++) {
-                            var transaction = $scope.updateTransactionDetails(res.data.results[i])
+                            var transaction = $scope.cleanTransactionDetails(res.data.results[i]);
                             $scope.items.push(transaction);
                         }
 
